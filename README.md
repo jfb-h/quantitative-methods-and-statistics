@@ -1,1 +1,3 @@
-# quantitative-methods-and-statistics
+# Quantitative Methods and Statistics
+
+
