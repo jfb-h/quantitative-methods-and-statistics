@@ -1,5 +1,5 @@
 ---
-title: "Quantitative methods and statistics"
+title: "Quantitative Methods and Statistics"
 subtitle: "An applied course using the `R` programming language"
 author: 
   - name: "Jakob Hoffmann"
@@ -193,6 +193,8 @@ p<- ggplot(
 # Save the plot to a file (will save the last plot that was generated)
 ggsave("myplot.png", p, dpi = 320)
 ```
+
+# Composite visualizations
 
 ## Small multiples with faceting
 

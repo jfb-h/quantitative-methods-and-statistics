@@ -16,10 +16,7 @@ While the gapminder dataset has served us well so far, it is time to mix it up a
 Quite neatly, we can just directly download the file from their web page with the `read_csv()` function:
 
 ```{r, warning = FALSE, message = FALSE}
-# library(tidyverse)
-library(dplyr)
-library(ggplot2)
-library(readr)
+library(tidyverse)
 
 emissions_raw <- read_csv("https://ourworldindata.org/grapher/co-emissions-per-capita.csv")
 population_raw <- read_csv("https://ourworldindata.org/grapher/population-unwpp.csv")

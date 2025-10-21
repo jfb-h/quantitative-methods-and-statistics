@@ -14,10 +14,7 @@ format:
 As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:
 
 ```{r, message = FALSE, warning = FALSE}
-#library(tidyverse)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(tidyverse)
 
 emissions <- arrow::read_parquet("data/emissions-population.parquet")
 gdp <- arrow::read_parquet("data/gdp.parquet")
