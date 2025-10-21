@@ -317,13 +317,10 @@ window.Quarto = {
 <p>While the gapminder dataset has served us well so far, it is time to mix it up a bit. For this session, we’ll work with CO₂ emissions data from Our World in Data, which contains annual per-capita CO₂ emissions for countries worldwide. In addition to the emissions data, we will also get population data and GDP from the same source.</p>
 <p>Quite neatly, we can just directly download the file from their web page with the <code>read_csv()</code> function:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>emissions_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ourworldindata.org/grapher/co-emissions-per-capita.csv"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>population_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ourworldindata.org/grapher/population-unwpp.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>emissions_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ourworldindata.org/grapher/co-emissions-per-capita.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>population_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://ourworldindata.org/grapher/population-unwpp.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s rename some variables and filter out non-country entities (such as the European Union or other aggregates) to prepare our data for further use:</p>
 <div class="cell">

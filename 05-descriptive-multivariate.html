@@ -272,13 +272,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Loading data and packages</h1>
 <p>As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(tidyverse)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>emissions <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="st">"data/emissions-population.parquet"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="st">"data/gdp.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>emissions <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="st">"data/emissions-population.parquet"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="st">"data/gdp.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Because these data again share the same dimensions, we can join them:</p>
 <div class="cell">
@@ -551,10 +548,23 @@ $ gdp_per_cap &lt;dbl&gt; 2769.686, 14662.796, 14194.155, 55488.492, 7556.968, N
 </div>
 <p>In a boxplot, the ‘box’ shows the interquartile range (IQR), the bar inside the box shows the median, the ‘whiskers’ show 1.5 * the IQR, and everything beyond the whiskers is considered an outlier. The plot is again a little bit hard to read due to the presence of some extreme emissions outliers. We have learned that we can help ourselves with a log transformation. To make it easier to read off values, we also add log ticks with the <code>guide = "axis_logticks"</code> argument:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> gdp_level, <span class="at">y =</span> emissions)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(<span class="at">guide =</span> <span class="st">"axis_logticks"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'scales'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    discard</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:readr':
+
+    col_factor</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> gdp_level, <span class="at">y =</span> emissions)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(<span class="at">guide =</span> <span class="st">"axis_logticks"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -569,19 +579,19 @@ $ gdp_per_cap &lt;dbl&gt; 2769.686, 14662.796, 14194.155, 55488.492, 7556.968, N
 <h2 class="anchored" data-anchor-id="groupwise-summaries">Groupwise summaries</h2>
 <p>To produce numerical summaries across groups, we can just use the now familiar <code>group_by()</code> and <code>summarize()</code> machinery and a set of measures of location and dispersion suited for our numerical variable:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>group_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(gdp_level) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">count =</span> <span class="fu">n</span>(),</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> <span class="fu">mean</span>(emissions),</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">weighted_mean =</span> <span class="fu">weighted.mean</span>(emissions, population),</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">median =</span> <span class="fu">median</span>(emissions),</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">sd =</span> <span class="fu">sd</span>(emissions),</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">vc =</span> sd <span class="sc">/</span> mean,</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">mad =</span> <span class="fu">mad</span>(emissions),</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>group_summaries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>group_summaries <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(gdp_level) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">count =</span> <span class="fu">n</span>(),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> <span class="fu">mean</span>(emissions),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">weighted_mean =</span> <span class="fu">weighted.mean</span>(emissions, population),</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">median =</span> <span class="fu">median</span>(emissions),</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">sd =</span> <span class="fu">sd</span>(emissions),</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">vc =</span> sd <span class="sc">/</span> mean,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">mad =</span> <span class="fu">mad</span>(emissions),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>group_summaries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 8
   gdp_level  count  mean weighted_mean median    sd    vc   mad
@@ -593,7 +603,7 @@ $ gdp_per_cap &lt;dbl&gt; 2769.686, 14662.796, 14194.155, 55488.492, 7556.968, N
 </div>
 <p>We could just report this as a summary table or use it to compute specific comparisons, such as the ratio between two groups:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>group_summaries<span class="sc">$</span>mean[<span class="dv">3</span>] <span class="sc">/</span> group_summaries<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>group_summaries<span class="sc">$</span>mean[<span class="dv">3</span>] <span class="sc">/</span> group_summaries<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 22.5393</code></pre>
 </div>

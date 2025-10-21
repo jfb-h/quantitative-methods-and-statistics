@@ -1,40 +1,10 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Quantitative Methods and Statistics",
-    "section": "",
-    "text": "This website accompanies the introduction to quantitative methods and statistics taught in the Masters Degree in Human Geography at the Department of Geography, LMU Munich. The objective of this class is for students to develop a working knowledge of common applied statistical procedures which enables them to independently identify appropriate methods and conduct analysis using the R programming language in the context of quantitative research designs. Although most students in the class will have previously visited a first course in statistics, the class has no prerequisites in either statistics or programming. It will however move beyond descriptive statistics relatively quickly to focus on statistical modelling and inference.\n\n\nThe course will roughly follow the below structure, but we are also flexible to adapt the programme as we go along:\n\n\n\n\n\n\n\nSession\nTopics\n\n\n\n\n1 - 3\nR basics: data wrangling, visualization, descriptive statistics\n\n\n4\nStochastic models: probability & simulation\n\n\n5\nStatistical inference: sampling, estimation & uncertainty\n\n\n6 - 7\nLinear regression: basics, prediction, goodness of fit, transformations\n\n\n8\nLinear regression: multiple regression, interactions, smooth effects\n\n\n9 - 10\nCausal inference: experiments and observational studies\n\n\n11 - 13\nAdvanced topics: GLMs, random effects, dependent data\n\n\n\n\n\n\nThe class will finish with a 60 minute exam in the last week of the semester which will test proficiency with both theoretical as well as practical skills learned throughout the class.",
-    "crumbs": [
-      "Course introduction"
-    ]
-  },
-  {
-    "objectID": "index.html#course-programme",
-    "href": "index.html#course-programme",
-    "title": "Quantitative Methods and Statistics",
-    "section": "",
-    "text": "The course will roughly follow the below structure, but we are also flexible to adapt the programme as we go along:\n\n\n\n\n\n\n\nSession\nTopics\n\n\n\n\n1 - 3\nR basics: data wrangling, visualization, descriptive statistics\n\n\n4\nStochastic models: probability & simulation\n\n\n5\nStatistical inference: sampling, estimation & uncertainty\n\n\n6 - 7\nLinear regression: basics, prediction, goodness of fit, transformations\n\n\n8\nLinear regression: multiple regression, interactions, smooth effects\n\n\n9 - 10\nCausal inference: experiments and observational studies\n\n\n11 - 13\nAdvanced topics: GLMs, random effects, dependent data",
-    "crumbs": [
-      "Course introduction"
-    ]
-  },
-  {
-    "objectID": "index.html#certification",
-    "href": "index.html#certification",
-    "title": "Quantitative Methods and Statistics",
-    "section": "",
-    "text": "The class will finish with a 60 minute exam in the last week of the semester which will test proficiency with both theoretical as well as practical skills learned throughout the class.",
-    "crumbs": [
-      "Course introduction"
-    ]
-  },
-  {
     "objectID": "05-descriptive-multivariate.html",
     "href": "05-descriptive-multivariate.html",
     "title": "Quantitative Methods and Statistics",
     "section": "",
-    "text": "As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:\n\n#library(tidyverse)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(ggplot2)\n\nemissions &lt;- arrow::read_parquet(\"data/emissions-population.parquet\")\ngdp &lt;- arrow::read_parquet(\"data/gdp.parquet\")\n\nBecause these data again share the same dimensions, we can join them:\n\ndf &lt;- left_join(emissions, gdp)\n\nJoining with `by = join_by(entity, code, year)`\n\nglimpse(df)\n\nRows: 215\nColumns: 6\n$ entity      &lt;chr&gt; \"Afghanistan\", \"Albania\", \"Algeria\", \"Andorra\", \"Angola\", …\n$ code        &lt;chr&gt; \"AFG\", \"ALB\", \"DZA\", \"AND\", \"AGO\", \"AIA\", \"ATG\", \"ARG\", \"A…\n$ year        &lt;dbl&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020…\n$ emissions   &lt;dbl&gt; 0.2970625, 1.6403993, 3.8185709, 4.9233950, 0.4942432, 9.6…\n$ population  &lt;dbl&gt; 39068977, 2871950, 44042094, 77397, 33451139, 14864, 91864…\n$ gdp_per_cap &lt;dbl&gt; 2769.686, 14662.796, 14194.155, 55488.492, 7556.968, NA, 2…\n\n\nA quick glance at the summaries of our three primary variables shows some missing values in GDP:\n\nsummary(df$emissions)\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. \n 0.03587  0.96823  2.96665  4.47960  5.54895 36.56351 \n\nsummary(df$population)\n\n     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. \n1.822e+03 1.010e+06 6.934e+06 7.334e+07 2.617e+07 7.887e+09 \n\nsummary(df$gdp_per_cap)\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's \n   833.9   5893.0  15022.3  23684.9  35641.5 129865.6       19 \n\n\nWe will drop observations with missing variables for now:\n\ndf &lt;- drop_na(df)\n\nNow we have a combined dataset with emissions, population, and GDP data for countries. The kinds of multivariate analyses which are sensible depend on the combination of our variables’ data types, which we will walk through in the following.",
+    "text": "As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:\n\nlibrary(tidyverse)\n\nemissions &lt;- arrow::read_parquet(\"data/emissions-population.parquet\")\ngdp &lt;- arrow::read_parquet(\"data/gdp.parquet\")\n\nBecause these data again share the same dimensions, we can join them:\n\ndf &lt;- left_join(emissions, gdp)\n\nJoining with `by = join_by(entity, code, year)`\n\nglimpse(df)\n\nRows: 215\nColumns: 6\n$ entity      &lt;chr&gt; \"Afghanistan\", \"Albania\", \"Algeria\", \"Andorra\", \"Angola\", …\n$ code        &lt;chr&gt; \"AFG\", \"ALB\", \"DZA\", \"AND\", \"AGO\", \"AIA\", \"ATG\", \"ARG\", \"A…\n$ year        &lt;dbl&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020…\n$ emissions   &lt;dbl&gt; 0.2970625, 1.6403993, 3.8185709, 4.9233950, 0.4942432, 9.6…\n$ population  &lt;dbl&gt; 39068977, 2871950, 44042094, 77397, 33451139, 14864, 91864…\n$ gdp_per_cap &lt;dbl&gt; 2769.686, 14662.796, 14194.155, 55488.492, 7556.968, NA, 2…\n\n\nA quick glance at the summaries of our three primary variables shows some missing values in GDP:\n\nsummary(df$emissions)\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. \n 0.03587  0.96823  2.96665  4.47960  5.54895 36.56351 \n\nsummary(df$population)\n\n     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. \n1.822e+03 1.010e+06 6.934e+06 7.334e+07 2.617e+07 7.887e+09 \n\nsummary(df$gdp_per_cap)\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's \n   833.9   5893.0  15022.3  23684.9  35641.5 129865.6       19 \n\n\nWe will drop observations with missing variables for now:\n\ndf &lt;- drop_na(df)\n\nNow we have a combined dataset with emissions, population, and GDP data for countries. The kinds of multivariate analyses which are sensible depend on the combination of our variables’ data types, which we will walk through in the following.",
     "crumbs": [
       "Describing data",
       "Multivariate descriptions"
@@ -111,7 +81,7 @@
     "href": "05-descriptive-multivariate.html#boxplots",
     "title": "Quantitative Methods and Statistics",
     "section": "Boxplots",
-    "text": "Boxplots\nA classical visualization which is designed to compare the distributional differences of a numerical variable across groups is the boxplot or ‘box and whiskers’ plot. They display the median, quartiles (i.e. the range containing 50% of the data), and outliers, allowing for quick visual comparison of numerical summaries. Let’s look at a boxplot of emissions by GDP level:\n\nggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot()\n\n\n\n\n\n\n\n\nIn a boxplot, the ‘box’ shows the interquartile range (IQR), the bar inside the box shows the median, the ‘whiskers’ show 1.5 * the IQR, and everything beyond the whiskers is considered an outlier. The plot is again a little bit hard to read due to the presence of some extreme emissions outliers. We have learned that we can help ourselves with a log transformation. To make it easier to read off values, we also add log ticks with the guide = \"axis_logticks\" argument:\n\nlibrary(scales)\n\nggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot() + \n    scale_y_log10(guide = \"axis_logticks\")\n\n\n\n\n\n\n\n\nThe usual caveats for log plots apply: While it has become easier to see the distribution at lower levels, the same visual length now means different things at different levels (in absolute terms), so more care needs to be taken to not misinterpret the plot.",
+    "text": "Boxplots\nA classical visualization which is designed to compare the distributional differences of a numerical variable across groups is the boxplot or ‘box and whiskers’ plot. They display the median, quartiles (i.e. the range containing 50% of the data), and outliers, allowing for quick visual comparison of numerical summaries. Let’s look at a boxplot of emissions by GDP level:\n\nggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot()\n\n\n\n\n\n\n\n\nIn a boxplot, the ‘box’ shows the interquartile range (IQR), the bar inside the box shows the median, the ‘whiskers’ show 1.5 * the IQR, and everything beyond the whiskers is considered an outlier. The plot is again a little bit hard to read due to the presence of some extreme emissions outliers. We have learned that we can help ourselves with a log transformation. To make it easier to read off values, we also add log ticks with the guide = \"axis_logticks\" argument:\n\nlibrary(scales)\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\nggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot() + \n    scale_y_log10(guide = \"axis_logticks\")\n\n\n\n\n\n\n\n\nThe usual caveats for log plots apply: While it has become easier to see the distribution at lower levels, the same visual length now means different things at different levels (in absolute terms), so more care needs to be taken to not misinterpret the plot.",
     "crumbs": [
       "Describing data",
       "Multivariate descriptions"
@@ -131,7 +101,7 @@
   {
     "objectID": "03-data-visualization.html",
     "href": "03-data-visualization.html",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "",
     "text": "Last session, we learned basic data wrangling using the gapminder dataset. As we should now have a basic idea about its contents and structure, we will use it again to learn how to make informative and nice looking visualizations in R.\n\nlibrary(gapminder)\ndata(gapminder) # makes the dataset available\n\nWe will also load the tidyverse again, which contains the ggplot2 package for visualization:\n\nlibrary(tidyverse)\n\nFor the sake of making a simpler plot, we will filter the dataset to the year 2007, using the filter() function we learned about last time:\n\nlibrary(dplyr)\ngapminder2007 &lt;- filter(gapminder, year == 2007)",
     "crumbs": [
@@ -142,7 +112,7 @@
   {
     "objectID": "03-data-visualization.html#our-first-plot",
     "href": "03-data-visualization.html#our-first-plot",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "Our first plot",
     "text": "Our first plot\nFor plotting, we use the ggplot2 package, which is contained in the tidyverse. The fundamental building block for any plot is a call to the ggplot() function, to which we pass the data that we want to plot. On its own, this just creates a blank plot, as we haven’t specified which variables we want to plot and how we want to plot them:\n\nlibrary(ggplot2)\n\np &lt;- ggplot(data = gapminder2007)\np\n\n\n\n\n\n\n\n\nTo specify what pieces of our data we want to plot, we have to specify an aesthetic mapping from our data variables to the visual elements of our plot (such as positions or colors). This allows us to specify that we want to display variation in GDP along the x-axis and life expectancy along the y-axis:\n\np &lt;- ggplot(data = gapminder2007,              \n            mapping = aes(x = gdpPercap, y = lifeExp))\np\n\n\n\n\n\n\n\n\nWe can see that our plot now contains axis labels and ticks informed by the range of the data, but there is still no visual representation of the data, because we haven’t specified what kind of plot we want. To specify the how of our visualization, we need to add further instructions to our plotting code.\nggplot2 operates in terms of layers which we can add to our basic plot specification with + to include specific geometric representations of our data (such as points in a scatter plot):\n\np &lt;- p + geom_point()\np\n\n\n\n\n\n\n\n\nThis plot now contains one point for each country in the dataset, using GDP per capita and life expectancy for the x and y coordinates, respectively. It already tells us a lot about the relationship between per capita GDP and life expectancy:\n\nLife expectancy varies a lot and is generally lower for countries with very low GDP (&lt; 5000 USD), and is consistently high (mostly above 75 years) for richer countries (&gt; 20 000 USD).\nAt some point (beyond around 25 000 USD or so), more GDP is not really associated with higher life expectancy.\n\nWhile the plot is already informative, there are many things we can improve, such as including more information from our data by making use of additional visual channels, changing variable scaling, adding better labels, or giving the plot a title.",
     "crumbs": [
@@ -153,7 +123,7 @@
   {
     "objectID": "03-data-visualization.html#refining-the-plot",
     "href": "03-data-visualization.html#refining-the-plot",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "Refining the plot",
     "text": "Refining the plot\nOne first improvement would be to add some more information to our plot, such as the continental grouping of the countries. The obvious choice for the visual channel would be colors: There is only a handful of continents and countries in the same continent should be clustered to a certain degree, making colors easily distinguishable. To color points by continent, we need to add another entry to our mapping:\n\np &lt;- ggplot(\n    data = gapminder2007,\n    mapping = aes(\n        x = gdpPercap, \n        y = lifeExp, \n        color = continent\n    )\n) + geom_point()\n\np\n\n\n\n\n\n\n\n\nThat’s much better - we can now see a familiar picture of geographically differentiated economic development and its impact on life expectancy. If we want different colors, we can change them by adding another layer to our plot. We could manually add colors with scale_color_manual() but often it is more convenient to pick a predefined scale, like the ones available in the RColorBrewer package:\n\np &lt;- p + scale_color_brewer(palette = \"Set1\")\np\n\n\n\n\n\n\n\n\nIf you want to inspect the available scales, call RColorBrewer::display_brewer_all().\nRight now, the variation in the left part of the plot is hard to differentiate because the points are close together and there is strong variation in a very narrow GDP range. We can solve this by using a log transformation for GDP, i.e. by plotting the logarithm of GDP (typically base 10 in this kind of scenario) instead of actual GDP. Moving along the x axis by a fixed length will then no longer indicate an additive increase in GDP, but a multiplicative one. Because of this nonlinear nature of the logarithm transform, the points in the left part of the figure will be spread out more while the points to the right will be closer to each other.\nWe can implement this by simply adding another layer with the scale_x_log10() function to our plot:\n\np &lt;- p + scale_x_log10()\np\n\n\n\n\n\n\n\n\nWe can now see the variation in the lower GDP range much clearer and we now can see a log-linear trend, i.e., a linear increase in life expectancy with respect to the log of GDP. Some getting used to is required and care needs to be taken when interpreting and creating log scales - they will often yield more readable plots but also have a tendency to confuse people.\nFor some finishing touches, we should add labels and descriptions to our plot, which we do with the labs() function:\n\n p &lt;- p + labs(\n    x = \"Per-capita GDP\",\n    y = \"Life expectancy\",\n    color = \"\",\n    title = \"Economic development and life expectancy\",\n    subtitle = \"Inflation corrected GDP and life expectancy across 140 countries, recorded in 2007\",\n    caption = \"Source: Gapminder\"\n  )\n\np\n\n\n\n\n\n\n\n\nWe can also change the theme of our plot by picking one of the predefined themes and change some stylistic details like the legend position using the theme() function:\n\np &lt;- p + \n    theme_minimal() + \n    theme(legend.position = \"bottom\")\n\np\n\n\n\n\n\n\n\n\nIf we want to use the same theme for all the plots in our session, we can activate it as the default theme (ideally at the start of the script):\n\ntheme_set(theme_minimal())\n\nWhen we are happy with our plot, it is time to export it to a file so that we can easily include it in a paper, report, or presentation, which we do with the ggsave() function:\n\nggsave(\"myplot.png\", p, width = 8, height = 8, dpi = 320)\n\nHere, width and height are specified in inches, but there is an option to switch to cm. The dpi argument sets the output resolution, which should be reasonably high for inclusion in a document.",
     "crumbs": [
@@ -164,7 +134,7 @@
   {
     "objectID": "03-data-visualization.html#the-final-plot",
     "href": "03-data-visualization.html#the-final-plot",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "The final plot",
     "text": "The final plot\nHere is everything put together and commented, without using an incrementally improved plot variable as before. It is a lot of code, but at this point we should understand what each line does and be able to make further additions or changes.\n\np&lt;- ggplot(\n    # Dataset from which to plot variables\n    data = gapminder2007,\n    \n    # Mapping variables to visual aspects of the plot\n    mapping = aes(\n      x = gdpPercap, \n      y = lifeExp,\n      color = continent, \n      label = country\n    )\n  ) +\n  \n  # Visualizing point geometries for observations\n  geom_point() +\n\n  # Log scale for x variable\n  scale_x_log10() +\n\n  # Categorical color palette for continents\n  scale_color_brewer(palette = \"Set1\") +\n\n  # Labels for axes, titles etc.\n  labs(\n    x = \"Per-capita GDP\",\n    y = \"Life expectancy\",\n    color = \"\",\n    title = \"Economic development and life expectancy\",\n    subtitle = \"Inflation corrected GDP and life expectancy across 140 countries, recorded in 2007\",\n    caption = \"Source: Gapminder\"\n  ) +\n\n  # General design of the plot\n  theme_minimal() +\n\n  # Special design aspects, like legend position\n  theme(legend.position = \"bottom\")\n\n# Save the plot to a file (will save the last plot that was generated)\nggsave(\"myplot.png\", p, dpi = 320)\n\nSaving 7 x 5 in image",
     "crumbs": [
@@ -175,7 +145,7 @@
   {
     "objectID": "03-data-visualization.html#small-multiples-with-faceting",
     "href": "03-data-visualization.html#small-multiples-with-faceting",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "Small multiples with faceting",
     "text": "Small multiples with faceting\nOne powerful visualization technique we have not yet studied is faceting, which is used to create small-multiples plots, i.e. plots which repeat the same visualization structure across multiple panels. This is very useful to, e.g., highlight different trends across subgroups of a dataset.\nThe easiest way to facet a plot is with the facet_wrap() function, which we can again just add as a layer to a plot specification. Here is an example visualizing per-country GDP trends split by continent:\n\np2 &lt;- ggplot(\n    data = gapminder, \n    mapping = aes(\n        x = year, \n        y = gdpPercap,\n        group = country\n        )\n    ) +\n    geom_line(linewidth = 0.5, alpha = 0.3) +\n    facet_wrap(~continent, scales = \"free_y\", nrow = 1)\n\np2\n\n\n\n\n\n\n\n\nThe ~ is part of Rs formula notation, which here just indicates that we want to facet by the continent variable. Note also the use of the scales = \"free_y\" argument, which indicates that each panel should get its own y-axis instead of a shared one. This is necessary because of the big differences in GDP across continents, which would make the variation in some continents hard to see with a shared axis. Finally, note also the group = country in the mapping, which is necessary so that every country gets its own line.",
     "crumbs": [
@@ -186,13 +156,20 @@
   {
     "objectID": "03-data-visualization.html#combining-multiple-plots-with-patchwork",
     "href": "03-data-visualization.html#combining-multiple-plots-with-patchwork",
-    "title": "Quantitative methods and statistics",
+    "title": "Quantitative Methods and Statistics",
     "section": "Combining multiple plots with patchwork",
     "text": "Combining multiple plots with patchwork\nIf we want to combined multiple plots, we can use the patchwork package, which lets us stack plot objects on top of each other with / or side by side with +. We can also add instructions for the relative widhts / heights of each plot with plot_layout() and add annotations, such as letter tags to each plot. Here is an example combining the two plots we just created:\n\nlibrary(patchwork)\n\np / p2 + \n    plot_layout(heights = c(0.6, 0.4)) + \n    plot_annotation(tag_levels = \"A\")\n\n\n\n\n\n\n\n\nLet’s refine this just a bit by giving the second plot the same colors as the first and cleaning up the spacing for the x ticks:\n\np2_colors &lt;- ggplot(gapminder, aes(year, gdpPercap, group = country, color = continent)) +\n    geom_line(linewidth = 0.5, alpha = 0.3, show.legend = FALSE) +\n    facet_wrap(~continent, scales = \"free_y\", nrow = 1) +\n    scale_color_brewer(palette = \"Set1\") +\n    scale_x_continuous(breaks = seq(1950, 2010, by = 20)) +\n    labs(x = \"\", y = \"Per-capita GDP\")\n\np / p2_colors + \n    plot_layout(heights = c(0.6, 0.4)) + \n    plot_annotation(tag_levels = \"A\")\n\n\n\n\n\n\n\n\nNote how we also suppressed the color legend for the lines by setting show.legend = FALSE because we already have a legend for colors from the first plot. The customization possibilities are endless!",
     "crumbs": [
       "Describing data",
       "Data visualization"
     ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   },
   {
     "objectID": "01-introduction.html",
@@ -426,11 +403,41 @@
     ]
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Quantitative Methods and Statistics",
+    "section": "",
+    "text": "This website accompanies the introduction to quantitative methods and statistics taught in the Masters Degree in Human Geography at the Department of Geography, LMU Munich. The objective of this class is for students to develop a working knowledge of common applied statistical procedures which enables them to independently identify appropriate methods and conduct analysis using the R programming language in the context of quantitative research designs. Although most students in the class will have previously visited a first course in statistics, the class has no prerequisites in either statistics or programming. It will however move beyond descriptive statistics relatively quickly to focus on statistical modelling and inference.\n\n\nThe course will roughly follow the below structure, but we are also flexible to adapt the programme as we go along:\n\n\n\n\n\n\n\nSession\nTopics\n\n\n\n\n1 - 3\nR basics: data wrangling, visualization, descriptive statistics\n\n\n4\nStochastic models: probability & simulation\n\n\n5\nStatistical inference: sampling, estimation & uncertainty\n\n\n6 - 7\nLinear regression: basics, prediction, goodness of fit, transformations\n\n\n8\nLinear regression: multiple regression, interactions, smooth effects\n\n\n9 - 10\nCausal inference: experiments and observational studies\n\n\n11 - 13\nAdvanced topics: GLMs, random effects, dependent data\n\n\n\n\n\n\nThe class will finish with a 60 minute exam in the last week of the semester which will test proficiency with both theoretical as well as practical skills learned throughout the class.",
+    "crumbs": [
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#course-programme",
+    "href": "index.html#course-programme",
+    "title": "Quantitative Methods and Statistics",
+    "section": "",
+    "text": "The course will roughly follow the below structure, but we are also flexible to adapt the programme as we go along:\n\n\n\n\n\n\n\nSession\nTopics\n\n\n\n\n1 - 3\nR basics: data wrangling, visualization, descriptive statistics\n\n\n4\nStochastic models: probability & simulation\n\n\n5\nStatistical inference: sampling, estimation & uncertainty\n\n\n6 - 7\nLinear regression: basics, prediction, goodness of fit, transformations\n\n\n8\nLinear regression: multiple regression, interactions, smooth effects\n\n\n9 - 10\nCausal inference: experiments and observational studies\n\n\n11 - 13\nAdvanced topics: GLMs, random effects, dependent data",
+    "crumbs": [
+      "Course introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#certification",
+    "href": "index.html#certification",
+    "title": "Quantitative Methods and Statistics",
+    "section": "",
+    "text": "The class will finish with a 60 minute exam in the last week of the semester which will test proficiency with both theoretical as well as practical skills learned throughout the class.",
+    "crumbs": [
+      "Course introduction"
+    ]
+  },
+  {
     "objectID": "04-descriptive-univariate.html",
     "href": "04-descriptive-univariate.html",
     "title": "Quantitative Methods and Statistics",
     "section": "",
-    "text": "While the gapminder dataset has served us well so far, it is time to mix it up a bit. For this session, we’ll work with CO₂ emissions data from Our World in Data, which contains annual per-capita CO₂ emissions for countries worldwide. In addition to the emissions data, we will also get population data and GDP from the same source.\nQuite neatly, we can just directly download the file from their web page with the read_csv() function:\n\n# library(tidyverse)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(readr)\n\nemissions_raw &lt;- read_csv(\"https://ourworldindata.org/grapher/co-emissions-per-capita.csv\")\npopulation_raw &lt;- read_csv(\"https://ourworldindata.org/grapher/population-unwpp.csv\")\n\nLet’s rename some variables and filter out non-country entities (such as the European Union or other aggregates) to prepare our data for further use:\n\nemissions &lt;- select(\n        emissions_raw,\n        entity = Entity,\n        code = Code,\n        year = Year,\n        emissions = `Annual CO₂ emissions (per capita)`\n    ) |&gt;\n    # filter out non-country entities\n    filter(!is.na(code))\n\n# Look at the dataset structure\nglimpse(emissions)\n\nRows: 22,991\nColumns: 4\n$ entity    &lt;chr&gt; \"Afghanistan\", \"Afghanistan\", \"Afghanistan\", \"Afghanistan\", …\n$ code      &lt;chr&gt; \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG…\n$ year      &lt;dbl&gt; 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, …\n$ emissions &lt;dbl&gt; 0.001992146, 0.010837197, 0.011625335, 0.011467511, 0.013123…\n\n\nWe do the same for population:\n\npopulation &lt;- select(\n        population_raw,\n        entity = Entity,\n        code = Code,\n        year = Year,\n        population = `Population - Sex: all - Age: all - Variant: estimates`\n    ) |&gt;\n    filter(!is.na(code))\n\nFinally, these two datasets look like they could be combined into a single data frame with a country per row and columns for population and emissions. We achieve this with a join:\n\ndf &lt;- left_join(emissions, population) # joins on all common name columns\n\nJoining with `by = join_by(entity, code, year)`\n\ndf &lt;- filter(df, year == 2020)\ndf\n\n# A tibble: 215 × 5\n   entity              code   year emissions population\n   &lt;chr&gt;               &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;\n 1 Afghanistan         AFG    2020     0.297   39068977\n 2 Albania             ALB    2020     1.64     2871950\n 3 Algeria             DZA    2020     3.82    44042094\n 4 Andorra             AND    2020     4.92       77397\n 5 Angola              AGO    2020     0.494   33451139\n 6 Anguilla            AIA    2020     9.61       14864\n 7 Antigua and Barbuda ATG    2020     6.74       91864\n 8 Argentina           ARG    2020     3.65    45191960\n 9 Armenia             ARM    2020     2.35     2890893\n10 Aruba               ABW    2020     7.64      107411\n# ℹ 205 more rows\n\n\nLet’s save this data frame in a parquet file so that we can reuse it and don’t have to download it every time (which is generally considered good digital citizenship):\n\narrow::write_parquet(df, \"data/emissions-population.parquet\")\n\nHere, the arrow::write_parquet means ’use the function write_parquet from the arrow package, without loading the package explicitly.",
+    "text": "While the gapminder dataset has served us well so far, it is time to mix it up a bit. For this session, we’ll work with CO₂ emissions data from Our World in Data, which contains annual per-capita CO₂ emissions for countries worldwide. In addition to the emissions data, we will also get population data and GDP from the same source.\nQuite neatly, we can just directly download the file from their web page with the read_csv() function:\n\nlibrary(tidyverse)\n\nemissions_raw &lt;- read_csv(\"https://ourworldindata.org/grapher/co-emissions-per-capita.csv\")\npopulation_raw &lt;- read_csv(\"https://ourworldindata.org/grapher/population-unwpp.csv\")\n\nLet’s rename some variables and filter out non-country entities (such as the European Union or other aggregates) to prepare our data for further use:\n\nemissions &lt;- select(\n        emissions_raw,\n        entity = Entity,\n        code = Code,\n        year = Year,\n        emissions = `Annual CO₂ emissions (per capita)`\n    ) |&gt;\n    # filter out non-country entities\n    filter(!is.na(code))\n\n# Look at the dataset structure\nglimpse(emissions)\n\nRows: 22,991\nColumns: 4\n$ entity    &lt;chr&gt; \"Afghanistan\", \"Afghanistan\", \"Afghanistan\", \"Afghanistan\", …\n$ code      &lt;chr&gt; \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG\", \"AFG…\n$ year      &lt;dbl&gt; 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, …\n$ emissions &lt;dbl&gt; 0.001992146, 0.010837197, 0.011625335, 0.011467511, 0.013123…\n\n\nWe do the same for population:\n\npopulation &lt;- select(\n        population_raw,\n        entity = Entity,\n        code = Code,\n        year = Year,\n        population = `Population - Sex: all - Age: all - Variant: estimates`\n    ) |&gt;\n    filter(!is.na(code))\n\nFinally, these two datasets look like they could be combined into a single data frame with a country per row and columns for population and emissions. We achieve this with a join:\n\ndf &lt;- left_join(emissions, population) # joins on all common name columns\n\nJoining with `by = join_by(entity, code, year)`\n\ndf &lt;- filter(df, year == 2020)\ndf\n\n# A tibble: 215 × 5\n   entity              code   year emissions population\n   &lt;chr&gt;               &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;\n 1 Afghanistan         AFG    2020     0.297   39068977\n 2 Albania             ALB    2020     1.64     2871950\n 3 Algeria             DZA    2020     3.82    44042094\n 4 Andorra             AND    2020     4.92       77397\n 5 Angola              AGO    2020     0.494   33451139\n 6 Anguilla            AIA    2020     9.61       14864\n 7 Antigua and Barbuda ATG    2020     6.74       91864\n 8 Argentina           ARG    2020     3.65    45191960\n 9 Armenia             ARM    2020     2.35     2890893\n10 Aruba               ABW    2020     7.64      107411\n# ℹ 205 more rows\n\n\nLet’s save this data frame in a parquet file so that we can reuse it and don’t have to download it every time (which is generally considered good digital citizenship):\n\narrow::write_parquet(df, \"data/emissions-population.parquet\")\n\nHere, the arrow::write_parquet means ’use the function write_parquet from the arrow package, without loading the package explicitly.",
     "crumbs": [
       "Describing data",
       "Univariate descriptions"
@@ -501,12 +508,5 @@
       "Describing data",
       "Univariate descriptions"
     ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   }
 ]
