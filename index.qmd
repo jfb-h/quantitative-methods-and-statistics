@@ -1,0 +1,40 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Course overview
+
+This website accompanies the introduction to quantitative methods and statistics taught in the Masters Degree in Human Geography at the Department of Geography, LMU Munich. The objective of this class is for students to develop a working knowledge of common applied statistical procedures which enables them to independently identify appropriate methods and conduct analysis using the `R` programming language in the context of quantitative research designs. Although most students in the class will have previously visited a first course in statistics, the class has no prerequisites in either statistics or programming. It will however move beyond descriptive statistics relatively quickly to focus on statistical modelling and inference.
+
+## Course programme
+
+The course will roughly follow the below structure, but we are also flexible to adapt the programme as we go along:
+
+| Session | Topics |
+|----------------:|:------------------------------------------------------|
+| 1 - 3 | **R basics:** data wrangling, visualization, descriptive statistics |
+| 4 | **Stochastic models**: probability & simulation |
+| 5 | **Statistical inference:** sampling, estimation & uncertainty |
+| 6 - 7 | **Linear regression:** basics, prediction, goodness of fit, transformations |
+| 8 | **Linear regression:** multiple regression, interactions, smooth effects |
+| 9 - 10 | **Causal inference:** experiments and observational studies |
+| 11 - 13 | **Advanced topics:** GLMs, random effects, dependent data |
+
+## Certification
+
+The class will finish with a **60 minute** **exam** in the last week of the semester which will test proficiency with both theoretical as well as practical skills learned throughout the class.
+
+# Resources
+
+The class draws heavily on the excellent resources below, most of which are freely available online. You should consult these in addition to the course materials, to review and deepen what is discussed in class:
+
+- Keiran Healy's [book on data visualisation](https://socviz.co/)
+- Elena Llaudet and Kosuke Imai's [introduction to data analysis in social science](https://ellaudet.github.io/dss_book/)
+- Andrew Gelman et al.'s [book on regression modeling](https://avehtari.github.io/ROS-Examples/)

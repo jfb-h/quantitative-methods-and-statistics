@@ -1,0 +1,493 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Loading and preparing the dataset
+
+While the gapminder dataset has served us well so far, it is time to mix it up a bit. For this session, we'll work with CO₂ emissions data from Our World in Data, which contains annual per-capita CO₂ emissions for countries worldwide. In addition to the emissions data, we will also get population data and GDP from the same source.
+
+Quite neatly, we can just directly download the file from their web page with the `read_csv()` function:
+
+```{r, warning = FALSE, message = FALSE}
+# library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+emissions_raw <- read_csv("https://ourworldindata.org/grapher/co-emissions-per-capita.csv")
+population_raw <- read_csv("https://ourworldindata.org/grapher/population-unwpp.csv")
+```
+
+Let's rename some variables and filter out non-country entities (such as the European Union or other aggregates) to prepare our data for further use:
+
+```{r}
+emissions <- select(
+        emissions_raw,
+        entity = Entity,
+        code = Code,
+        year = Year,
+        emissions = `Annual CO₂ emissions (per capita)`
+    ) |>
+    # filter out non-country entities
+    filter(!is.na(code))
+
+# Look at the dataset structure
+glimpse(emissions)
+```
+
+We do the same for population:
+
+```{r}
+population <- select(
+        population_raw,
+        entity = Entity,
+        code = Code,
+        year = Year,
+        population = `Population - Sex: all - Age: all - Variant: estimates`
+    ) |>
+    filter(!is.na(code))
+```
+
+Finally, these two datasets look like they could be combined into a single data frame with a country per row and columns for population and emissions. We achieve this with a join:
+
+```{r}
+df <- left_join(emissions, population) # joins on all common name columns
+df <- filter(df, year == 2020)
+df
+```
+
+Let's save this data frame in a parquet file so that we can reuse it and don't have to download it every time (which is generally considered good digital citizenship):
+
+```{r}
+arrow::write_parquet(df, "data/emissions-population.parquet")
+```
+
+Here, the `arrow::write_parquet` means 'use the function `write_parquet` from the `arrow` package, without loading the package explicitly.
+
+# Describing numerical variables
+
+Before diving into numerical summaries, it's crucial to visualize our data to understand its distribution. This helps us choose appropriate descriptive statistics and identify potential outliers.
+
+## Histograms
+
+Histograms show the distribution of a continuous variable by dividing it into bins (usually of equal size) and counting observations in each bin. We can plot one using the now familiar `ggplot2` machinery:
+
+```{r}
+
+p <- ggplot(data = df, aes(x = emissions)) +
+    geom_histogram(color = "white", fill = "tomato", bins = 15) +
+    labs(
+        x = "per-capita emissions (tons of CO₂)", 
+        y = "Number of countries"
+    )
+
+p
+```
+
+The histogram tells us that the distribution is heavily right-skewed, with most countries having relatively low per-capita emissions and a few countries exhibiting very high per-capita emissions. Next to being an interesting fact in and of itself (guess which country has the highest per-capita emissions), it is also relevant for the choice of summary statistics.
+
+## Measures of central tendency
+
+There are different things we might want to say about the distribution shown by the histogram above, for example what its 'center' is. There is a variety of approaches to achieve this, each with different properties and trade-offs, making them suitable for different data and scenarios.
+
+### The arithmetic mean
+
+The arithmetic mean (or simply "mean") is the sum of all values divided by the number of observations. It is probably the most well known and most widely used measure of central tendency, even if not appropriate. We can call it on our emissions variable by accessing the data frame column with `$` :
+
+```{r}
+mean(df$emissions)
+```
+
+We can see that the mean per-capita emissions across countries in 2020 is around 4.48 tons of CO2.
+
+There is however a problem with the mean we just computed: It weighs all countries equally. In this case, it would however be much more appropriate to compute a **weighted mean** which weighs each country proportionally to its population size. We can do that with the `weighted.mean()` function, using the population column in our data frame as weights:
+
+```{r}
+wm <- weighted.mean(df$emissions, df$population, na.rm = TRUE)
+wm
+```
+
+We can see that the weighted mean is a bit smaller, indicating that some of the high-emissions countries received lower weights (due to smaller populations) than some of the low-emissions countries. Here, we also had to specify `na.rm = TRUE` to remove missing values (`NA`s) before computing the mean.
+
+We can also add a line to our histo{gram plot to indicate our mean (or any measure of central tendency):
+
+```{r}
+p + geom_vline(xintercept = wm, color = "blue", linetype = "dashed", linewidth = 1.5)
+```
+
+### The geometric mean
+
+When our data represents ratios or rates of change, the arithmetic mean is no longer appropriate. We should instead use the geometric mean which correctly handles the multiplicative logic inherent to the data.
+
+We might think about, e.g. the average growth rate of per-capita emissions in Germany over the last 20 years. We can obtain this growth series as follows, using the `lag()` helper function:
+
+```{r}
+growth_de <- emissions |>
+    filter(entity == "Germany" & 
+           year >= 2000 & 
+           year <= 2020) |>
+    arrange(year) |>
+    mutate(growth_rate = emissions / lag(emissions))
+```
+
+There is no built-in function in `R` to compute the geometric mean, but it turns out that the geometric mean is just the exponential of the mean of the logs of the series, i.e. $$GM(x) = \exp \left( \frac{1}{n} \sum_{i=1}^n \log(x_i)\right)$$
+
+which we can compute easily ourselves with a single line of `R`:
+
+```{r}
+exp(mean(log(growth_de$growth_rate), na.rm = TRUE))
+```
+
+The result is around 0.98, which tells us that, on average, the per-capita emissions in Germany have been decreasing by about 2% a year over the last 20 years.
+
+### The median
+
+The median is the middle value when observations are ordered from smallest to largest. Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean.
+
+```{r}
+median(df$emissions, na.rm = TRUE)
+```
+
+At 2.97, the median is quite a bit lower than the mean. This is to be expected given the shape of our distribution: In right-skewed distributions like this one, the mean is always larger than the median because it's pulled towards the extreme values.
+
+We can add lines for both the median and the arithmetic mean to our plot to see how they compare:
+
+```{r}
+p + geom_vline(xintercept = median(df$emissions), linewidth = 2, linetype = "dashed") + 
+    geom_vline(xintercept = mean(df$emissions), linewidth = 2)
+```
+
+As for the mean, there is a weighted version of the median, which we however need to pull from the `ggstats` package (install it before you load it):
+
+```{r}
+library(ggstats)
+wmed <- weighted.median(df$emissions, df$population, na.rm = TRUE)
+wmed
+```
+
+### Quantiles
+
+The median is a special kind of *quantile*, which divide the sorted data into equally-sized groups. The median is the 0.5 quantile (or 50th *percentile*) and divides the data into two groups, with half the data below the median value and half above it. But we just as well compute other quantiles, such as the 0.25 quantile (a quarter of the data below it , three quarters above) or the 0.99 quantile (just one percent of the data above it). Here is how to compute quantiles in `R`:
+
+```{r}
+qs <- quantile(df$emissions, probs = c(0.33, 0.66, 0.9, 0.99), na.rm = TRUE)
+```
+
+We could again add them to our plot:
+
+```{r}
+p + geom_vline(xintercept = qs)
+```
+
+Looking at the plot, we see that 90% of countries have per-capita emissions of around 10t or less.
+
+If we want a quick summary of a numerical variable and mean, we can use the `summary()` function, which gives us the variables minimum and maximum, the variables mean and the 25%, 50% (i.e. the median), and 75% quantiles (called the `_quartiles_). It also reports the number of missing values. 
+
+## Measures of dispersion
+
+While measures of central tendency tell us something about the 'center' of the distribution, measures of dispersion try to capture how 'spread out' (or concentrated) the data are. Just as for measures of central tendencies, there are many ways to measure dispersion, each again with their own characteristics and trade-offs.
+
+### The range
+
+The simplest measure of dispersion is the *range*, which is just the difference between the maximum and minimum values. In `R`, the `range()` function gives us the minimum and maximum values of a variable, the difference of which we can get with `diff()`:
+
+```{r}
+df$emissions |> range() |> diff()
+```
+
+The range is useful to understand the empirical limits of the studied variable but of course very sensitive to outliers and so not all that useful as a dispersion measure.
+
+### The interquartile range (IQR)
+
+The IQR is the difference between the 75th and 25th percentiles, representing the spread of the middle 50% of the data. As such it is much more robust to outliers than the range. You can compute it with the `IQR()` function:
+
+```{r}
+IQR(df$emissions)
+```
+
+### Variance and standard deviation
+
+Variance measures the average squared deviation from the mean. The standard deviation is the square root of the variance and is in the same units as the original data, making it much more interpretable than the variance. You can easily compute both:
+
+```{r}
+var(df$emissions)
+sd(df$emissions)
+```
+
+Variance and standard deviation have nice theoretical properties and analogies in probability theory, making them the most widely used dispersion measures for numerical data. Just as for the mean, however, they are sensitive to outliers and can thus give misleading or surprising results.
+
+### Coefficient of variation
+
+The coefficient of variation (CV) is the ratio of standard deviation to the mean. It is useful for comparing variability across different datasets or across groups. We can compute it using the functions we already know:
+
+```{r}
+sd(df$emissions) / mean(df$emissions)
+```
+
+By itself, this is not particularly interesting. But we could use it to compare the spread of emissions in Europe and Africa, for example, which have very different means.
+
+Here are African and European country codes so we can split our dataset:
+
+```{r}
+
+europe <- c(
+    "ALA", "ALB", "AND", "AUT", "BLR", "BEL", "BIH", "BGR", "HRV", "CYP",
+    "CZE", "DNK", "EST", "FRO", "FIN", "FRA", "DEU", "GIB", "GRC", "GGY",
+    "HUN", "ISL", "IRL", "IMN", "ITA", "JEY", "XKX", "LVA", "LIE", "LTU",
+    "LUX", "MKD", "MLT", "MDA", "MCO", "MNE", "NLD", "NOR", "POL", "PRT",
+    "ROU", "RUS", "SMR", "SRB", "SCG", "SVK", "SVN", "ESP", "SJM", "SWE",
+    "CHE", "UKR", "GBR", "VAT"
+)
+
+africa <- c(
+    "DZA", "AGO", "BEN", "BWA", "BFA", "BDI", "CMR", "CPV", "CAF", "TCD",
+    "COM", "COD", "DJI", "EGY", "GNQ", "ERI", "ETH", "GAB", "GMB", "GHA",
+    "GIN", "GNB", "CIV", "KEN", "LSO", "LBR", "LBY", "MDG", "MWI", "MLI",
+    "MRT", "MUS", "MYT", "MAR", "MOZ", "NAM", "NER", "NGA", "COG", "REU",
+    "RWA", "SHN", "STP", "SEN", "SYC", "SLE", "SOM", "ZAF", "SSD", "SDN",
+    "SWZ", "TZA", "TGO", "TUN", "UGA", "ESH", "ZMB", "ZWE"
+)
+```
+
+Based on this, we can use our data wrangling techniques to split the data and compute our summary for the two groups:
+
+```{r}
+df |> mutate(
+    continent = case_when(
+        code %in% europe ~ "Europe",
+        code %in% africa ~ "Africa",
+        TRUE ~ "Other"
+    )) |>
+    group_by(continent) |>
+    summarize(
+        mean = mean(emissions),
+        sd = sd(emissions),
+        vc = sd / mean)
+```
+
+Based on this, we can see that while the standard deviation is much larger in Europe in absolute terms, relative to the mean Europe is much more homogeneous in its per-capita emissions than Africa.
+
+### Median absolute deviation (MAD)
+
+Similarly to the median being an alternative to the mean that is more robust against outliers, the median absolute deviation (MAD) is a robust dispersion measure, computed as the median of the absolute differences to the median. We could compute it ourselves but `R` has a built-in function:
+
+```{r}
+mad(df$emissions)
+```
+
+As before, we see that MAD is lower compared to the standard deviation because it is less sensitive to large outliers.
+
+# Describing categorical variables
+
+For categorical variables, our approach changes significantly. We can't compute means or standard deviations on categories, but we can count frequencies and examine proportions.
+
+Let's create a categorical variable from our dataset by grouping countries into emission level categories:
+
+```{r}
+df_cat <- df |>mutate(
+    emission_level = case_when(
+        emissions  < 2 ~ "Low",
+        emissions  < 8 ~ "Medium",
+        emissions >= 8 ~ "High",
+        TRUE ~ NA
+    ),
+    emission_level = factor(
+        emission_level,
+        levels = c("Low", "Medium", "High"),
+        ordered = TRUE
+    )
+)
+```
+
+## Bar plots and frequency tables
+
+The most basic description of categorical data is a frequency table, showing how many observations fall into each category:
+
+```{r}
+df_cat |> count(emission_level)
+```
+
+We can also get proportions instead of raw counts by dividing our counts by the sum of counts across all categories:
+
+```{r}
+props <- df_cat |> 
+    count(emission_level) |>
+    mutate(proportion = n / sum(n))
+
+props
+```
+
+About 40% of countries fall into the low emissions category, while only about 14% are in the high category.
+
+We can easily visualize a frequency table as a bar chart as an equivalent to the histogram for quantitative variables:
+
+```{r}
+ggplot(df_cat, aes(x = emission_level)) +
+    geom_bar(fill = "tomato") +
+    labs(x = "Emission Level", y = "Number of Countries")
+```
+
+## Categorical measures of central tendency
+
+### Median for ordinal data
+
+When we have ordinal categorical data (categories with a meaningful order), we can use the median as a measure of central tendency because it only relies on the order of values but not the actual values themselves (in `R`, we still need to convert to a numerical representation, though):
+
+```{r}
+median(as.numeric(df_cat$emission_level))
+```
+
+Maybe unsurprisingly giving the above bar chart, the median category is 'Medium'.
+
+### Mode for nominal data
+
+For nominal (unorderded categorical) data, we cannot use the median any more. The most useful representation of the 'center' is in this case just the most frequently occurring category, called the *mode*. While R doesn't have a built-in mode function, it is just the top value of our sorted counts:
+
+```{r}
+df_cat |> count(emission_level, sort = TRUE) |> head(1)
+```
+
+The mode of our emission level variable is again "Medium", although in this case it would be more useful to report the median category anyways, as discussed above.
+
+## Categorical measures of dispersion
+
+### Entropy
+
+For measuring dispersion in categorical data, we have to measure how concentrated the distribution, with maximum concentration achieved when all observations fall into a single group. One measure which achieves this is *entropy* (having origins in physics and information theory), which reaches its maximum when all categories are equally likely, and its minimum when all observations fall into a single category. The entropy is mathematically defined as minus the sum of the probability-weighted log of each probability/proportion, which we can normalize to the (0, 1) range by dividing by the log of the number of categories:
+
+$$
+H = -\frac{1}{\log(k)} \sum_{i=1}^k p_i * \log(p_i)
+$$
+
+where $p_i$ is the proportion of category $i$. There is no built in function in base `R` but we can easily compute it ourselves:
+
+```{r}
+-sum(props$proportion * log(props$proportion)) / log(nrow(props))
+```
+
+The resulting value is 0.92, telling us that the distribution is relatively but not quite perfectly even. A more interesting finding would probably come from comparing against a reference value (e.g., compare the spread of today's distribution with 20 years ago).
+
+# Exercises
+
+1.  Load the GDP per capita data from Our World in Data into a data frame.
+
+    ```{r}
+    url <- "https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv"
+
+    # write your code here...
+    ```
+
+    Perform the same changes to variable names that we applied to the emissions data.
+
+    ```{r}
+
+    ```
+
+2.  Write the data to the file `"data/gdp.parquet"` using the `arrow` package.
+
+    ```{r}
+
+    ```
+
+3.  Create a histogram of GDP per capita. How would you describe the distribution?
+
+    ```{r}
+
+    ```
+
+4.  Calculate the mean and median GDP per capita. Which is larger and why?
+
+    ```{r}
+
+    ```
+
+5.  Calculate the IQR, standard deviation, and MAD. Which measure of dispersion do you think is more appropriate for this data and why?
+
+    ```{r}
+
+    ```
+
+6.  Find the 10th and 90th percentiles. What do these values tell you about global income inequality?
+
+    ```{r}
+
+    ```
+
+7.  Create a new variable that categorizes countries as "Europe", "Africa", or "Other" using the country code vectors provided in the notebook.
+
+    ```{r}
+
+    ```
+
+8.  Calculate the mean, median, standard deviation, and coefficient of variation for GDP per capita for each region.
+
+    ```{r}
+
+    ```
+
+9.  Create side-by-side histograms comparing the GDP distributions across the three regions. What patterns do you observe?
+
+```{r}
+
+```
+
+10. Define three categories: "Low income" (\< \$5,000), "Middle income" (\$5,000 - \$20,000), and "High income" (≥ \$20,000). Create a corresponding categorical variable in your dataset.
+
+    ```{r}
+
+    ```
+
+11. Create a frequency table showing the number and proportion of countries in each income category.
+
+    ```{r}
+
+    ```
+
+12. Create a bar chart of the income categories.
+
+    ```{r}
+
+    ```
+
+13. Create a derived dataset with the total yearly GDP in all European countries.
+
+    ```{r}
+
+    ```
+
+14. Compute the yearly growth rate for the European GDP since the year 2000.
+
+    ```{r}
+
+    ```
+
+15. What was Europes average annual economic growth rate over this period?
+
+    ```{r}
+
+    ```
+
+16. Identify countries that are outliers in terms of per-capita emissions (you can use the IQR method: values beyond Q1 - 1.5×IQR or Q3 + 1.5×IQR).
+
+    ```{r}
+
+    ```
+
+17. Look up these outlier countries. Can you explain why they might have unusually high or low emissions?
+
+    ```{r}
+
+    ```
+
+18. Recalculate the mean and median emissions after removing these outliers. How much do they change?
+
+    ```{r}
+
+    ```

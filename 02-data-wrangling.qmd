@@ -1,0 +1,439 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# The gapminder dataset
+
+The Gapminder dataset contains information about countries' life expectancy, population, and GDP per capita over time. It was compiled by a Swedish foundation of the same name and is well-suited for demonstrating data analysis techniques because it is a real and insightful dataset that has just enough complexity to be useful without being overwhelming.
+
+The dataset contains the following variables:
+
+-   **country** : Country names
+
+-   **continent** : Continental groupings
+
+-   **year** : Years from 1952 to 2007 (5 year periods)
+
+-   **lifeExp** : Life expectancy in years
+
+-   **pop** : Population count
+
+-   **gdpPercap** : GDP per capita (inflation-adjusted US dollars)
+
+
+# Loading the `tidyverse` package
+
+The tidyverse is a collection of packages designed to work together seamlessly for data science. Instead of loading individual packages, we can load the whole suite:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+```
+
+If you have not yet installed the `tidyverse` , you can either use the RStudio interface or run `install.packages("tidyverse")` in a cell or in the console.
+
+# Loading data from different formats
+
+The first step of any analysis is importing data from some data source into `R`. Data comes in many formats, and `R` (or some package) has functions to handle most of them. In the following, we will load the same gapminder data from different file formats to see how this works.
+
+## CSV files
+
+CSV (comma-separated values) is probably the most common data exchange format:
+
+```{r}
+df_from_csv <- read_csv("data/gapminder.csv")
+df_from_csv
+```
+
+CSV is so common because it is a (deceivingly) simple plain-text format. However, its simplicity means it is somewhat underspecified which can lead to complications. Because of this, reading csv data properly can tricky and messy.
+
+## Excel files
+
+Excel files require a separate package, and for pain-free reading the spreadsheet containing the data should follow a plain, single-header table format. If that is the case, the read command looks similarly simple to the csv case:
+
+```{r}
+library(readxl)
+df_from_excel <- read_excel("data/gapminder.xlsx")
+df_from_excel
+```
+
+The package also has options for reading data from different spreadsheets or from specified ranges of a spreadsheet.
+
+## Parquet files
+
+Parquet is a more modern, efficient format that's becoming increasingly popular:
+
+```{r, warning = FALSE, message = FALSE}
+library(arrow)
+df_from_parquet <- read_parquet("data/gapminder.parquet")
+df_from_parquet
+```
+
+Parquet can be used to read huge datasets very quickly and is less ambiguous about data types than csv or excel files, which makes it a much more suitable data exchange format.
+
+Let's verify these all have the same number of rows and columns with `dim()`:
+
+```{r}
+dim(df_from_csv) == dim(df_from_excel) 
+dim(df_from_csv) == dim(df_from_parquet)
+```
+
+From now on, we'll work with the CSV version and call it simply `gapminder`:
+
+```{r}
+gapminder <- df_from_csv
+```
+
+# Basic data wrangling functions
+
+The `tidyverse` way is to have simple functions that do one thing well and which can be combined to produce more complex analyses. The following is an overview of the most essential operations (there are many more).
+
+## Selecting columns with `select`
+
+Many real-world datasets come with a huge number of columns, of which you often only need a subset. You can use the `select()` function to return the input data frame with only the specified columns:
+
+```{r}
+# first argument is data frame, rest are column names to keep
+select(gapminder, country, year, lifeExp)
+```
+
+You can also select by column position, specify ranges of columns, indicate which columns to *drop* instead of which to keep, or use helper functions like `starts_with`:
+
+```{r, eval = FALSE}
+# Select columns by position
+select(gapminder, 1:3)
+
+# Drop columns by putting a minus in front
+select(gapminder, -continent, -pop)
+
+# Select columns that start with a string
+select(gapminder, starts_with("c"))
+```
+
+## Renaming columns with `rename`
+
+Column names aren't always what you want. If you want to rename some functions and keep all the others as is, use `rename()` with the pattern `new_name = old_name`:
+
+```{r}
+rename(gapminder, life_expectancy = lifeExp, gdp_per_capita = gdpPercap)
+```
+
+If you instead want to only keep the columns that you want to rename, you can use `select` with the same renaming pattern:
+
+```{r}
+select(gapminder, life_expectancy = lifeExp, gdp_per_capita = gdpPercap)
+```
+
+The difference is that rename will keep all the other columns while select will only keep the specified ones.
+
+## Filtering rows with `filter`
+
+While `select` is used to pick out certain *columns*, `filter()` keeps *rows* based on certain specified conditions:
+
+```{r}
+filter(gapminder, year == 2007)
+```
+
+We can use logical operators like `&` (logical *and*) or `|` (logical *or*) to specify more complex conditions:
+
+```{r}
+# Keep rows for Europe and year 2007
+filter(gapminder, year == 2007 & continent == "Europe")
+
+# Keep rows for Europe or Asia
+filter(gapminder, continent == "Europe" | continent == "Asia")
+```
+
+If we only want to keep values appearing in a specified list, we can use the `%in%` operator:
+
+```{r}
+# Using %in% for multiple values
+filter(gapminder, country %in% c("Germany", "France", "Italy"))
+```
+
+## Dropping missing values with `drop_na`
+
+The gapminder dataset is clean, but real data often has missing values. `drop_na()` removes rows with missing data:
+
+```{r}
+# Create some missing data for demonstration
+gapminder_with_na <- gapminder
+gapminder_with_na$lifeExp[1:5] <- NA
+
+# Drop rows with any missing values
+drop_na(gapminder_with_na)
+```
+
+We can also specify to only drop rows with missing values in certain columns:
+
+```{r}
+drop_na(gapminder_with_na, lifeExp)
+```
+
+Note that for statistical analysis, simply dropping rows can be dangerous because it might bias the results (why are these values missing? For which observations are they missing?). Accordingly, you should always make sure that you at least understand the extent and the pattern of missing values in your dataset before dropping incomplete rows.
+
+## Removing duplicate rows with `distinct`
+
+`distinct()` removes duplicate rows with respect to the specified columns. E.g., if we only wanted a list of continents and countries, we could do the following:
+
+```{r}
+# Get unique combinations of continent and year
+distinct(gapminder, continent, country)
+```
+
+Note that this drops all the other columns. If you want to keep the first value for the other columns, specify `.keep_all = TRUE` (note the dot in the argument name):
+
+```{r}
+distinct(gapminder, country, .keep_all = TRUE)
+```
+
+## Sorting rows with `arrange`
+
+`arrange()` sorts rows by one or more columns:
+
+```{r}
+# Sort by life expectancy
+arrange(gapminder, lifeExp)
+```
+
+We can also sort by descending order using the `desc()` helper function and of course sort by multiple columns, in the specified order:
+
+```{r}
+# Sort by life expectancy in descending order
+arrange(gapminder, desc(lifeExp))
+
+# Sort by multiple columns
+arrange(gapminder, year, desc(lifeExp))
+```
+
+## Making new columns with `mutate`
+
+`mutate()` creates new columns or modifies existing ones. E.g., to create a column with the total GDP (instead of per-capita GDP), we can create a new column containing the product of `gdpPercap` and `pop`:
+
+```{r}
+mutate(gapminder, total_gdp = gdpPercap * pop)
+```
+
+You can create multiple columns at once and reference newly created columns:
+
+```{r}
+mutate(gapminder,
+       total_gdp = gdpPercap * pop,
+       gdp_billions = total_gdp / 1e9,
+       gdp_trillions = gdp_billions / 1000)
+```
+
+A particularly useful helper function for creating new columns is `case_when()`, which let's you specify conditional logic by specifying `condition ~ value` pairs. For example, we could assign continents to different groups:
+
+```{r}
+mutate(gapminder,
+   continent_group = case_when(
+     continent == "Europe" | continent == "America" ~ "West",
+     continent == "Asia" ~ "East",
+     continent == "Africa" ~ "South",
+     TRUE ~ "Other"
+   )
+)
+```
+
+## Grouped summaries with `group_by` and `summarize`
+
+One of the most powerful patterns is grouping data and calculating summaries for each group. The first step is grouping a data frame:
+
+```{r}
+# Average life expectancy by continent
+gapminder_grouped <- group_by(gapminder, continent)
+gapminder_grouped
+```
+
+The result doesn't look much different than the original data frame. But if you look closely, you will see that it is marked as being grouped by continent, with a total of \[5\] groups. The next step is to compute one or more summaries for each of the groups:
+
+```{r}
+summarize(gapminder_grouped, 
+          count = n(), 
+          mean_lifeexp = mean(lifeExp))
+```
+
+We will come back to this soon in the context of more complex analysis pipelines.
+
+Because counting rows by group is such a common practice, there is a function `count()` which is a shortcut for `group_by()` + `summarize(n = n())`:
+
+```{r}
+# Count observations by continent
+count(gapminder, continent)
+
+# Count with sorting
+count(gapminder, continent, sort = TRUE)
+
+# Count by multiple variables
+count(gapminder, continent, year)
+```
+
+Many of the tidyverse functions respect grouping structure, such as `filter()`. If we group by continent, for example, we can see that the filter below uses the maximum *within each group* and returns the row with the highest GDP for each continent:
+
+```{r}
+group_by(gapminder, continent) |>
+filter(gdpPercap == max(gdpPercap))
+```
+
+Because this kind of operation is common, there is even a specialized function called `slice_max()` which lets you pick out the top n values according to some variable. Here's an example of how to get the top 3 most populous countries for each continent in the year 2007:
+
+```{r}
+gapminder_2007 <- filter(gapminder, year == 2007)
+df_grouped <- group_by(gapminder_2007, continent)
+slice_max(df_grouped, pop, n = 3)
+```
+
+Notice also how the output is still grouped. If you want to drop groups so that operations which come afterwards are ungrouped, many functions have arguments for that (look at their help page).
+
+## Long and wide format data with `pivot_wider` and `pivot_longer`
+
+Data can be organized in "long" format (one observation per row) or "wide" format (multiple observations per row spread across different columns). If that seems a little abstract, here's a picture showing the difference:
+
+![Long vs. wide format data (source: graph gallery)](https://d3-graph-gallery.com/img/other/long_vs_wide_data_format.png){fig-alt="Long vs. wide format data" fig-align="center"}
+
+Here is how we can switch between the two representations using the `pivot_wider()` function:
+
+```{r}
+gapminder_wide <- pivot_wider(gapminder,
+                              id_cols = country,
+                              names_from = year, 
+                              values_from = lifeExp)
+
+gapminder_wide
+```
+
+Here, `id_cols` refers to the column(s) that *identify* the new rows, `names_from` specifies from which column the new column *names* in the wide table should be taken, and `values_from` specifies from which column the *values* to populate the new columns should be taken.
+
+To convert back to long format, we can use the `pivot_longer()` function:
+
+```{r}
+pivot_longer(gapminder_wide, -country)
+```
+
+Here, it is simpler to just specify the columns which *not* to stack on top of each other, which in our case is just the country column used as identifier in the last step. You can see that the grouping column and the value column just have the generic names `name` and `value`, which you can change with the `names_to` and `values_to` arguments.
+
+The `tidyverse` generally prefers long format for analysis (e.g. visualization), but sometimes wide format is more efficient for storage or more useful for presentation.
+
+## Joining tables on a common index
+
+Often data is spread across multiple tables. Let's create a second dataset with hypothetical continent identifiers:
+
+```{r}
+continent_codes <- data.frame(
+  continent = c("Africa", "Americas", "Asia", "Europe", "Oceania"),
+  continent_code = c("AF", "AM", "AS", "EU", "OC")
+)
+
+continent_codes
+```
+
+We can add this identifier column to our main data frame by matching the `continent` column in both datasets. This operation is generally called a *join* - here we perform a *left* join, which means we want to keep all entries in the first (left) data frame, even if there is no matching identifier in the second (right) data frame. In that case, missing values will be inserted for the rows without a match.
+
+To perform the left join, use the `left_join()` function with the two datasets and by specifying the common column with the by keyword:
+
+```{r}
+left_join(gapminder, continent_codes, by = "continent")
+```
+
+If the common identifier column is called differently in the two datasets, you can pass something like this to by: `c("left_name" = "right_name")` .
+
+# Data processing pipelines
+
+We have now seen the most common data processing functions. For most real analyses, we need to combine at least some of them to clean up a messy data set or reshape input data to our needs. Let's say that we want to only look at the development of GDP in European countries, which we want to show in wide format. We have learned that we can use `filter`, `select` and `pivot_wider` for that:
+
+```{r}
+# Filter rows to only Europe
+gapminder_europe <- filter(gapminder, continent == "Europe")
+
+# select columns
+gapminder_europe_gdp <- select(gapminder_europe, country, year, gdpPercap)
+
+# create wide format table
+gapminder_europe_gdp_wide <- pivot_wider(gapminder_europe_gdp,
+                                         names_from = year, 
+                                         values_from = gdpPercap)
+
+gapminder_europe_gdp_wide
+```
+
+This works but seems quite cumbersome and repetitive and we don't really need all the intermediate variables we created along the way. Instead, we can build a data *pipeline*, where we pipe the output from the previous function directly into the next function (specifically, as the first argument). We do this with the **pipe operator** `|>`:
+
+```{r}
+ gapminder |>
+    filter(continent == "Europe") |>
+    select(country, year, gdpPercap) |>
+    pivot_wider(names_from = year, values_from = gdpPercap)
+```
+
+Notice how we omit the first argument (i.e., the dataset to operate on) in each function call. We can do that, because the pipe operator `|>` places the previous result there (i.e., whatever is returned to the left of the operator).
+
+This is very powerful and you should definitely get used to writing pipelines like this, as they are one of the most fundamental building blocks of efficient data wrangling with the tidyverse and elsewhere.
+
+# Exercises
+
+1.  Load the gapminder dataset and explore its structure using `glimpse()`.
+
+    ```{r}
+
+    ```
+
+2.  Select only the country, year, and population columns.
+
+    ```{r}
+
+    ```
+
+3.  Filter for data from Asian or American countries in the year 2007.
+
+    ```{r}
+
+    ```
+
+4.  Which are the top 5 most populous countries in 2002?
+
+    ```{r}
+
+    ```
+
+5.  Create a new column called `gdp_category` that categorizes countries as "High" (gdpPercap \> 10000), "Medium" (between 3000 and 10000), or "Low" (\< 3000) GDP.
+
+    ```{r}
+
+    ```
+
+6.  Calculate the average life expectancy for each continent in 2007.
+
+    ```{r}
+
+    ```
+
+7.  Count how many countries are in each continent.
+
+    ```{r}
+
+    ```
+
+8.  Find the richest country in each continent for the year 2007.
+
+    ```{r}
+
+    ```
+
+9.  Create a pipeline that: calculates total GDP, groups by continent, and calculates the total GDP per continent and year.
+
+    ```{r}
+
+    ```
+
+10. Create a wide format dataset showing life expectancy for each country (rows) across different years (columns), but only for countries that start with "A".
+
+    ```{r}
+
+    ```

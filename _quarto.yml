@@ -1,0 +1,33 @@
+project:
+  type: website
+
+website:
+  title: QMSS
+  sidebar:
+  # - title: "Quantitative Methods and Statistics"
+    # style: "docked"
+    # search: true
+    contents:
+      - contents:
+        text: "Course introduction"
+        href: "index.qmd"
+      - section: "Basics of `R` programming"
+        contents:
+        - text: "Introduction to `R`"
+          href: "01-introduction.qmd"
+        - text: "Data wrangling"
+          href: "02-data-wrangling.qmd"
+      - section: "Describing data"
+        contents:
+        - text: "Data visualization"
+          href: "03-data-visualization.qmd"
+        - text: "Univariate descriptions"
+          href: "04-descriptive-univariate.qmd"
+        - text: "Multivariate descriptions"
+          href: "05-descriptive-multivariate.qmd"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
