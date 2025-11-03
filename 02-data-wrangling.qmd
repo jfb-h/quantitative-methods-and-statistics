@@ -434,7 +434,7 @@ Notice how we omit the first argument (i.e., the dataset to operate on) in each 
 
 This is very powerful and you should definitely get used to writing pipelines like this, as they are one of the most fundamental building blocks of efficient data wrangling with the tidyverse and elsewhere.
 
-### Exercises
+## Exercises
 
 1.  Create a pipeline that: calculates total GDP, groups by continent, and calculates the total GDP per continent and year.
 
