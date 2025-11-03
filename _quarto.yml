@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: QMSS
+  title: Quantitative Methods and Statistics
   sidebar:
   # - title: "Quantitative Methods and Statistics"
     # style: "docked"

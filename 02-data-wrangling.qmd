@@ -140,9 +140,11 @@ While `select` is used to pick out certain *columns*, `filter()` keeps *rows* ba
 filter(gapminder, year == 2007)
 ```
 
+Note how the output data frame has 142 rows, i.e., one for each country.
+
 We can use logical operators like `&` (logical *and*) or `|` (logical *or*) to specify more complex conditions:
 
-```{r}
+```{r, eval = FALSE}
 # Keep rows for Europe and year 2007
 filter(gapminder, year == 2007 & continent == "Europe")
 
@@ -152,14 +154,16 @@ filter(gapminder, continent == "Europe" | continent == "Asia")
 
 If we only want to keep values appearing in a specified list, we can use the `%in%` operator:
 
-```{r}
+```{r, eval = FALSE}
 # Using %in% for multiple values
 filter(gapminder, country %in% c("Germany", "France", "Italy"))
 ```
 
+This is equivalent to specifying a chain of OR statements (via `|`), but shorter and more convenient because we can use a pre-specified vector of allowed values.
+
 ## Dropping missing values with `drop_na`
 
-The gapminder dataset is clean, but real data often has missing values. `drop_na()` removes rows with missing data:
+The gapminder dataset is clean, but real data often has missing values. While missing data requires care and additional assumptions to deal with potentially biased results, a first exploratory step is often to just drop rows with missing data, which we can achieve with `drop_na()`:
 
 ```{r}
 # Create some missing data for demonstration
@@ -172,11 +176,11 @@ drop_na(gapminder_with_na)
 
 We can also specify to only drop rows with missing values in certain columns:
 
-```{r}
+```{r, eval = FALSE}
 drop_na(gapminder_with_na, lifeExp)
 ```
 
-Note that for statistical analysis, simply dropping rows can be dangerous because it might bias the results (why are these values missing? For which observations are they missing?). Accordingly, you should always make sure that you at least understand the extent and the pattern of missing values in your dataset before dropping incomplete rows.
+ You should however keep in mind that simply dropping rows with missing values can be dangerous because it might bias the results (why are these values missing? For which observations are they missing?). Accordingly, you should always make sure that you at least understand the extent and the pattern of missing values in your dataset before dropping incomplete rows.
 
 ## Removing duplicate rows with `distinct`
 
@@ -189,7 +193,7 @@ distinct(gapminder, continent, country)
 
 Note that this drops all the other columns. If you want to keep the first value for the other columns, specify `.keep_all = TRUE` (note the dot in the argument name):
 
-```{r}
+```{r, eval = FALSE}
 distinct(gapminder, country, .keep_all = TRUE)
 ```
 
@@ -204,13 +208,39 @@ arrange(gapminder, lifeExp)
 
 We can also sort by descending order using the `desc()` helper function and of course sort by multiple columns, in the specified order:
 
-```{r}
+```{r, eval = FALSE}
 # Sort by life expectancy in descending order
 arrange(gapminder, desc(lifeExp))
 
 # Sort by multiple columns
 arrange(gapminder, year, desc(lifeExp))
 ```
+
+### Exercises
+
+1.  Load the gapminder dataset and explore its structure using `glimpse()`.
+
+    ```{r}
+
+    ```
+
+2.  Select only the country, year, and population columns.
+
+    ```{r}
+
+    ```
+
+3.  Filter for data from Asian or American countries in the year 2007.
+
+    ```{r}
+
+    ```
+
+4.  Which are the top 5 most populous countries in 2002?
+
+    ```{r}
+
+    ```
 
 ## Making new columns with `mutate`
 
@@ -220,7 +250,7 @@ arrange(gapminder, year, desc(lifeExp))
 mutate(gapminder, total_gdp = gdpPercap * pop)
 ```
 
-You can create multiple columns at once and reference newly created columns:
+You can create multiple columns at once and in the process reference newly created columns:
 
 ```{r}
 mutate(gapminder,
@@ -264,7 +294,7 @@ We will come back to this soon in the context of more complex analysis pipelines
 
 Because counting rows by group is such a common practice, there is a function `count()` which is a shortcut for `group_by()` + `summarize(n = n())`:
 
-```{r}
+```{r, eval = FALSE}
 # Count observations by continent
 count(gapminder, continent)
 
@@ -292,6 +322,34 @@ slice_max(df_grouped, pop, n = 3)
 
 Notice also how the output is still grouped. If you want to drop groups so that operations which come afterwards are ungrouped, many functions have arguments for that (look at their help page).
 
+### Exercises
+
+1.  Create a new column called `gdp_category` that categorizes countries as "High" (gdpPercap \> 10000), "Medium" (between 3000 and 10000), or "Low" (\< 3000) GDP.
+
+    ```{r}
+
+    ```
+
+2.  Calculate the average life expectancy for each continent in 2007.
+
+    ```{r}
+
+    ```
+
+3.  Count how many countries are in each continent.
+
+    ```{r}
+
+    ```
+
+4.  Find the richest country in each continent for the year 2007.
+
+    ```{r}
+
+    ```
+    
+
+    
 ## Long and wide format data with `pivot_wider` and `pivot_longer`
 
 Data can be organized in "long" format (one observation per row) or "wide" format (multiple observations per row spread across different columns). If that seems a little abstract, here's a picture showing the difference:
@@ -376,64 +434,16 @@ Notice how we omit the first argument (i.e., the dataset to operate on) in each 
 
 This is very powerful and you should definitely get used to writing pipelines like this, as they are one of the most fundamental building blocks of efficient data wrangling with the tidyverse and elsewhere.
 
-# Exercises
+### Exercises
 
-1.  Load the gapminder dataset and explore its structure using `glimpse()`.
+1.  Create a pipeline that: calculates total GDP, groups by continent, and calculates the total GDP per continent and year.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
-2.  Select only the country, year, and population columns.
+2. Create a wide format dataset showing life expectancy for each country (rows) across different years (columns), but only for countries that start with "A".
 
-    ```{r}
+```{r}
 
-    ```
-
-3.  Filter for data from Asian or American countries in the year 2007.
-
-    ```{r}
-
-    ```
-
-4.  Which are the top 5 most populous countries in 2002?
-
-    ```{r}
-
-    ```
-
-5.  Create a new column called `gdp_category` that categorizes countries as "High" (gdpPercap \> 10000), "Medium" (between 3000 and 10000), or "Low" (\< 3000) GDP.
-
-    ```{r}
-
-    ```
-
-6.  Calculate the average life expectancy for each continent in 2007.
-
-    ```{r}
-
-    ```
-
-7.  Count how many countries are in each continent.
-
-    ```{r}
-
-    ```
-
-8.  Find the richest country in each continent for the year 2007.
-
-    ```{r}
-
-    ```
-
-9.  Create a pipeline that: calculates total GDP, groups by continent, and calculates the total GDP per continent and year.
-
-    ```{r}
-
-    ```
-
-10. Create a wide format dataset showing life expectancy for each country (rows) across different years (columns), but only for countries that start with "A".
-
-    ```{r}
-
-    ```
+```

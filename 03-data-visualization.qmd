@@ -70,6 +70,14 @@ This plot now contains one point for each country in the dataset, using GDP per 
 
 While the plot is already informative, there are many things we can improve, such as including more information from our data by making use of additional visual channels, changing variable scaling, adding better labels, or giving the plot a title.
 
+### Exercise
+
+Make a plot that investigates the hypothesis that larger countries are wealthier.
+
+```{r}
+```
+
+
 ## Refining the plot
 
 One first improvement would be to add some more information to our plot, such as the continental grouping of the countries. The obvious choice for the visual channel would be colors: There is only a handful of continents and countries in the same continent should be clustered to a certain degree, making colors easily distinguishable. To **color points by continent**, we need to add another entry to our mapping:
@@ -146,6 +154,7 @@ ggsave("myplot.png", p, width = 8, height = 8, dpi = 320)
 
 Here, width and height are specified in inches, but there is an option to switch to cm. The dpi argument sets the output resolution, which should be reasonably high for inclusion in a document.
 
+
 ## The final plot
 
 Here is everything put together and commented, without using an incrementally improved plot variable as before. It is a lot of code, but at this point we should understand what each line does and be able to make further additions or changes.
@@ -192,6 +201,13 @@ p<- ggplot(
 
 # Save the plot to a file (will save the last plot that was generated)
 ggsave("myplot.png", p, dpi = 320)
+```
+
+### Exercise
+
+Use the techniques discussed above to refine the plot investigating the relationship between size and GDP you created in the last exercise.
+
+```{r}
 ```
 
 # Composite visualizations
