@@ -216,7 +216,7 @@ arrange(gapminder, desc(lifeExp))
 arrange(gapminder, year, desc(lifeExp))
 ```
 
-### Exercises
+## Exercises
 
 1.  Load the gapminder dataset and explore its structure using `glimpse()`.
 
@@ -322,7 +322,7 @@ slice_max(df_grouped, pop, n = 3)
 
 Notice also how the output is still grouped. If you want to drop groups so that operations which come afterwards are ungrouped, many functions have arguments for that (look at their help page).
 
-### Exercises
+## Exercises
 
 1.  Create a new column called `gdp_category` that categorizes countries as "High" (gdpPercap \> 10000), "Medium" (between 3000 and 10000), or "Low" (\< 3000) GDP.
 
