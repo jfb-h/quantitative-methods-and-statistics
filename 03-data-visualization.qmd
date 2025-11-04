@@ -14,8 +14,7 @@ format:
 Last session, we learned basic data wrangling using the `gapminder` dataset. As we should now have a basic idea about its contents and structure, we will use it again to learn how to make informative and nice looking visualizations in `R`.
 
 ```{r}
-library(gapminder)
-data(gapminder) # makes the dataset available
+library(gapminder); data(gapminder) # makes the dataset available
 ```
 
 We will also load the `tidyverse` again, which contains the `ggplot2` package for visualization:
@@ -24,11 +23,9 @@ We will also load the `tidyverse` again, which contains the `ggplot2` package fo
 library(tidyverse)
 ```
 
-
 For the sake of making a simpler plot, we will filter the dataset to the year 2007, using the `filter()` function we learned about last time:
 
 ```{r}
-library(dplyr)
 gapminder2007 <- filter(gapminder, year == 2007)
 ```
 
@@ -76,7 +73,6 @@ Make a plot that investigates the hypothesis that larger countries are wealthier
 
 ```{r}
 ```
-
 
 ## Refining the plot
 
@@ -153,7 +149,6 @@ ggsave("myplot.png", p, width = 8, height = 8, dpi = 320)
 ```
 
 Here, width and height are specified in inches, but there is an option to switch to cm. The dpi argument sets the output resolution, which should be reasonably high for inclusion in a document.
-
 
 ## The final plot
 
@@ -263,8 +258,7 @@ p / p2_colors +
     plot_annotation(tag_levels = "A")
 ```
 
-Note how we also suppressed the color legend for the lines by setting `show.legend = FALSE` because we already have a legend for colors from the first plot.
-The customization possibilities are endless!
+Note how we also suppressed the color legend for the lines by setting `show.legend = FALSE` because we already have a legend for colors from the first plot. The customization possibilities are endless!
 
 # Exercises
 
