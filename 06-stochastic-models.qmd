@@ -1,0 +1,42 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# The scientific goals of using statistics
+
+Statistics is about learning from typically incomplete or imperfect data.
+
+- Describing and summarizing real-world phenomena
+
+- Predicting real-world phenomena
+
+- Identifying causal relationships
+
+
+![The big picture of statistical inference (Kass 2011)](real-and-theoretical-world.png)
+
+
+# Theoretical and statistical models
+
+- Abstraction
+
+- Assumptions
+
+# Modeling data-generating processes
+
+# Stochastic generative models
+
+# References
+
+Kass, R. E. (2011). Statistical Inference: The Big Picture. Statistical Science, 26(1). https://doi.org/10.1214/10-STS337
+
+Deffner, D., Fedorova, N., Andrews, J., & McElreath, R. (2024). Bridging theory and data: A computational workflow for cultural evolution. Proceedings of the National Academy of Sciences, 121(48), e2322887121. https://doi.org/10.1073/pnas.2322887121
+
+
