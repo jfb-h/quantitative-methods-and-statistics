@@ -9,7 +9,6 @@ format:
     toc: true
 ---
 
-
 # Why programming?
 
 Programming workflows enable far **more complex analyses** than classical tools, by allowing to **iterate faster** and **scaling better** with data size and complexity. Scripting also changes how we think about and conduct data analysis: Unlike point-and-click interfaces, programming forces us to be explicit about every step of our analysis, making our work **reproducible** and our assumptions **transparent**.
@@ -259,19 +258,14 @@ numbers[my_idx]
 
 ### Factors
 
-Factors are a special kind of vector and are `R`s way of representing categorical (*qualitative*) data, i.e. statistical variables which can only take on a set of distinct values:
-They are quite essential for statistical analysis and will come up frequently when we start doing actual statistics.
-You can create a factor variable by wrapping a vector in the `factor` function:
+Factors are a special kind of vector and are `R`s way of representing categorical (*qualitative*) data, i.e. statistical variables which can only take on a set of distinct values: They are quite essential for statistical analysis and will come up frequently when we start doing actual statistics. You can create a factor variable by wrapping a vector in the `factor` function:
 
 ```{r}
 colors <- factor(c("red", "blue", "red", "green", "blue"))
 colors
 ```
 
-By default, factors represent unordered (nominal) categorical variables.
-You can also create ordered factors with the `ordered` flag, in which case you also probably want to give the order of levels explicitly with the `levels` argument.
-In addition, you can change the labels used for the different levels of the factor with the `labels` argument.
-Here's an example combining all of this:
+By default, factors represent unordered (nominal) categorical variables. You can also create ordered factors with the `ordered` flag, in which case you also probably want to give the order of levels explicitly with the `levels` argument. In addition, you can change the labels used for the different levels of the factor with the `labels` argument. Here's an example combining all of this:
 
 ```{r}
 sizes <- factor(
@@ -283,10 +277,7 @@ sizes <- factor(
 sizes
 ```
 
-Note how we put the arguments to the `factor` function each on their own line to avoid producing one very long and hard to read line.
-You can (and should) generally format your code to be more readable like that.
-`R` is not sensitive to whitespace, so you don't need to follow any specific indentation rules but there are some best practices.
-
+Note how we put the arguments to the `factor` function each on their own line to avoid producing one very long and hard to read line. You can (and should) generally format your code to be more readable like that. `R` is not sensitive to whitespace, so you don't need to follow any specific indentation rules but there are some best practices.
 
 ### Lists
 

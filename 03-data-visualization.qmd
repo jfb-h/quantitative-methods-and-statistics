@@ -156,7 +156,7 @@ Here is everything put together and commented, without using an incrementally im
 
 ```{r, fig.width=7, fig.height=5}
 
-p<- ggplot(
+p <- ggplot(
     # Dataset from which to plot variables
     data = gapminder2007,
     

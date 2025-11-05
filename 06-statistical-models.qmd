@@ -1,0 +1,68 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Theoretical and statistical models
+
+Statistics is about learning from typically incomplete or imperfect data.
+Data themselves are not the ultimate goal - they measure (more or less crudely) abstract constructs that play a role in our scientific models of the world, or rather some aspect of it.
+
+So far, we have seen a range of simple visual and numerical methods to describe certain characteristics of a dataset.
+While undoubtedly useful, these methods treat only implicitly at least two important aspects of the scientific process which we ultimately want to make more explicit: causality and uncertainty.
+
+![The big picture of statistical inference (Kass 2011)](real-and-theoretical-world.png)
+
+Implicit or explicit claims of causality are an inherent feature of scientific theories, while uncertainty is an inherent feature of all scientific production of knowledge from empirical observation.
+Statistical models can help in establishing a closer link between scientific models and data by letting us assess the degree to which empirical observations are in line with theoretical expectations.
+
+<!-- ## Causality
+
+- causes of effects, effects of causes (Gelman)
+
+- explanation vs. theory
+
+### The fundamental problem of causal inference
+
+### Experimental and observational research designs
+
+## Uncertainty
+
+The scientific production of knowledge from empirical observation is inherently subject to uncertainty.
+
+### Aleatoric uncertainty
+
+### Epistemic uncertainty
+
+-   Describing and summarizing real-world phenomena
+
+-   Predicting real-world phenomena
+
+-   Identifying causal relationships
+
+
+- The scientific goals of using statistics -->
+
+
+# Modeling data-generating processes
+
+Statistical models adapt two important characteristics which scientific models also exhibit: abstraction and assumptions.
+
+-   Abstraction
+
+-   Assumptions
+
+
+# Stochastic generative models
+
+# References
+
+Kass, R. E. (2011). Statistical Inference: The Big Picture. Statistical Science, 26(1). https://doi.org/10.1214/10-STS337
+
+Deffner, D., Fedorova, N., Andrews, J., & McElreath, R. (2024). Bridging theory and data: A computational workflow for cultural evolution. Proceedings of the National Academy of Sciences, 121(48), e2322887121. https://doi.org/10.1073/pnas.2322887121
