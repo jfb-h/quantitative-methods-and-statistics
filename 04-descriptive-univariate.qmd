@@ -188,13 +188,15 @@ The result is around 0.98, which tells us that, on average, the per-capita emiss
 
 ### The median
 
-The median is the middle value when observations are ordered from smallest to largest. Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean:
+The median is the middle value when observations are ordered from smallest to largest.
+Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean. We can compute it with the `median()` function:
 
 ```{r}
 median(df$emissions, na.rm = TRUE)
 ```
 
-At 2.97, the median is quite a bit lower than the mean. This is to be expected given the shape of our distribution: In right-skewed distributions like this one, the mean is always larger than the median because it's pulled towards the extreme values.
+At 2.97, the median is quite a bit lower than the mean.
+This is to be expected given the shape of our distribution: In right-skewed distributions like this one, the mean is always larger than the median because it's pulled towards the extreme values.
 
 We can add lines for both the median and the arithmetic mean to our plot to see how they compare:
 
@@ -213,7 +215,7 @@ wmed
 
 ### Quantiles
 
-The median is a special kind of *quantile*, which divide the sorted data into equally-sized groups. The median is the 0.5 quantile (or 50th *percentile*) and divides the data into two groups, with half the data below the median value and half above it. But we just as well compute other quantiles, such as the 0.25 quantile (a quarter of the data below it , three quarters above) or the 0.99 quantile (just one percent of the data above it). Here is how to compute quantiles in `R`:
+The median is a special kind of *quantile*, which divide the sorted data into equally-sized groups. The median is the 0.5 quantile (or 50th *percentile*) and divides the data into two groups, with half the data below the median value and half above it. But we just as well compute other quantiles, such as the 0.25 quantile (a quarter of the data below it , three quarters above) or the 0.99 quantile (just one percent of the data above it). Here is how to compute quantiles in `R`, with the `probs` argument specifying the quantiles to return:
 
 ```{r}
 qs <- quantile(df$emissions, probs = c(0.33, 0.66, 0.9, 0.99), na.rm = TRUE)
@@ -253,7 +255,15 @@ IQR(df$emissions)
 
 ### Variance and standard deviation
 
-Variance measures the average squared deviation from the mean. The standard deviation is the square root of the variance and is in the same units as the original data, making it much more interpretable than the variance. You can easily compute both:
+The variance measures the average squared deviation from the data mean:
+$$ s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 $$
+
+Squaring differences from the mean make it so that positive and negative deviations don't cancel each other out, but have the consequence that the result is somewhat awkward to interpret.
+The standard deviation addresses this by taking the square root of the variance so that the result is in the same units as the original data again:
+
+$$ s = \sqrt{s} $$
+
+ You can easily compute both in `R`:
 
 ```{r}
 var(df$emissions)
@@ -402,7 +412,7 @@ The mode of our emission level variable is again "Medium", although in this case
 For measuring dispersion in categorical data, we have to measure how concentrated the distribution, with maximum concentration achieved when all observations fall into a single group. One measure which achieves this is *entropy* (having origins in physics and information theory), which reaches its maximum when all categories are equally likely, and its minimum when all observations fall into a single category. The entropy is mathematically defined as minus the sum of the probability-weighted log of each probability/proportion, which we can normalize to the (0, 1) range by dividing by the log of the number of categories:
 
 $$
-H = -\frac{1}{\log(k)} \sum_{i=1}^k p_i * \log(p_i)
+H = -\frac{1}{\log(k)} \sum_{i=1}^k p_i \log(p_i)
 $$
 
 where $p_i$ is the proportion of category $i$. There is no built in function in base `R` but we can easily compute it ourselves:
