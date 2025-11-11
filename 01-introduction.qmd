@@ -1,5 +1,4 @@
 ---
-measure---
 title: "Quantitative Methods and Statistics"
 subtitle: "An applied course using the `R` programming language"
 author: 
