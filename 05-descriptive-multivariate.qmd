@@ -135,7 +135,7 @@ df <- df |> mutate(
         levels = c("Low emissions", "Medium emissions", "High emissions"),
         ordered = TRUE
     ),
-        gdp_level = case_when(
+    gdp_level = case_when(
         gdp_per_cap < 5000 ~ "Low GDP",
         gdp_per_cap < 20000 ~ "Medium GDP",
         gdp_per_cap >= 20000 ~ "High GDP",

@@ -149,12 +149,12 @@ wm <- weighted.mean(df$emissions, df$population, na.rm = TRUE)
 wm
 ```
 
-We can see that the weighted mean is a bit smaller, indicating that some of the high-emissions countries received lower weights (due to smaller populations) than some of the low-emissions countries. Here, we also had to specify `na.rm = TRUE` to remove missing values (`NA`s) before computing the mean.
+We can see that the weighted mean is a bit smaller, indicating that some of the high-emissions countries received lower weights (due to smaller populations) than some of the low-emissions countries. Here, we also had to specify `na.rm = TRUE` to remove observations with missing values (`NA`s) in our population column before computing the mean.
 
-We can also add a line to our histo{gram plot to indicate our mean (or any measure of central tendency):
+We can also add a line to our histogram plot to indicate our mean (or any measure of central tendency):
 
 ```{r}
-p + geom_vline(xintercept = wm, color = "blue", linetype = "dashed", linewidth = 1.5)
+p + geom_vline(xintercept = wm, color = "blue", linetype = "dashed")
 ```
 
 ### The geometric mean
@@ -172,7 +172,11 @@ growth_de <- emissions |>
     mutate(growth_rate = emissions / lag(emissions))
 ```
 
-There is no built-in function in `R` to compute the geometric mean, but it turns out that the geometric mean is just the exponential of the mean of the logs of the series, i.e. $$GM(x) = \exp \left( \frac{1}{n} \sum_{i=1}^n \log(x_i)\right)$$
+In analogy to the additive nature of the arithmetic mean (we're adding up $n$ things for which we account by dividing by $n$), the geometric mean is defined as the $n$'th root of the _product_ of values:
+
+$$GM(x) = \sqrt[n]{x_1 \times x_2 \times ... \times x_n} = \left(\prod_{i=1}^n x_i \right)^\frac{1}{n}$$
+
+There is no built-in function in `R` to compute the geometric mean, but it turns out that the geometric mean is just the exponential of the mean of the logs of the series, i.e. $$GM(x) =  \exp \left( \frac{1}{n} \sum_{i=1}^n \log(x_i) \right)$$
 
 which we can compute easily ourselves with a single line of `R`:
 
@@ -184,7 +188,7 @@ The result is around 0.98, which tells us that, on average, the per-capita emiss
 
 ### The median
 
-The median is the middle value when observations are ordered from smallest to largest. Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean.
+The median is the middle value when observations are ordered from smallest to largest. Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean:
 
 ```{r}
 median(df$emissions, na.rm = TRUE)
@@ -195,8 +199,8 @@ At 2.97, the median is quite a bit lower than the mean. This is to be expected g
 We can add lines for both the median and the arithmetic mean to our plot to see how they compare:
 
 ```{r}
-p + geom_vline(xintercept = median(df$emissions), linewidth = 2, linetype = "dashed") + 
-    geom_vline(xintercept = mean(df$emissions), linewidth = 2)
+p + geom_vline(xintercept = median(df$emissions), linetype = "dashed") + 
+    geom_vline(xintercept = mean(df$emissions))
 ```
 
 As for the mean, there is a weighted version of the median, which we however need to pull from the `ggstats` package (install it before you load it):
