@@ -14,7 +14,7 @@ format:
 Statistics is about **learning from data**, especially data that is incomplete or has other imperfections, such as measurement error (i.e., almost all scientific data).
 The data themselves are of course not the ultimate goal - they measure (more or less crudely) abstract constructs that play a role in our scientific models of the world, or rather some aspect of it.
 
-![The big picture of statistical inference (Kass 2011)](real-and-theoretical-world.png)
+![The big picture of statistical inference (Kass 2011)](figures/real-and-theoretical-world.png)
 
 So far, we have seen a range of simple visual and numerical methods to describe certain characteristics of a dataset.
 Beyond these methods, statistical models can be helpful **tools for description** of complex multivariate data, e.g. by disentangling otherwise difficult to spot trends.
@@ -64,12 +64,14 @@ Statistical models adapt two important characteristics which scientific models a
 - Abstraction
 
 - Assumptions
-  
+
 - Randomness
-  
+
 - Generative models
 
 - Theoretical and statistical models
+
+- DGP comprises theorized process (the _signal_) _and_ the measurement process
 
 
 # References

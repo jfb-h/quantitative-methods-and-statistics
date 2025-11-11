@@ -68,6 +68,30 @@ arrow::write_parquet(df, "data/emissions-population.parquet")
 
 Here, the `arrow::write_parquet` means 'use the function `write_parquet` from the `arrow` package, without loading the package explicitly.
 
+
+## Exercises
+
+1.  Load the GDP per capita data from Our World in Data into a data frame.
+
+    ```{r}
+    url <- "https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv"
+
+    # write your code here...
+    ```
+
+    Perform the same changes to variable names that we applied to the emissions data.
+
+    ```{r}
+
+    ```
+
+2.  Write the data to the file `"data/gdp.parquet"` using the `arrow` package.
+
+    ```{r}
+
+    ```
+
+
 # Describing numerical variables
 
 Before diving into numerical summaries, it's crucial to visualize our data to understand its distribution. This helps us choose appropriate descriptive statistics and identify potential outliers.
@@ -90,13 +114,22 @@ p
 
 The histogram tells us that the distribution is heavily right-skewed, with most countries having relatively low per-capita emissions and a few countries exhibiting very high per-capita emissions. Next to being an interesting fact in and of itself (guess which country has the highest per-capita emissions), it is also relevant for the choice of summary statistics.
 
+# Exercise
+
+1.  Create histograms of GDP per capita, population, and emissions, and combine them into a single plot. How would you describe the distributions?
+
 ## Measures of central tendency
 
 There are different things we might want to say about the distribution shown by the histogram above, for example what its 'center' is. There is a variety of approaches to achieve this, each with different properties and trade-offs, making them suitable for different data and scenarios.
 
 ### The arithmetic mean
 
-The arithmetic mean (or simply "mean") is the sum of all values divided by the number of observations. It is probably the most well known and most widely used measure of central tendency, even if not appropriate. We can call it on our emissions variable by accessing the data frame column with `$` :
+The arithmetic mean (or simply "mean") is the sum of all values divided by the number of observations.
+Mathematically, we can express it using sum notation (using the greek capital letter _Sigma_, $\Sigma$):
+
+$$ AM(x) = \bar{x} = \frac{1}{n} \sum_{i=1}^n x_i $$
+
+It is probably the most well known and most widely used measure of central tendency, even if not always appropriate. We can call the corresponding `R` function on our emissions variable by accessing the data frame column with `$` :
 
 ```{r}
 mean(df$emissions)
@@ -104,7 +137,12 @@ mean(df$emissions)
 
 We can see that the mean per-capita emissions across countries in 2020 is around 4.48 tons of CO2.
 
-There is however a problem with the mean we just computed: It weighs all countries equally. In this case, it would however be much more appropriate to compute a **weighted mean** which weighs each country proportionally to its population size. We can do that with the `weighted.mean()` function, using the population column in our data frame as weights:
+There is however a problem with the mean we just computed: It weighs all countries equally. In this case, it would however be much more appropriate to compute a **weighted mean** which weighs each country proportionally to its population size. Formally, this means multiplying each observation by its corresponding weight and then dividing by the sum of weights:
+
+$$ AM^w(x) = \frac{1}{\sum_{i=1}^n w_i} \sum_{i=1}^n w_i x_i $$
+
+The unweighted arithmetic ean is just a special case of this where all of the weights are equal to 1.
+We can compute the weighted mean in `R` with the `weighted.mean()` function, using the population column in our data frame as weights:
 
 ```{r}
 wm <- weighted.mean(df$emissions, df$population, na.rm = TRUE)
@@ -373,31 +411,6 @@ The resulting value is 0.92, telling us that the distribution is relatively but 
 
 # Exercises
 
-1.  Load the GDP per capita data from Our World in Data into a data frame.
-
-    ```{r}
-    url <- "https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv"
-
-    # write your code here...
-    ```
-
-    Perform the same changes to variable names that we applied to the emissions data.
-
-    ```{r}
-
-    ```
-
-2.  Write the data to the file `"data/gdp.parquet"` using the `arrow` package.
-
-    ```{r}
-
-    ```
-
-3.  Create a histogram of GDP per capita. How would you describe the distribution?
-
-    ```{r}
-
-    ```
 
 4.  Calculate the mean and median GDP per capita. Which is larger and why?
 
