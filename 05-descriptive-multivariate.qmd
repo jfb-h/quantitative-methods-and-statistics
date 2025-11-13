@@ -77,13 +77,24 @@ This reveals a much less noisy picture of the relationship and also makes sense,
 
 ## Pearson's correlation coefficient
 
-While scatterplots show us the relationship visually, correlation coefficients quantify the strength and direction of relationships between two variables in a symmetric fashion, meaning that the correlation of x and y is the same as the correlation of y and x. The best known correlation coefficient is *Pearson's* correlation coefficient, which measures the strength of a *linear* relationship. We can easily compute it in `R` using the `cor()` function:
+While scatterplots show us the relationship visually, correlation coefficients quantify the strength and direction of relationships between two variables in a symmetric fashion, meaning that the correlation of x and y is the same as the correlation of y and x. The best known correlation coefficient is *Pearson's* correlation coefficient, which measures the strength of a *linear* relationship. It is defined as the *covariance* divided by the product of the standard deviations of the two input variables:
+
+$$ r = \frac{s_{xy}}{s_x s_y} $$
+
+where the covariance is the product of the deviations from x and y:
+
+$$ s_{xy} = \frac{1}{n}\sum_{i = 1}^n (x_i - \bar{x}) (y_i - \bar{y}) $$
+
+The covariance depends on the scaling of x and y and is thus hard to interpret. The correlation coefficient takes values in the -1 to 1 range, with -1 indicating a perfect negative linear relationship (i.e. the points lie on a downwards-sloping line) and +1 indicating a perfect positive linear relationship.
+
+We can easily compute the covariance and the correlation in `R` using the `cov()` and `cor()` functions:
 
 ```{r}
+cov(df$gdp_per_cap, df$emissions)
 cor(df$gdp_per_cap, df$emissions)
 ```
 
-The value of Person's correlation coefficient can range from -1 (indicating a perfect negative linear relationship) to +1 (indicating a perfect positive linear relationship). The correlation of 0.67 for GDP per capita and per capita emissions confirms our visual impression of a strong positive relationship. The correlation becomes even stronger (0.9) when we correlate the log transformed values, again confirming our visual intuitions:
+The correlation of 0.67 for GDP per capita and per capita emissions confirms our visual impression of a strong positive relationship. The correlation becomes even stronger (0.9) when we correlate the log transformed values, again confirming our visual intuitions:
 
 ```{r}
 cor(log(df$gdp_per_cap), log(df$emissions))
@@ -115,6 +126,19 @@ cor(df$gdp_per_cap, df$emissions, method = "spearman")
 
 The Spearman correlation also assumes values in the -1 to +1 interval and so the value of 0.88 again signals a strong monotonic relationship, stronger than the basic version of Pearson's correlation and similar to the log-log version. Note that log transforming variables before using Spearman's correlation coefficient doesn't do anything since the log transformation is a monotonic function and so the ranks are the same as for the untransformed variable.
 
+## Exercises
+
+1.  Create a scatterplot showing the relationship between population and total GDP (GDP per capita × population). What pattern do you observe?
+
+```{r}
+
+```
+
+2.  Calculate the Pearson and Spearman correlations between population and total GDP. Which is higher and why?
+
+```{r}
+
+```
 
 # Two categorical variables
 
@@ -213,7 +237,7 @@ cramers_v <- sqrt(chi_result$statistic / (sum(cont_table) * min(dim(cont_table) 
 cramers_v
 ```
 
-A Cramér's V of 0.51 indicates a reasonably strong association between development and emissions levels.
+A Cramér's V of 0.51 indicates a reasonably strong statistical association, but whether any specific measurement of a statistical relationship is judged to be high of course always depends on context.
 
 # One numerical and one categorical variable
 
@@ -232,11 +256,28 @@ In a boxplot, the 'box' shows the interquartile range (IQR), the bar inside the 
 ```{r}
 library(scales)
 
-ggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot() + 
+ggplot(df, aes(x = gdp_level, y = emissions)) + 
+    geom_boxplot() + 
     scale_y_log10(guide = "axis_logticks")
 ```
 
 The usual caveats for log plots apply: While it has become easier to see the distribution at lower levels, the same visual length now means different things at different levels (in absolute terms), so more care needs to be taken to not misinterpret the plot.
+
+A simpler alternative is to again just show the full data instead of summaries. To avoid points being drawn on top of each other (which would make the plot hard to read), we can 'jitter' them, i.e., randomly shift them horizontally a little bit:
+
+```{r}
+p <- ggplot(df, aes(x = gdp_level, y = emissions, group = gdp_level)) + 
+    geom_jitter(width = 0.1) +
+    scale_y_log10(guide = "axis_logticks")
+
+p
+```
+
+If we still want an indication for the central tendency (e.g. a mean or median), we can add a horizontal line with `stat_summary()` and a `crossbar` geometry:
+
+```{r}
+p + stat_summary(fun = median, geom = "crossbar")
+```
 
 ## Groupwise summaries
 
@@ -268,40 +309,29 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
 # Exercises
 
-1.  Create a scatterplot showing the relationship between population and total GDP (GDP per capita × population). What pattern do you observe?
+3.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()\`. What does this tell you about the relationship?
 
-    ```{r}
-    ```
+```{{r}}
 
-2.  Calculate the Pearson and Spearman correlations between population and total GDP. Which is higher and why?
+```
 
-    ```{r}
+<!-- 4.  Create boxplots showing how population varies across the three development levels. What do you observe?
 
-    ```
+```{r}
 
-3.  Add a trend line to the scatterplot from exercise 1 using `geom_smooth()`. What does this tell you about the relationship?
+``` -->
 
-    ```{r}
+<!-- 5.  Calculate summary statistics (mean, median, standard deviation) for population by development level. Use both regular and log-transformed population.
 
-    ```
+```{r}
 
-4.  Create boxplots showing how population varies across the three development levels. What do you observe?
-
-    ```{r}
-
-    ```
-
-5.  Calculate summary statistics (mean, median, standard deviation) for population by development level. Use both regular and log-transformed population.
-
-    ```{r}
-
-    ```
+``` -->
 
 6.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 7.  Create a cross-tabulation between your population size categories and development levels. What patterns do you see?
 
@@ -339,14 +369,16 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
     ```
 
-13. Create a bubble chart where x = GDP per capita, y = population, size = total CO₂ emissions (emissions per capita × population), and color = development level.
+<!-- 13. Create a bubble chart where x = GDP per capita, y = population, size = total CO₂ emissions (emissions per capita × population), and color = development level.
 
-    ```{r}
+```{{r}}
 
-    ```
+``` -->
+```
 
-14. Calculate the correlation between emissions per capita and total emissions. Why might this correlation be low despite both measures involving emissions?
+<!-- 14. Calculate the correlation between emissions per capita and total emissions. Why might this correlation be low despite both measures involving emissions?
 
-    ```{r}
+```{{r}}
 
-    ```
+``` -->
+```
