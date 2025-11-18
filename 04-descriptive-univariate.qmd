@@ -81,7 +81,7 @@ gdp_raw <- read_csv(url)
 2.  Write the data to the file `"data/gdp-raw.parquet"` using the `arrow` package.
 
 ```{r}
-arrow::write_parquet(gdp_raw, "data/gdp-raw.parquet")
+
 ```
 
 3.  Perform the same changes to variable names that we applied to the emissions data.
@@ -97,6 +97,17 @@ gdp <- select(
     filter(!is.na(code))
 ```
 
+4. Join all three cleaned datasets into a single data frame. Save the result as a new file called `emi-pop-gdp.parquet`.
+   
+```{r}
+
+```
+
+5. Check the availability of the variables across time and countries.
+   
+```{r}
+
+```
 
 # Describing numerical variables
 
@@ -107,6 +118,10 @@ Before diving into numerical summaries, it is usually helpful to visualize the d
 Histograms show the distribution of a continuous variable by dividing it into bins (usually of equal size) and counting observations in each bin. We can plot one using the now familiar `ggplot2` machinery:
 
 ```{r}
+
+# load combined dataset
+df <- arrow::read_parquet("data/emi-pop-gdp.parquet")
+
 # filter dataset to single year
 df2020 <- filter(df, year == 2020)
 

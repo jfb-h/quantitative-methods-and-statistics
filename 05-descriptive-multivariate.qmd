@@ -16,23 +16,16 @@ As in the last session, we will continue working with our CO₂ emissions, popul
 ```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
 
-emissions <- arrow::read_parquet("data/emissions-population.parquet")
-gdp <- arrow::read_parquet("data/gdp.parquet")
+df <- arrow::read_parquet("data/emi-pop-gdp.parquet")
 ```
 
-Because these data again share the same dimensions, we can join them:
-
-```{r}
-df <- left_join(emissions, gdp)
-glimpse(df)
-```
 
 A quick glance at the summaries of our three primary variables shows some missing values in GDP:
 
 ```{r}
 summary(df$emissions)
 summary(df$population)
-summary(df$gdp_per_cap)
+summary(df$gdp)
 ```
 
 We will drop observations with missing variables for now:
@@ -50,7 +43,7 @@ Now we have a combined dataset with emissions, population, and GDP data for coun
 Scatterplots are the fundamental tool for visualizing the relationship between two numerical variables. Each point represents one observation, with its position determined by the values of both variables.
 
 ```{r}
-ggplot(df, aes(x = gdp_per_cap, y = emissions)) +
+ggplot(df, aes(x = gdp, y = emissions)) +
     geom_point(alpha = 0.4) +
     labs(
         x = "GDP per capita (USD)",
@@ -63,7 +56,7 @@ The scatterplot reveals a clear positive relationship: wealthier countries tend 
 Two sessions ago, we have learned that in such a case, it might make sense to apply a log transformation to our variables:
 
 ```{r}
-ggplot(df, aes(x = gdp_per_cap, y = emissions)) +
+ggplot(df, aes(x = gdp, y = emissions)) +
     geom_point(alpha = 0.6) +
     scale_x_log10() +
     scale_y_log10() +
@@ -81,7 +74,7 @@ While scatterplots show us the relationship visually, correlation coefficients q
 
 $$ r = \frac{s_{xy}}{s_x s_y} $$
 
-where the covariance is the product of the deviations from x and y:
+where the covariance is the mean of the product of the deviations from x and y:
 
 $$ s_{xy} = \frac{1}{n}\sum_{i = 1}^n (x_i - \bar{x}) (y_i - \bar{y}) $$
 
@@ -90,20 +83,20 @@ The covariance depends on the scaling of x and y and is thus hard to interpret. 
 We can easily compute the covariance and the correlation in `R` using the `cov()` and `cor()` functions:
 
 ```{r}
-cov(df$gdp_per_cap, df$emissions)
-cor(df$gdp_per_cap, df$emissions)
+cov(df$gdp, df$emissions)
+cor(df$gdp, df$emissions)
 ```
 
 The correlation of 0.67 for GDP per capita and per capita emissions confirms our visual impression of a strong positive relationship. The correlation becomes even stronger (0.9) when we correlate the log transformed values, again confirming our visual intuitions:
 
 ```{r}
-cor(log(df$gdp_per_cap), log(df$emissions))
+cor(log(df$gdp), log(df$emissions))
 ```
 
 Let's also check the correlation between GDP and population:
 
 ```{r}
-cor(df$gdp_per_cap, df$population)
+cor(df$gdp, df$population)
 ```
 
 The near-zero correlation (-0.03) tells us there's essentially no linear relationship between a country's wealth and its population size - rich countries can be small or large, and vice versa.
@@ -121,7 +114,7 @@ rank(c(3.5, 12.7, 11.2, 2.8))
 With that, we could compute Spearman's correlation ourselves by putting the rank transformed variables into the `cor()` function. However, we can also just pass the `method = "spearman"` argument to the `cor()` function, which is more convenient and efficient:
 
 ```{r}
-cor(df$gdp_per_cap, df$emissions, method = "spearman")
+cor(df$gdp, df$emissions, method = "spearman")
 ```
 
 The Spearman correlation also assumes values in the -1 to +1 interval and so the value of 0.88 again signals a strong monotonic relationship, stronger than the basic version of Pearson's correlation and similar to the log-log version. Note that log transforming variables before using Spearman's correlation coefficient doesn't do anything since the log transformation is a monotonic function and so the ranks are the same as for the untransformed variable.
@@ -160,9 +153,9 @@ df <- df |> mutate(
         ordered = TRUE
     ),
     gdp_level = case_when(
-        gdp_per_cap < 5000 ~ "Low GDP",
-        gdp_per_cap < 20000 ~ "Medium GDP",
-        gdp_per_cap >= 20000 ~ "High GDP",
+        gdp < 5000 ~ "Low GDP",
+        gdp < 20000 ~ "Medium GDP",
+        gdp >= 20000 ~ "High GDP",
         TRUE ~ NA
     ),
     gdp_level = factor(
@@ -307,49 +300,31 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
 # Exercises
 
-3.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()`. What does this tell you about the relationship?
-
-```{{r}}
-
-```
-
-6.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
+1.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()`. What does this tell you about the relationship?
 
 ```{r}
 
 ```
 
-7.  Create a cross-tabulation between your population size categories and development levels. What patterns do you see?
+2.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
+
+```{r}
+
+```
+
+3.  Create a cross-tabulation between your population size categories and development levels. What patterns do you see?
 
     ```{r}
 
     ```
 
-8.  Visualize the relationship between population size and development level using grouped bar charts and proportional stacked bar charts.
+4.  Visualize the cross-tabulation.
 
 ```{r}
 
 ```
 
-9.  Perform a chi-squared test to determine if there's a significant association between population size and development level.
-
-```{r}
-
-```
-
-10. Calculate Cramér's V for the association between population size and development level. How does this compare to the association strength between development and emissions level?
-
-```{r}
-
-```
-
-11. Create a scatterplot matrix (or multiple scatterplots) showing the relationships between all numerical variables: emissions, GDP per capita, and population.
-
-```{r}
-
-```
-
-12. Identify the three countries with the highest emissions per capita. Look up these countries and explain why they might have such high emissions.
+5. Calculate Cramér's V for the association between population size and development level. How does this compare to the association strength between development and emissions level?
 
 ```{r}
 
