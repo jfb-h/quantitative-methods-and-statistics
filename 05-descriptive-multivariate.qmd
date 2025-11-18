@@ -20,7 +20,7 @@ df <- arrow::read_parquet("data/emi-pop-gdp.parquet")
 ```
 
 
-A quick glance at the summaries of our three primary variables shows some missing values in GDP:
+A quick glance at the summaries of our three primary variables shows some of the summaries we learned about last session but also indicates some missing values in GDP and population, which are not available for all years and all countries:
 
 ```{r}
 summary(df$emissions)
@@ -28,10 +28,10 @@ summary(df$population)
 summary(df$gdp)
 ```
 
-We will drop observations with missing variables for now:
+To avoid the missing data problem and to make things easier, we will focus on a single year again, to begin with:
 
 ```{r}
-df <- drop_na(df)
+df2020 <- filter(df, year == 2020) 
 ```
 
 Now we have a combined dataset with emissions, population, and GDP data for countries. The kinds of multivariate analyses which are sensible depend on the combination of our variables' data types, which we will walk through in the following.
@@ -43,7 +43,7 @@ Now we have a combined dataset with emissions, population, and GDP data for coun
 Scatterplots are the fundamental tool for visualizing the relationship between two numerical variables. Each point represents one observation, with its position determined by the values of both variables.
 
 ```{r}
-ggplot(df, aes(x = gdp, y = emissions)) +
+ggplot(df2020, aes(x = gdp, y = emissions)) +
     geom_point(alpha = 0.4) +
     labs(
         x = "GDP per capita (USD)",
@@ -56,7 +56,7 @@ The scatterplot reveals a clear positive relationship: wealthier countries tend 
 Two sessions ago, we have learned that in such a case, it might make sense to apply a log transformation to our variables:
 
 ```{r}
-ggplot(df, aes(x = gdp, y = emissions)) +
+ggplot(df2020, aes(x = gdp, y = emissions)) +
     geom_point(alpha = 0.6) +
     scale_x_log10() +
     scale_y_log10() +
@@ -83,20 +83,20 @@ The covariance depends on the scaling of x and y and is thus hard to interpret. 
 We can easily compute the covariance and the correlation in `R` using the `cov()` and `cor()` functions:
 
 ```{r}
-cov(df$gdp, df$emissions)
-cor(df$gdp, df$emissions)
+cov(df2020$gdp, df2020$emissions, use = "complete.obs")
+cor(df2020$gdp, df2020$emissions, use = "complete.obs")
 ```
 
 The correlation of 0.67 for GDP per capita and per capita emissions confirms our visual impression of a strong positive relationship. The correlation becomes even stronger (0.9) when we correlate the log transformed values, again confirming our visual intuitions:
 
 ```{r}
-cor(log(df$gdp), log(df$emissions))
+cor(log(df2020$gdp), log(df2020$emissions), use = "complete.obs")
 ```
 
 Let's also check the correlation between GDP and population:
 
 ```{r}
-cor(df$gdp, df$population)
+cor(df2020$gdp, df2020$population, use = "complete.obs")
 ```
 
 The near-zero correlation (-0.03) tells us there's essentially no linear relationship between a country's wealth and its population size - rich countries can be small or large, and vice versa.
@@ -114,7 +114,7 @@ rank(c(3.5, 12.7, 11.2, 2.8))
 With that, we could compute Spearman's correlation ourselves by putting the rank transformed variables into the `cor()` function. However, we can also just pass the `method = "spearman"` argument to the `cor()` function, which is more convenient and efficient:
 
 ```{r}
-cor(df$gdp, df$emissions, method = "spearman")
+cor(df2020$gdp, df2020$emissions, method = "spearman", use = "complete.obs")
 ```
 
 The Spearman correlation also assumes values in the -1 to +1 interval and so the value of 0.88 again signals a strong monotonic relationship, stronger than the basic version of Pearson's correlation and similar to the log-log version. Note that log transforming variables before using Spearman's correlation coefficient doesn't do anything since the log transformation is a monotonic function and so the ranks are the same as for the untransformed variable.
@@ -140,7 +140,7 @@ The Spearman correlation also assumes values in the -1 to +1 interval and so the
 Cross-tabulations (or contingency tables) show the frequency of combinations between two categorical variables. Our primary variables are numerical, but we can create categorical ones (ordinal, to be precise) from them:
 
 ```{r}
-df <- df |> mutate(
+df2020 <- df2020 |> mutate(
     emissions_level = case_when(
         emissions < 2 ~ "Low emissions",
         emissions < 8 ~ "Medium emissions",
@@ -169,13 +169,13 @@ df <- df |> mutate(
 Now we can create a cross-tabulation of development level and emissions level. The easiest way is to use the `table()` function with two vectors a input:
 
 ```{r}
-table(df$gdp_level, df$emissions_level) 
+table(df2020$gdp_level, df2020$emissions_level) 
 ```
 
 Alternatively, we can also use the familiar tidyverse machinery to create it manually (more flexible but also more code):
 
 ```{r}
-count(df, gdp_level, emissions_level) |>
+count(df2020, gdp_level, emissions_level) |>
     pivot_wider(
         names_from = emissions_level, 
         values_from = n, 
@@ -187,7 +187,7 @@ This table shows clear patterns: all low-income countries have low emissions, wh
 If we want proportions instead of raw counts, we can wrap our original table into `prop.table()`, to which we can pass an additional `margin` argument (where one indicates to divide by row totals and two would produce column :
 
 ```{r}
-prop.table(table(df$gdp_level, df$emissions_level), margin = 1)
+prop.table(table(df2020$gdp_level, df2020$emissions_level), margin = 1)
 ```
 
 ## Stacked barplots
@@ -195,13 +195,15 @@ prop.table(table(df$gdp_level, df$emissions_level), margin = 1)
 Cross-tabulations give us the numbers, but visualizations make the patterns clearer. We can use stacked bar charts to compare the distribution of one categorical variable across levels of another.
 
 ```{r}
-ggplot(df, aes(x = gdp_level, fill = emissions_level)) + geom_bar(position = "stack")
+df2020 |> drop_na(gdp_level) |>
+    ggplot(aes(x = gdp_level, fill = emissions_level)) + geom_bar(position = "stack")
 ```
 
 Often, we care more about the relative numbers than the overall group sizes. In that case, we can use proportional stacked bars, which make it even clearer how the emission profiles differ across development levels. We can create a proportional barplot by changing the `position = "stack"` argument to `position = "fill"`:
 
 ```{r}
-ggplot(df, aes(x = gdp_level, fill = emissions_level)) + geom_bar(position = "fill")
+df2020 |> drop_na(gdp_level) |>
+    ggplot(aes(x = gdp_level, fill = emissions_level)) + geom_bar(position = "fill")
 ```
 
 If we instead mostly care about the absolute numbers, creating a grouped barplot by passing `position = "dodge"` might be preferred.
@@ -213,7 +215,7 @@ While we cannot use the various correlation coefficients for categorical data, w
 The chi-squared statistic measures how much the observed frequencies deviate from what we'd expect if there were no association, accounting for differences in group sizes. To compute it, we first need to produce the contingency table:
 
 ```{r}
-cont_table <- table(df$gdp_level, df$emissions_level)
+cont_table <- table(df2020$gdp_level, df2020$emissions_level)
 ```
 
 Based on that, we can use the `chisq.test()` function, which also produces a statistical test, which we will ignore for now. Instead, we just look at the summary statistics, which we can access with `$statistics`:
@@ -223,7 +225,7 @@ chi_result <- chisq.test(cont_table)
 chi_result$statistic
 ```
 
-The resulting value of 103 is difficult to interpret because it depends on sample size. Cramér's V standardizes this to a 0 to 1 scale, making it mare useful as a measure of association. While there is again no built in function in base `R`, it is easy to compute so we don't need to pull in a package:
+The resulting value of 103 is difficult to interpret because it depends on sample size. Cramér's V standardizes this to a 0 to 1 scale, making it more useful as a measure of association. While there is again no built in function in base `R`, it is easy to compute so we don't need to pull in a package:
 
 ```{r}
 cramers_v <- sqrt(chi_result$statistic / (sum(cont_table) * min(dim(cont_table) - 1)))
@@ -231,6 +233,33 @@ cramers_v
 ```
 
 A Cramér's V of 0.51 indicates a reasonably strong statistical association, but whether any specific measurement of a statistical relationship is judged to be high of course always depends on context.
+
+## Exercises
+
+1.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
+
+```{r}
+
+```
+
+2.  Create a cross-tabulation between your population size categories and development levels. What patterns do you see?
+
+```{r}
+
+```
+
+3.  Visualize the cross-tabulation.
+
+```{r}
+
+```
+
+4. Calculate Cramér's V for the association between population size and development level. How does this compare to the association strength between development and emissions level?
+
+```{r}
+
+```
+
 
 # One numerical and one categorical variable
 
@@ -241,13 +270,13 @@ When we have one numerical and one categorical variable, it is typically easiest
 A classical visualization which is designed to compare the distributional differences of a numerical variable across groups is the boxplot or 'box and whiskers' plot. They display the median, quartiles (i.e. the range containing 50% of the data), and outliers, allowing for quick visual comparison of numerical summaries. Let's look at a boxplot of emissions by GDP level:
 
 ```{r}
-ggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot()
+ggplot(df2020, aes(x = gdp_level, y = emissions)) + geom_boxplot()
 ```
 
 In a boxplot, the 'box' shows the interquartile range (IQR), the bar inside the box shows the median, the 'whiskers' show 1.5 \* the IQR, and everything beyond the whiskers is considered an outlier. The plot is again a little bit hard to read due to the presence of some extreme emissions outliers. We have learned that we can help ourselves with a log transformation. To make it easier to read off values, we also add log ticks with the `guide = "axis_logticks"` argument:
 
 ```{r}
-ggplot(df, aes(x = gdp_level, y = emissions)) + 
+ggplot(df2020, aes(x = gdp_level, y = emissions)) + 
     geom_boxplot() + 
     scale_y_log10(guide = "axis_logticks")
 ```
@@ -257,7 +286,7 @@ The usual caveats for log plots apply: While it has become easier to see the dis
 A simpler alternative is to again just show the full data instead of summaries. To avoid points being drawn on top of each other (which would make the plot hard to read), we can 'jitter' them, i.e., randomly shift them horizontally a little bit:
 
 ```{r}
-p <- ggplot(df, aes(x = gdp_level, y = emissions, group = gdp_level)) + 
+p <- ggplot(df2020, aes(x = gdp_level, y = emissions, group = gdp_level)) + 
     geom_jitter(width = 0.1) +
     scale_y_log10(guide = "axis_logticks")
 
@@ -275,7 +304,7 @@ p + stat_summary(fun = median, geom = "crossbar", color = "tomato")
 To produce numerical summaries across groups, we can just use the now familiar `group_by()` and `summarize()` machinery and a set of measures of location and dispersion suited for our numerical variable:
 
 ```{r}
-group_summaries <- df |>
+group_summaries <- df2020 |>
     group_by(gdp_level) |>
     summarize(
         count = n(),
@@ -298,34 +327,8 @@ group_summaries$mean[3] / group_summaries$mean[1]
 
 We see that the average emissions per capita in rich countries is more than 22 times the average emissions of poor countries.
 
-# Exercises
+## Exercises
 
-1.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()`. What does this tell you about the relationship?
+1. Summarize the distribution of emissions by world region. 
 
-```{r}
-
-```
-
-2.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
-
-```{r}
-
-```
-
-3.  Create a cross-tabulation between your population size categories and development levels. What patterns do you see?
-
-    ```{r}
-
-    ```
-
-4.  Visualize the cross-tabulation.
-
-```{r}
-
-```
-
-5. Calculate Cramér's V for the association between population size and development level. How does this compare to the association strength between development and emissions level?
-
-```{r}
-
-```
+2. Visualize the distribution of emissions by world region and by year from 2000 to 2020.

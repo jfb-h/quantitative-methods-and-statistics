@@ -25,10 +25,10 @@ website:
           href: "04-descriptive-univariate.qmd"
         - text: "Multivariate descriptions"
           href: "05-descriptive-multivariate.qmd"
-      - section: "Statistical models"
-        contents:
-        - text: "Model building"
-          href: "06-statistical-models.qmd"
+      # - section: "Statistical models"
+      #   contents:
+      #   - text: "Model building"
+      #     href: "06-statistical-models.qmd"
 format:
   html:
     theme: cosmo
