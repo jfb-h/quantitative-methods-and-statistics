@@ -13,12 +13,12 @@ format:
 
 Statistics is about **learning from data**, especially data that is incomplete or has other imperfections, such as measurement error (i.e., almost all scientific data).
 The data themselves are of course not the ultimate goal - they measure (more or less crudely) abstract constructs that play a role in our scientific models of the world, or rather some aspect of it.
+So while we can directly learn from descriptions of the data, often we use the data to provide evidence for or against our ideas and theories of how the world works, and, vice versa, use models to understand how the data came to be the way they are.
 
 ![The big picture of statistical inference (Kass 2011)](figures/real-and-theoretical-world.png)
 
-So far, we have seen a range of simple visual and numerical methods to describe certain characteristics of a dataset.
-Beyond these methods, statistical models can be helpful **tools for description** of complex multivariate data, e.g. by disentangling otherwise difficult to spot trends.
-However, the simple descriptive methods we have seen so far also treat only implicitly two important aspects of the scientific process which we ultimately want to make more explicit: causality and uncertainty.
+Beyond the simple visual and numerical methods for describing data we have seen so far, statistical models can be helpful **tools for description** of complex multivariate data, e.g. by disentangling otherwise difficult to spot trends.
+However, the simple descriptives also treat only implicitly two important aspects of the scientific process which we ultimately want to make more explicit: causality and uncertainty.
 
 Implicit or explicit **claims of causality** are an inherent feature of scientific theories (TODO: Why, how?). If applied carefully (and if the stars align), statistical models can be used to test expectations from theory in both controlled (i.e., experimental) and uncontrolled (i.e., observational) settings.  
 
@@ -26,8 +26,6 @@ In the same vein, uncertainty is an inherent feature of all scientific productio
 TODO: why, how?
 Statistical models will not rid us of these epistemic shades of grey, but they can be used to **quantify and assess uncertainty** so that decisions about how to weigh evidence can be made more explicitly.
 
-Specifying a statistical model of the processes that procuded the observed data, called the **data generating process** (DGP), forces us to be explicit about our assumptions regarding statistical relationships and sources of uncertainty.
-As such, the process of statistical modeling establishes transparency, which is one of the highest goods in science as a collaborative endeavour.
 
 <!-- ## Causality
 
@@ -58,6 +56,9 @@ The scientific production of knowledge from empirical observation is inherently 
 
 
 # Modeling the data-generating process
+
+Specifying a statistical model of the processes that procuded the observed data, called the **data generating process** (DGP), forces us to be explicit about our assumptions regarding statistical relationships and sources of uncertainty.
+As such, the process of statistical modeling can establish transparency in a way simple descriptive statistics cannot.
 
 Statistical models adapt two important characteristics which scientific models also exhibit: abstraction and assumptions.
 

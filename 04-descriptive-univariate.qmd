@@ -188,8 +188,9 @@ The result is around 0.98, which tells us that, on average, the per-capita emiss
 
 ### The median
 
-The median is the middle value when observations are ordered from smallest to largest.
-Because it does not care about the actual values in the tails (the ends) of a distribution, it is less sensitive to outliers than the mean. We can compute it with the `median()` function:
+The median is the middle value when observations are ordered from smallest to largest. If there is an even number of observations, there is no middle and the median is instead the mean of the two adjacent middle observations.
+
+Because it does not care about the actual values in the tails (the ends) of a distribution, the median is less sensitive to outliers than the mean. We can compute it with the `median()` function:
 
 ```{r}
 median(df$emissions, na.rm = TRUE)
@@ -215,7 +216,9 @@ wmed
 
 ### Quantiles
 
-The median is a special kind of *quantile*, which divide the sorted data into equally-sized groups. The median is the 0.5 quantile (or 50th *percentile*) and divides the data into two groups, with half the data below the median value and half above it. But we just as well compute other quantiles, such as the 0.25 quantile (a quarter of the data below it , three quarters above) or the 0.99 quantile (just one percent of the data above it). Here is how to compute quantiles in `R`, with the `probs` argument specifying the quantiles to return:
+*Quantiles* are values which divide the sorted data into equally-sized groups. The median is just one specific quantile, namely the 0.5 quantile (or equivalently the 50th *percentile*), which divides the data into two groups, with half the data below the median value and half above it.
+
+But we can just as well report other quantiles, such as the 0.25 quantile (a quarter of the data below it , three quarters above) or the 0.99 quantile (just one percent of the data above it). Here is how to compute quantiles in `R`, with the `probs` argument specifying the quantiles to return:
 
 ```{r}
 qs <- quantile(df$emissions, probs = c(0.33, 0.66, 0.9, 0.99), na.rm = TRUE)
@@ -261,7 +264,7 @@ $$ s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 $$
 Squaring differences from the mean make it so that positive and negative deviations don't cancel each other out, but have the consequence that the result is somewhat awkward to interpret.
 The standard deviation addresses this by taking the square root of the variance so that the result is in the same units as the original data again:
 
-$$ s = \sqrt{s} $$
+$$ s = \sqrt{s^2} $$
 
  You can easily compute both in `R`:
 

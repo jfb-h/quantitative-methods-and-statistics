@@ -254,8 +254,6 @@ ggplot(df, aes(x = gdp_level, y = emissions)) + geom_boxplot()
 In a boxplot, the 'box' shows the interquartile range (IQR), the bar inside the box shows the median, the 'whiskers' show 1.5 \* the IQR, and everything beyond the whiskers is considered an outlier. The plot is again a little bit hard to read due to the presence of some extreme emissions outliers. We have learned that we can help ourselves with a log transformation. To make it easier to read off values, we also add log ticks with the `guide = "axis_logticks"` argument:
 
 ```{r}
-library(scales)
-
 ggplot(df, aes(x = gdp_level, y = emissions)) + 
     geom_boxplot() + 
     scale_y_log10(guide = "axis_logticks")
@@ -276,7 +274,7 @@ p
 If we still want an indication for the central tendency (e.g. a mean or median), we can add a horizontal line with `stat_summary()` and a `crossbar` geometry:
 
 ```{r}
-p + stat_summary(fun = median, geom = "crossbar")
+p + stat_summary(fun = median, geom = "crossbar", color = "tomato")
 ```
 
 ## Groupwise summaries
@@ -309,23 +307,11 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
 # Exercises
 
-3.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()\`. What does this tell you about the relationship?
+3.  Add a trend line to the scatterplot from exercise 1 using`geom_smooth()`. What does this tell you about the relationship?
 
 ```{{r}}
 
 ```
-
-<!-- 4.  Create boxplots showing how population varies across the three development levels. What do you observe?
-
-```{r}
-
-``` -->
-
-<!-- 5.  Calculate summary statistics (mean, median, standard deviation) for population by development level. Use both regular and log-transformed population.
-
-```{r}
-
-``` -->
 
 6.  Create a new categorical variable that groups countries as "Small" (population \< 10 million), "Medium" (10-50 million), or "Large" (\> 50 million).
 
@@ -341,44 +327,30 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
 8.  Visualize the relationship between population size and development level using grouped bar charts and proportional stacked bar charts.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 9.  Perform a chi-squared test to determine if there's a significant association between population size and development level.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 10. Calculate Cramér's V for the association between population size and development level. How does this compare to the association strength between development and emissions level?
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 11. Create a scatterplot matrix (or multiple scatterplots) showing the relationships between all numerical variables: emissions, GDP per capita, and population.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 12. Identify the three countries with the highest emissions per capita. Look up these countries and explain why they might have such high emissions.
 
-    ```{r}
+```{r}
 
-    ```
-
-<!-- 13. Create a bubble chart where x = GDP per capita, y = population, size = total CO₂ emissions (emissions per capita × population), and color = development level.
-
-```{{r}}
-
-``` -->
-```
-
-<!-- 14. Calculate the correlation between emissions per capita and total emissions. Why might this correlation be low despite both measures involving emissions?
-
-```{{r}}
-
-``` -->
 ```
