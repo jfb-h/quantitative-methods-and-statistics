@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/04-descriptive-univariate.html</loc>
+    <lastmod>2025-11-19T07:48:49.899Z</lastmod>
+  </url>
+  <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/05-descriptive-multivariate.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-18T16:22:53.771Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/index.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-04T09:14:07.592Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/03-data-visualization.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/04-descriptive-univariate.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-04T13:15:50.419Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/01-introduction.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-11T18:31:49.769Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/02-data-wrangling.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-04T09:14:07.591Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/about.html</loc>
-    <lastmod>2025-11-03T13:25:50.255Z</lastmod>
+    <lastmod>2025-11-04T09:14:07.591Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/06-statistical-models.html</loc>
+    <lastmod>2025-11-14T08:32:21.237Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/example_sdg_europe.html</loc>
+    <lastmod>2025-11-11T18:36:21.467Z</lastmod>
   </url>
 </urlset>
