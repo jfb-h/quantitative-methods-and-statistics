@@ -75,7 +75,8 @@ df
 
 ```{r, warning = FALSE, message = FALSE}
 url <- "https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv"
-gdp_raw <- read_csv(url)
+
+# write your code here...
 ```
 
 2.  Write the data to the file `"data/gdp-raw.parquet"` using the `arrow` package.
@@ -87,14 +88,7 @@ gdp_raw <- read_csv(url)
 3.  Perform the same changes to variable names that we applied to the emissions data.
 
 ```{r}
-gdp <- select(
-        gdp_raw,
-        entity = Entity,
-        code = Code,
-        year = Year,
-        gdp = `GDP per capita, PPP (constant 2021 international $)`
-    ) |>
-    filter(!is.na(code))
+
 ```
 
 4. Join all three cleaned datasets into a single data frame. Save the result as a new file called `emi-pop-gdp.parquet`.
