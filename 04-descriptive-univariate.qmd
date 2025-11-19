@@ -186,7 +186,7 @@ p + geom_vline(xintercept = wm, color = "blue", linetype = "dashed")
 
 When our data represents ratios or rates of change, the arithmetic mean is no longer appropriate. We should instead use the geometric mean which correctly handles the multiplicative logic inherent to the data.
 
-We might think about, e.g. the average growth rate of per-capita emissions in Germany over the last 20 years. We can obtain this growth series as follows, using the `lag()` helper function:
+We might think about, e.g., the average growth rate of per-capita emissions in Germany over the last 20 years. We can obtain this growth series as follows, using the `lag()` helper function:
 
 ```{r}
 growth_de <- emissions |>
@@ -260,23 +260,19 @@ If we want a quick summary of a numerical variable and mean, we can use the `sum
 
 ### Exercises
 
-Here's a code snippet to create a combined dataset from the emissions and GDP data we saved previously, to use in the exercises:
+1. Filter the dataset to the 2000 to 2020 period and keep only rows for country entities (which have entity codes of length 3).
 
 ```{r}
-gdp <- arrow::read_parquet("data/gdp.parquet")
-emi <- arrow::read_parquet("data/emissions-population.parquet")
 
-df <- inner_join(gdp, emi, by = c("year", "code", "entity")) |>
-    filter(str_length(code) == 3, year >= 2000, year <= 2023)
 ```
 
-1.  Calculate the (population-weighted) mean and median GDP per capita. Which is larger and why?
+2.  Calculate the (population-weighted) mean and median GDP per capita. Which is larger and why?
    
 ```{r}
 
 ```
 
-2.  Install and load the `countrycode` package. Use it to create a new `region` column in your dataframe. You can use it like so:
+3.  Install and load the `countrycode` package. Use it to create a new `region` column in your dataframe. You can use it like so:
 
 ```{r}
 countrycode::countrycode(
@@ -289,19 +285,19 @@ countrycode::countrycode(
 
 ```
 
-3.  Compute weighted means and medians in each region, for the years 2000 and 2020. Plot the result.
+4.  Compute weighted means and medians in each region, for the years 2000 and 2020. Plot the result.
 
 ```{r}
 
 ```
 
-4.  Add new columns to your data frame with the growth rate of total regional GDP and total regional emissions. Plot the regional development of GDP and emissions for East Asia, Europe, and North America.
+5.  Add new columns to your data frame with the growth rate of total regional GDP and total regional emissions. Plot the regional development of GDP and emissions for East Asia, Europe, and North America.
 
 ```{r}
 
 ```
 
-5.  Compute the average growth rates for emissions and gdp since the year 2000 for each region.
+6.  Compute the average growth rates for emissions and gdp since the year 2000 for each region.
 
 ```{r}
 
