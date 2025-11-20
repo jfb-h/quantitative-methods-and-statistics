@@ -95,7 +95,6 @@ x
 
 But be careful, overwriting variables can lead to unexpected behavior and headaches down the road.
 
-
 ### Exercises
 
 1.  Create a variable called `my_age` with your age. Confirm that the variable exists and has the specified value in your global environment in RStudio.
@@ -109,7 +108,6 @@ But be careful, overwriting variables can lead to unexpected behavior and headac
 ```{r}
 
 ```
-
 
 ## Functions
 
@@ -328,10 +326,9 @@ sizes
 
 Note how we put the arguments to the `factor` function each on their own line to avoid producing one very long and hard to read line. You can (and should) generally format your code to be more readable like that. `R` is not sensitive to whitespace, so you don't need to follow any specific indentation rules but there are some best practices.
 
-
 ### Exercises
 
-1. To ride the Oktoberfest roller coaster, you need to be at least 16 years old but also above 150 cm. Using logical expressions, write a piece of code which checks whether Lisa can ride the roller coaster:
+1.  To ride the Oktoberfest roller coaster, you need to be at least 16 years old but also above 150 cm. Using logical expressions, write a piece of code which checks whether Lisa can ride the roller coaster:
 
 ```{r}
 lisa_age <- 21
@@ -340,13 +337,13 @@ lisa_height <- 148
 # Write your code here...
 ```
 
-2. Tim, Tom and Tina are 185cm, 173cm, and 175cm tall. Create a vector with their sizes. Then, write a piece of code to express their sizes in meters.
+2.  Tim, Tom and Tina are 185cm, 173cm, and 175cm tall. Create a vector with their sizes. Then, write a piece of code to express their sizes in meters.
 
 ```{r}
 
 ```
 
-3. The variable below represents a bike store's inventory. Turn it into a factor variable using the shorter labels "gravel", "city", and "racing" instead. Use the `summary()` function on your new variable. What does it tell you?
+3.  The variable below represents a bike store's inventory. Turn it into a factor variable using the shorter labels "gravel", "city", and "racing" instead. Use the `summary()` function on your new variable. What does it tell you?
 
 ```{r}
 inventory <- rep(
@@ -356,8 +353,6 @@ inventory <- rep(
 
 # write your code here...
 ```
-
-
 
 ### Data frames
 
@@ -394,7 +389,6 @@ students[, 2]        # all rows, second column
 ```
 
 In the future, we will often rely on higher-level functions to process data frames, but the basic options for accessing their data are still good to know.
-
 
 ### Lists
 
@@ -446,12 +440,11 @@ my_list[["names"]]  # by name
 
 ```
 
-3. Use `[]` to access the first row.
+3.  Use `[]` to access the first row.
 
 ```{r}
 
 ```
-
 
 ## Packages
 
@@ -478,9 +471,9 @@ One package (or rather collection of packages) that comprises many useful functi
 
 ### Exercises
 
-1. Install the `tidyverse` using RStudio's package installation interface.
+1.  Install the `tidyverse` using RStudio's package installation interface.
 
-2. Load the package using the `library()` function.
+2.  Load the package using the `library()` function.
 
 ```{r}
   
@@ -524,4 +517,3 @@ Large Language Models like ChatGPT, Claude, or GitHub Copilot can be very useful
 -   They can keep you from learning what you need to learn
 
 In general, LLMs become more useful when you know the basics - at this stage, you will know how to prompt effectively and the chatbot can help you with quickly writing boilerplate code or suggesting different approaches. Try to be a conscious and responsible user and don't just copy paste blindly.
-
