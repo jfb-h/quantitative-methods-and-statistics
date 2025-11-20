@@ -201,6 +201,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a map from Eurostat data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -221,6 +238,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#basic-data-wrangling-functions" id="toc-basic-data-wrangling-functions" class="nav-link" data-scroll-target="#basic-data-wrangling-functions">Basic data wrangling functions</a>
   <ul class="collapse">
+  <li><a href="#subsetting-and-sorting-data-frames" id="toc-subsetting-and-sorting-data-frames" class="nav-link" data-scroll-target="#subsetting-and-sorting-data-frames">Subsetting and sorting data frames</a>
+  <ul class="collapse">
   <li><a href="#selecting-columns-with-select" id="toc-selecting-columns-with-select" class="nav-link" data-scroll-target="#selecting-columns-with-select">Selecting columns with <code>select</code></a></li>
   <li><a href="#renaming-columns-with-rename" id="toc-renaming-columns-with-rename" class="nav-link" data-scroll-target="#renaming-columns-with-rename">Renaming columns with <code>rename</code></a></li>
   <li><a href="#filtering-rows-with-filter" id="toc-filtering-rows-with-filter" class="nav-link" data-scroll-target="#filtering-rows-with-filter">Filtering rows with <code>filter</code></a></li>
@@ -228,11 +247,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#removing-duplicate-rows-with-distinct" id="toc-removing-duplicate-rows-with-distinct" class="nav-link" data-scroll-target="#removing-duplicate-rows-with-distinct">Removing duplicate rows with <code>distinct</code></a></li>
   <li><a href="#sorting-rows-with-arrange" id="toc-sorting-rows-with-arrange" class="nav-link" data-scroll-target="#sorting-rows-with-arrange">Sorting rows with <code>arrange</code></a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  </ul></li>
+  <li><a href="#grouping-mutating-and-summarizing-data-frames" id="toc-grouping-mutating-and-summarizing-data-frames" class="nav-link" data-scroll-target="#grouping-mutating-and-summarizing-data-frames">Grouping, mutating and summarizing data frames</a>
+  <ul class="collapse">
   <li><a href="#making-new-columns-with-mutate" id="toc-making-new-columns-with-mutate" class="nav-link" data-scroll-target="#making-new-columns-with-mutate">Making new columns with <code>mutate</code></a></li>
   <li><a href="#grouped-summaries-with-group_by-and-summarize" id="toc-grouped-summaries-with-group_by-and-summarize" class="nav-link" data-scroll-target="#grouped-summaries-with-group_by-and-summarize">Grouped summaries with <code>group_by</code> and <code>summarize</code></a></li>
   <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercises</a></li>
+  </ul></li>
+  <li><a href="#reshaping-and-joining-data-frames" id="toc-reshaping-and-joining-data-frames" class="nav-link" data-scroll-target="#reshaping-and-joining-data-frames">Reshaping and joining data frames</a>
+  <ul class="collapse">
   <li><a href="#long-and-wide-format-data-with-pivot_wider-and-pivot_longer" id="toc-long-and-wide-format-data-with-pivot_wider-and-pivot_longer" class="nav-link" data-scroll-target="#long-and-wide-format-data-with-pivot_wider-and-pivot_longer">Long and wide format data with <code>pivot_wider</code> and <code>pivot_longer</code></a></li>
   <li><a href="#joining-tables-on-a-common-index" id="toc-joining-tables-on-a-common-index" class="nav-link" data-scroll-target="#joining-tables-on-a-common-index">Joining tables on a common index</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#data-processing-pipelines" id="toc-data-processing-pipelines" class="nav-link" data-scroll-target="#data-processing-pipelines">Data processing pipelines</a>
   <ul class="collapse">
@@ -407,8 +433,10 @@ dbl (4): year, lifeExp, pop, gdpPercap
 <section id="basic-data-wrangling-functions" class="level1">
 <h1>Basic data wrangling functions</h1>
 <p>The <code>tidyverse</code> way is to have simple functions that do one thing well and which can be combined to produce more complex analyses. The following is an overview of the most essential operations (there are many more).</p>
-<section id="selecting-columns-with-select" class="level2">
-<h2 class="anchored" data-anchor-id="selecting-columns-with-select">Selecting columns with <code>select</code></h2>
+<section id="subsetting-and-sorting-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="subsetting-and-sorting-data-frames">Subsetting and sorting data frames</h2>
+<section id="selecting-columns-with-select" class="level3">
+<h3 class="anchored" data-anchor-id="selecting-columns-with-select">Selecting columns with <code>select</code></h3>
 <p>Many real-world datasets come with a huge number of columns, of which you often only need a subset. You can use the <code>select()</code> function to return the input data frame with only the specified columns:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first argument is data frame, rest are column names to keep</span></span>
@@ -442,8 +470,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(gapminder, <span class="fu">starts_with</span>(<span class="st">"c"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="renaming-columns-with-rename" class="level2">
-<h2 class="anchored" data-anchor-id="renaming-columns-with-rename">Renaming columns with <code>rename</code></h2>
+<section id="renaming-columns-with-rename" class="level3">
+<h3 class="anchored" data-anchor-id="renaming-columns-with-rename">Renaming columns with <code>rename</code></h3>
 <p>Column names aren’t always what you want. If you want to rename some functions and keep all the others as is, use <code>rename()</code> with the pattern <code>new_name = old_name</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(gapminder, <span class="at">life_expectancy =</span> lifeExp, <span class="at">gdp_per_capita =</span> gdpPercap)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -486,8 +514,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 <p>The difference is that rename will keep all the other columns while select will only keep the specified ones.</p>
 </section>
-<section id="filtering-rows-with-filter" class="level2">
-<h2 class="anchored" data-anchor-id="filtering-rows-with-filter">Filtering rows with <code>filter</code></h2>
+<section id="filtering-rows-with-filter" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-rows-with-filter">Filtering rows with <code>filter</code></h3>
 <p>While <code>select</code> is used to pick out certain <em>columns</em>, <code>filter()</code> keeps <em>rows</em> based on certain specified conditions:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -524,8 +552,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 <p>This is equivalent to specifying a chain of OR statements (via <code>|</code>), but shorter and more convenient because we can use a pre-specified vector of allowed values.</p>
 </section>
-<section id="dropping-missing-values-with-drop_na" class="level2">
-<h2 class="anchored" data-anchor-id="dropping-missing-values-with-drop_na">Dropping missing values with <code>drop_na</code></h2>
+<section id="dropping-missing-values-with-drop_na" class="level3">
+<h3 class="anchored" data-anchor-id="dropping-missing-values-with-drop_na">Dropping missing values with <code>drop_na</code></h3>
 <p>The gapminder dataset is clean, but real data often has missing values. While missing data requires care and additional assumptions to deal with potentially biased results, a first exploratory step is often to just drop rows with missing data, which we can achieve with <code>drop_na()</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create some missing data for demonstration</span></span>
@@ -557,8 +585,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 <p>You should however keep in mind that simply dropping rows with missing values can be dangerous because it might bias the results (why are these values missing? For which observations are they missing?). Accordingly, you should always make sure that you at least understand the extent and the pattern of missing values in your dataset before dropping incomplete rows.</p>
 </section>
-<section id="removing-duplicate-rows-with-distinct" class="level2">
-<h2 class="anchored" data-anchor-id="removing-duplicate-rows-with-distinct">Removing duplicate rows with <code>distinct</code></h2>
+<section id="removing-duplicate-rows-with-distinct" class="level3">
+<h3 class="anchored" data-anchor-id="removing-duplicate-rows-with-distinct">Removing duplicate rows with <code>distinct</code></h3>
 <p><code>distinct()</code> removes duplicate rows with respect to the specified columns. E.g., if we only wanted a list of continents and countries, we could do the following:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get unique combinations of continent and year</span></span>
@@ -585,8 +613,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(gapminder, country, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sorting-rows-with-arrange" class="level2">
-<h2 class="anchored" data-anchor-id="sorting-rows-with-arrange">Sorting rows with <code>arrange</code></h2>
+<section id="sorting-rows-with-arrange" class="level3">
+<h3 class="anchored" data-anchor-id="sorting-rows-with-arrange">Sorting rows with <code>arrange</code></h3>
 <p><code>arrange()</code> sorts rows by one or more columns:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by life expectancy</span></span>
@@ -617,17 +645,26 @@ dbl (4): year, lifeExp, pop, gdpPercap
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(gapminder, year, <span class="fu">desc</span>(lifeExp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercises" class="level3">
+<h3 class="anchored" data-anchor-id="exercises">Exercises</h3>
 <ol type="1">
-<li><p>Load the gapminder dataset and explore its structure using <code>glimpse()</code>.</p></li>
-<li><p>Select only the country, year, and population columns.</p></li>
-<li><p>Filter for data from Asian or American countries in the year 2007.</p></li>
-<li><p>Which are the top 5 most populous countries in 2002?</p></li>
+<li>Load the gapminder dataset and explore its structure using <code>glimpse()</code>.</li>
+</ol>
+<ol start="2" type="1">
+<li>Select only the country, year, and population columns.</li>
+</ol>
+<ol start="3" type="1">
+<li>Filter for data from Asian or American countries in the year 2007.</li>
+</ol>
+<ol start="4" type="1">
+<li>Which are the top 5 most populous countries in 2002?</li>
 </ol>
 </section>
-<section id="making-new-columns-with-mutate" class="level2">
-<h2 class="anchored" data-anchor-id="making-new-columns-with-mutate">Making new columns with <code>mutate</code></h2>
+</section>
+<section id="grouping-mutating-and-summarizing-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="grouping-mutating-and-summarizing-data-frames">Grouping, mutating and summarizing data frames</h2>
+<section id="making-new-columns-with-mutate" class="level3">
+<h3 class="anchored" data-anchor-id="making-new-columns-with-mutate">Making new columns with <code>mutate</code></h3>
 <p><code>mutate()</code> creates new columns or modifies existing ones. E.g., to create a column with the total GDP (instead of per-capita GDP), we can create a new column containing the product of <code>gdpPercap</code> and <code>pop</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(gapminder, <span class="at">total_gdp =</span> gdpPercap <span class="sc">*</span> pop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -700,8 +737,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 </div>
 </section>
-<section id="grouped-summaries-with-group_by-and-summarize" class="level2">
-<h2 class="anchored" data-anchor-id="grouped-summaries-with-group_by-and-summarize">Grouped summaries with <code>group_by</code> and <code>summarize</code></h2>
+<section id="grouped-summaries-with-group_by-and-summarize" class="level3">
+<h3 class="anchored" data-anchor-id="grouped-summaries-with-group_by-and-summarize">Grouped summaries with <code>group_by</code> and <code>summarize</code></h3>
 <p>One of the most powerful patterns is grouping data and calculating summaries for each group. The first step is grouping a data frame:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average life expectancy by continent</span></span>
@@ -797,17 +834,26 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 <p>Notice also how the output is still grouped. If you want to drop groups so that operations which come afterwards are ungrouped, many functions have arguments for that (look at their help page).</p>
 </section>
-<section id="exercises-1" class="level2">
-<h2 class="anchored" data-anchor-id="exercises-1">Exercises</h2>
+<section id="exercises-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-1">Exercises</h3>
 <ol type="1">
-<li><p>Create a new column called <code>gdp_category</code> that categorizes countries as “High” (gdpPercap &gt; 10000), “Medium” (between 3000 and 10000), or “Low” (&lt; 3000) GDP.</p></li>
-<li><p>Calculate the average life expectancy for each continent in 2007.</p></li>
-<li><p>Count how many countries are in each continent.</p></li>
-<li><p>Find the richest country in each continent for the year 2007.</p></li>
+<li>Create a new column called <code>gdp_category</code> that categorizes countries as “High” (gdpPercap &gt; 10000), “Medium” (between 3000 and 10000), or “Low” (&lt; 3000) GDP.</li>
+</ol>
+<ol start="2" type="1">
+<li>Calculate the average life expectancy for each continent in 2007.</li>
+</ol>
+<ol start="3" type="1">
+<li>Count how many countries are in each continent.</li>
+</ol>
+<ol start="4" type="1">
+<li>Find the richest country in each continent for the year 2007.</li>
 </ol>
 </section>
-<section id="long-and-wide-format-data-with-pivot_wider-and-pivot_longer" class="level2">
-<h2 class="anchored" data-anchor-id="long-and-wide-format-data-with-pivot_wider-and-pivot_longer">Long and wide format data with <code>pivot_wider</code> and <code>pivot_longer</code></h2>
+</section>
+<section id="reshaping-and-joining-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="reshaping-and-joining-data-frames">Reshaping and joining data frames</h2>
+<section id="long-and-wide-format-data-with-pivot_wider-and-pivot_longer" class="level3">
+<h3 class="anchored" data-anchor-id="long-and-wide-format-data-with-pivot_wider-and-pivot_longer">Long and wide format data with <code>pivot_wider</code> and <code>pivot_longer</code></h3>
 <p>Data can be organized in “long” format (one observation per row) or “wide” format (multiple observations per row spread across different columns). If that seems a little abstract, here’s a picture showing the difference:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -865,8 +911,8 @@ dbl (4): year, lifeExp, pop, gdpPercap
 <p>Here, it is simpler to just specify the columns which <em>not</em> to stack on top of each other, which in our case is just the country column used as identifier in the last step. You can see that the grouping column and the value column just have the generic names <code>name</code> and <code>value</code>, which you can change with the <code>names_to</code> and <code>values_to</code> arguments.</p>
 <p>The <code>tidyverse</code> generally prefers long format for analysis (e.g.&nbsp;visualization), but sometimes wide format is more efficient for storage or more useful for presentation.</p>
 </section>
-<section id="joining-tables-on-a-common-index" class="level2">
-<h2 class="anchored" data-anchor-id="joining-tables-on-a-common-index">Joining tables on a common index</h2>
+<section id="joining-tables-on-a-common-index" class="level3">
+<h3 class="anchored" data-anchor-id="joining-tables-on-a-common-index">Joining tables on a common index</h3>
 <p>Often data is spread across multiple tables. Let’s create a second dataset with hypothetical continent identifiers:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>continent_codes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -906,6 +952,7 @@ dbl (4): year, lifeExp, pop, gdpPercap
 </div>
 </div>
 <p>If the common identifier column is called differently in the two datasets, you can pass something like this to by: <code>c("left_name" = "right_name")</code> .</p>
+</section>
 </section>
 </section>
 <section id="data-processing-pipelines" class="level1">
