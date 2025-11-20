@@ -474,17 +474,17 @@ library(ggplot2)
 
 After having succesfully installed a package, you should **remove or comment out the install statement** or else you will get prompted to reinstall the package whenever you rerun your notebook. Alternatively, you can use the **RStudio interface for installing packages**.
 
-One package (or rather collection of packages) that comprises many useful functions for data science (data wrangling, visualization) is the `tidyverse`, which you can install and load as follows:
+One package (or rather collection of packages) that comprises many useful functions for data science (data wrangling, visualization) is the `tidyverse`, which includes packages like `dplyr` for data manipulation, `ggplot2` for visualization, `readr` for reading data, `tidyr` for data reshaping. You could of course also install and load these individually.
 
-```{r eval=FALSE}
-# Uncomment to install the entire collection
-# install.packages("tidyverse")
+### Exercises
 
-# Load core packages
-library(tidyverse)
+1. Install the `tidyverse` using RStudio's package installation interface.
+
+2. Load the package using the `library()` function.
+
+```{r}
+  
 ```
-
-The tidyverse includes packages like `dplyr` for data manipulation, `ggplot2` for visualization, `readr` for reading data, `tidyr` for data reshaping, which you could also install and load individually.
 
 ## Getting help
 

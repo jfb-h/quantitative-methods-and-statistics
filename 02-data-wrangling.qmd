@@ -94,7 +94,9 @@ gapminder <- df_from_csv
 
 The `tidyverse` way is to have simple functions that do one thing well and which can be combined to produce more complex analyses. The following is an overview of the most essential operations (there are many more).
 
-## Selecting columns with `select`
+## Subsetting and sorting data frames
+
+### Selecting columns with `select`
 
 Many real-world datasets come with a huge number of columns, of which you often only need a subset. You can use the `select()` function to return the input data frame with only the specified columns:
 
@@ -116,7 +118,7 @@ select(gapminder, -continent, -pop)
 select(gapminder, starts_with("c"))
 ```
 
-## Renaming columns with `rename`
+### Renaming columns with `rename`
 
 Column names aren't always what you want. If you want to rename some functions and keep all the others as is, use `rename()` with the pattern `new_name = old_name`:
 
@@ -132,7 +134,7 @@ select(gapminder, life_expectancy = lifeExp, gdp_per_capita = gdpPercap)
 
 The difference is that rename will keep all the other columns while select will only keep the specified ones.
 
-## Filtering rows with `filter`
+### Filtering rows with `filter`
 
 While `select` is used to pick out certain *columns*, `filter()` keeps *rows* based on certain specified conditions:
 
@@ -161,7 +163,7 @@ filter(gapminder, country %in% c("Germany", "France", "Italy"))
 
 This is equivalent to specifying a chain of OR statements (via `|`), but shorter and more convenient because we can use a pre-specified vector of allowed values.
 
-## Dropping missing values with `drop_na`
+### Dropping missing values with `drop_na`
 
 The gapminder dataset is clean, but real data often has missing values. While missing data requires care and additional assumptions to deal with potentially biased results, a first exploratory step is often to just drop rows with missing data, which we can achieve with `drop_na()`:
 
@@ -182,7 +184,7 @@ drop_na(gapminder_with_na, lifeExp)
 
  You should however keep in mind that simply dropping rows with missing values can be dangerous because it might bias the results (why are these values missing? For which observations are they missing?). Accordingly, you should always make sure that you at least understand the extent and the pattern of missing values in your dataset before dropping incomplete rows.
 
-## Removing duplicate rows with `distinct`
+### Removing duplicate rows with `distinct`
 
 `distinct()` removes duplicate rows with respect to the specified columns. E.g., if we only wanted a list of continents and countries, we could do the following:
 
@@ -197,7 +199,7 @@ Note that this drops all the other columns. If you want to keep the first value 
 distinct(gapminder, country, .keep_all = TRUE)
 ```
 
-## Sorting rows with `arrange`
+### Sorting rows with `arrange`
 
 `arrange()` sorts rows by one or more columns:
 
@@ -216,33 +218,35 @@ arrange(gapminder, desc(lifeExp))
 arrange(gapminder, year, desc(lifeExp))
 ```
 
-## Exercises
+### Exercises
 
 1.  Load the gapminder dataset and explore its structure using `glimpse()`.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 2.  Select only the country, year, and population columns.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 3.  Filter for data from Asian or American countries in the year 2007.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 4.  Which are the top 5 most populous countries in 2002?
 
-    ```{r}
+```{r}
 
-    ```
+```
 
-## Making new columns with `mutate`
+## Grouping, mutating and summarizing data frames
+
+### Making new columns with `mutate`
 
 `mutate()` creates new columns or modifies existing ones. E.g., to create a column with the total GDP (instead of per-capita GDP), we can create a new column containing the product of `gdpPercap` and `pop`:
 
@@ -272,7 +276,7 @@ mutate(gapminder,
 )
 ```
 
-## Grouped summaries with `group_by` and `summarize`
+### Grouped summaries with `group_by` and `summarize`
 
 One of the most powerful patterns is grouping data and calculating summaries for each group. The first step is grouping a data frame:
 
@@ -322,35 +326,36 @@ slice_max(df_grouped, pop, n = 3)
 
 Notice also how the output is still grouped. If you want to drop groups so that operations which come afterwards are ungrouped, many functions have arguments for that (look at their help page).
 
-## Exercises
+### Exercises
 
 1.  Create a new column called `gdp_category` that categorizes countries as "High" (gdpPercap \> 10000), "Medium" (between 3000 and 10000), or "Low" (\< 3000) GDP.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 2.  Calculate the average life expectancy for each continent in 2007.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 3.  Count how many countries are in each continent.
 
-    ```{r}
+```{r}
 
-    ```
+```
 
 4.  Find the richest country in each continent for the year 2007.
 
-    ```{r}
+```{r}
 
-    ```
+```
     
 
+## Reshaping and joining data frames
     
-## Long and wide format data with `pivot_wider` and `pivot_longer`
+### Long and wide format data with `pivot_wider` and `pivot_longer`
 
 Data can be organized in "long" format (one observation per row) or "wide" format (multiple observations per row spread across different columns). If that seems a little abstract, here's a picture showing the difference:
 
@@ -379,7 +384,7 @@ Here, it is simpler to just specify the columns which *not* to stack on top of e
 
 The `tidyverse` generally prefers long format for analysis (e.g. visualization), but sometimes wide format is more efficient for storage or more useful for presentation.
 
-## Joining tables on a common index
+### Joining tables on a common index
 
 Often data is spread across multiple tables. Let's create a second dataset with hypothetical continent identifiers:
 
@@ -401,6 +406,7 @@ left_join(gapminder, continent_codes, by = "continent")
 ```
 
 If the common identifier column is called differently in the two datasets, you can pass something like this to by: `c("left_name" = "right_name")` .
+
 
 # Data processing pipelines
 

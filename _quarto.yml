@@ -29,6 +29,10 @@ website:
       #   contents:
       #   - text: "Model building"
       #     href: "06-statistical-models.qmd"
+      - section: "Case studies"
+        contents:
+        - text: "Making a map from Eurostat data"
+          href: "casestudy-eurostat.qmd"
 format:
   html:
     theme: cosmo
