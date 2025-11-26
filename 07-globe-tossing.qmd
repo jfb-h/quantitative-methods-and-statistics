@@ -1,0 +1,28 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Probabilistic models
+
+## How to learn from data
+
+## Example: Estimating the earth's water cover by throwing a globe
+
+## Bayesian inference
+
+### The data model (the likelihood)
+
+#### The Bernoulli distribution
+
+### Modeling our intuitions (the prior)
+
+#### The Beta distribution
+
+### What the data teach us (the posterior)

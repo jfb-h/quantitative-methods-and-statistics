@@ -1,0 +1,38 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Simple linear regression
+
+## Conditional modeling
+
+## The model and its parameters
+
+## Inference
+
+## Predictions
+
+## Model fit
+
+## Numerical and categorical predictors
+
+
+# Multiple linear regression
+
+## One binary and one numerical predictor
+
+## Two numerical predictors
+
+## More than two predictors
+
+## Interaction effects
+
+
+

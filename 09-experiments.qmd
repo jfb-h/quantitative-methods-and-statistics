@@ -1,0 +1,16 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+## The fundamental problem of causal inference
+
+## Estimating causal effects from experiments
+
+## Estimating causal effects from observational studies

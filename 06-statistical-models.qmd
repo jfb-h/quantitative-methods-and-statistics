@@ -75,6 +75,8 @@ Statistical models adapt two important characteristics which scientific models a
 - DGP comprises theorized process (the _signal_) _and_ the measurement process
 
 
+# Modeling randomness and uncertainty
+
 # References
 
 Kass, R. E. (2011). Statistical Inference: The Big Picture. Statistical Science, 26(1). https://doi.org/10.1214/10-STS337

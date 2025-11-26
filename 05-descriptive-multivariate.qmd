@@ -11,7 +11,9 @@ format:
 
 # Loading data and packages
 
-As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:
+As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. Ultimately, many multivariate research designs will be _asymmetric_ in the roles that variables occupy, i.e., typically we want to study variation in one primary variable as a function of other variables. However, we will here start with simple symmetric, bivariate measures used to describe the strength and sign of a statistical association between two variables.
+
+We begin by loading packages and reading the datasets from parquet files:
 
 ```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
@@ -127,7 +129,13 @@ The Spearman correlation also assumes values in the -1 to +1 interval and so the
 
 ```
 
-2.  Calculate the Pearson and Spearman correlations between population and total GDP. Which is higher and why?
+2.  Calculate the Pearson and Spearman correlations between population and total GDP. Which one is appropriate?
+
+```{r}
+
+```
+
+3. Load the `gapminder` dataset and plot life expectancy against GDP per capita. Describe the relationship. Choose a correlation measure and compute it.
 
 ```{r}
 
@@ -329,6 +337,6 @@ We see that the average emissions per capita in rich countries is more than 22 t
 
 ## Exercises
 
-1. Summarize the distribution of emissions by world region. 
+1. Summarize the distribution of emissions by world region, as per the `countrycode` package introduced last session. 
 
 2. Visualize the distribution of emissions by world region and by year from 2000 to 2020.

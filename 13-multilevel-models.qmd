@@ -1,0 +1,34 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Generalized linear models
+
+## Logistic and binomial regression
+
+## Poisson and negative binomial regression
+
+
+# Generalized additive models
+
+## Nonlinear relationships
+
+## Smoothing splines
+
+
+# Multilevel models
+
+## Informational efficiency and partial pooling
+
+## Varying intercepts
+
+## Varying intercepts and coefficients
+
+## Higher-level predictors
