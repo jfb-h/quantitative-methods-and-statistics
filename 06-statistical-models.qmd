@@ -13,11 +13,11 @@ format:
 
 So far, we have contented ourselves with describing the data we have. Ultimately, we are however often more interested in the processes underlying the data we see, the so called *data generating process (DGP)*. The DGP is unobserved and possibly (probably) complex. It comprises the mechanisms we ultimately want to learn about, but also other, unexplained or unmodelled sources of variation, as well as artifacts of our data collection procedures, such as sampling variation and measurement error.
 
-To understand this process, we need to *model* the DGP, typically with heavily simplified models. The ulitmate goal here is to disentangle the different sources of variation that induce uncertainty into our data-based claims and inferences. Assessing (i.e., quantifying) this uncertainty is an important step because it tells us how confident we can be about our findings.
+To understand this process, we need to *model* the DGP, typically with heavily simplified models. The ultimate goal here is to disentangle the different sources of variation that induce uncertainty into our data-based claims and inferences. Assessing (i.e., quantifying) this uncertainty is an important step because it tells us how confident we can be about our findings.
 
 # Modeling and simulating variability
 
-Statistical models typically treat parts of the variation in an *outcome variable* as deterministic (e.g., explained by variation in *input/predictor variables*) and parts as random (i.e., 'noise' or unmodelled variation). To obtain a *generative* model of our data-generating processs (i.e., one which we can use to generate or simulate data), we need to be also simulate the random parts, for which we need to specify a *probability distribution* which can reasonably approximate the *pattern* of randomness in the unmodeled variation.
+Statistical models typically treat parts of the variation in an *outcome variable* as deterministic (e.g., explained by variation in *input/predictor variables*) and parts as random (i.e., 'noise' or unmodelled variation). To obtain a *generative* model of our data-generating process (i.e., one which we can use to generate or simulate data), we need to be also simulate the random parts, for which we need to specify a *probability distribution* which can reasonably approximate the *pattern* of randomness in the unmodelled variation.
 
 E.g., given the information that an average woman in Germany is 166cm tall, with a standard deviation of around 7cm, we might model the height measurement of a randomly picked woman as a draw from a *normal* distribution, one of the most commonly used probability distributions in statistical modeling. This is commonly written as:
 
@@ -53,11 +53,11 @@ In this case, we know the exact data generating process, because we made it up o
 
 -   It helps with reasoning about the model and checking its potential deficiencies by assessing the plausibility of simulations.
 
--   It lets us check how easily and precisely we could recover certain characteristics (such as the mean) from data if we didn't know the underlying DGP and its characteristscs. This will lead us to *statistical inference*, which is about learning these characteristics from data.
+-   It lets us check how easily and precisely we could recover certain characteristics (such as the mean) from data if we didn't know the underlying DGP and its characteristics. This will lead us to *statistical inference*, which is about learning these characteristics from data.
 
 ## Probability distributions
 
-A probability distribution exhaustively distributes a unitless quantity ('probability') that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. We could do this by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behaviour, such as the evenness or concentration of the generated values.
+A probability distribution exhaustively distributes a unitless quantity ('probability') that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. We could do this by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behavior, such as the evenness or concentration of the generated values.
 
 The normal distribution is just one of many parametric families of probability distributions that are used in statistical models. Distributions are usefully distinguished by whether they model a categorical, discrete, or continuous random variable, whether there are constraints on their *support* (the range of values with non-zero probability under the distribution), and their shape (e.g., whether they have 'fat tails', or are symmetric or multimodal).
 
@@ -75,7 +75,7 @@ Here is an overview of some common distributions and their characteristics:
 | **Bernoulli** | Discrete | $\{0,1\}$ | $\theta$ (success prob) | $\theta^x(1-\theta)^{1-x}$ |
 | **Categorical** | Categorical | $\{1,\dots,K\}$ | $\theta_1,\dots,\theta_K$ (category probs) | $\theta_k$ |
 
-Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probabilty theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what's going on, and we will pick out what we need as we go along.
+Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probability theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what's going on, and we will pick out what we need as we go along.
 
 ## Exercises
 
@@ -108,7 +108,7 @@ We can see that while the observed mean and SD are close to the values of 166 an
 
 ## Sources of uncertainty
 
-The data we have typically doesn't represent the full population about which we would like to say something. It might be difficult, for example, to measure the heights of more than 40 million women in Germany. Luckily, this is typically also not necessary. Under certain conditions, we can get a very good approximiation of population characteristics by looking at only a (comparatively) small sample. The simplest way to get a sample which is *representative* of the underlying population is to pick units *randomly* (this might be easier said than done, as it might be difficult to circumvent selection biases).
+The data we have typically doesn't represent the full population about which we would like to say something. It might be difficult, for example, to measure the heights of more than 40 million women in Germany. Luckily, this is typically also not necessary. Under certain conditions, we can get a very good approximation of population characteristics by looking at only a (comparatively) small sample. The simplest way to get a sample which is *representative* of the underlying population is to pick units *randomly* (this might be easier said than done, as it might be difficult to circumvent selection biases).
 
 While random sampling ensures a representative sample, it also produces *uncertainty* in our estimates: Every time you would pick a different random set of participants, you would get a slightly different result. We can again use simulation to better understand this process. First, let's simulate a large population of individuals (say, 100 000 women):
 
@@ -118,7 +118,7 @@ pop <- rnorm(n = 100000, 166, 7)
 mean(pop)
 ```
 
-The 'true' mean in this population is 166.0068. Now, draw 50 people randomly from that population (without replacement, i.e., we can only draw everybode once):
+The 'true' mean in this population is 166.0068. Now, draw 50 people randomly from that population (without replacement, i.e., we can only draw everybody once):
 
 ```{r}
 samp <- sample(pop, 50, replace = FALSE)
@@ -174,13 +174,13 @@ ggplot(df_sd, aes(mean)) +
 
 As expected, the standard error for the larger sample is much lower than for the smaller sample.
 
-While drawing random samples from a larger population is common (especially in social sciences), it is not the only source of this kind of variability. In many cases where one effectively observes the full population (consider, e.g., a survey in an an organization where almost everybody participated), it still makes sense to think about and model variability, as there are other sources of randomness in data collection. **Measurement** is often difficult and imprecise and subject to error and fluctuations, which in absence of better explanations needs to be considered as random. The basic principle is the same: The precise data are considered random and thus uncertain, and we need to propagate that uncertainty to the quantities of interest that we compute from the data to draw inferences about the underlying population or process.
+While drawing random samples from a larger population is common (especially in social sciences), it is not the only source of this kind of variability. In many cases where one effectively observes the full population (consider, e.g., a survey in an an organization where almost everybody participated), it still makes sense to think about and model variability, as there are other sources of randomness in data collection. **Measurement** is often difficult and imprecise and subject to error and fluctuations, which in absence of better explanations needs to be considered as random. The basic principle is the same for sampling uncertainty and measurement uncertainty: The precise data are considered random and thus uncertain, and we need to propagate that uncertainty to the quantities of interest that we compute from the data to draw inferences about the underlying population or process.
 
 ## Aleatoric and epistemic uncertainty
 
 We have now seen two ways in which our inferences can be uncertain:
 
--   There is variation not explained by our model but instead assumed to be random. In our example, this is represented by the variability in the normal distribution (measured by the $\sigma$ parameter, i.e., the distribution's standard deviation). Our model is just not powerful enough to reason about why different women have different heights; For this, we would need a better model. This kind of systemic uncertainty in our predictions about any specific outcome is called **aleatoric** uncertainty (*alea* is latin for dice).
+-   There is variation not explained by our model but instead assumed to be random. In our example, this is represented by the variability in the normal distribution (measured by the $\sigma$ parameter, i.e., the distribution's standard deviation). Our model is just not powerful enough to reason about why different women have different heights; For this, we would need a better model. This kind of systemic uncertainty in our predictions about any specific outcome is called **aleatoric** uncertainty (*alea* is Latin for dice).
 
 -   Next to the intrinsic uncertainty of our model, there is uncertainty coming from the limited availability / precision of the data. The sampling uncertainty in the unknown parameters discussed above falls into this category. We call this uncertainty **epistemic** uncertainty. As we have seen, and unlike aleatoric uncertainty, this can be reduced by gathering more data, as our estimates become more and more precise.
 
