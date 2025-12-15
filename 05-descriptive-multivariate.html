@@ -233,12 +233,35 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Case studies</span></a>
+ <span class="menu-text">Statistical modeling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-statistical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-globe-tossing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian inference</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
@@ -319,7 +342,8 @@ window.Quarto = {
 
 <section id="loading-data-and-packages" class="level1">
 <h1>Loading data and packages</h1>
-<p>As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. We begin by loading packages and reading the datasets from parquet files:</p>
+<p>As in the last session, we will continue working with our CO₂ emissions, population, and GDP data. However, instead of analyzing variables in isolation, we will now move to multivariate descriptions and explore how variables relate to each other. Ultimately, many multivariate research designs will be <em>asymmetric</em> in the roles that variables occupy, i.e., typically we want to study variation in one primary variable as a function of other variables. However, we will here start with simple symmetric, bivariate measures used to describe the strength and sign of a statistical association between two variables.</p>
+<p>We begin by loading packages and reading the datasets from parquet files:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -457,7 +481,10 @@ window.Quarto = {
 <li>Create a scatterplot showing the relationship between population and total GDP (GDP per capita × population). What pattern do you observe?</li>
 </ol>
 <ol start="2" type="1">
-<li>Calculate the Pearson and Spearman correlations between population and total GDP. Which is higher and why?</li>
+<li>Calculate the Pearson and Spearman correlations between population and total GDP. Which one is appropriate?</li>
+</ol>
+<ol start="3" type="1">
+<li>Load the <code>gapminder</code> dataset and plot life expectancy against GDP per capita. Describe the relationship. Choose a correlation measure and compute it.</li>
 </ol>
 </section>
 </section>
@@ -542,7 +569,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -554,7 +581,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -615,7 +642,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -628,7 +655,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -644,7 +671,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -655,7 +682,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05-descriptive-multivariate_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -700,7 +727,7 @@ window.Quarto = {
 <section id="exercises-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercises-2">Exercises</h2>
 <ol type="1">
-<li><p>Summarize the distribution of emissions by world region.</p></li>
+<li><p>Summarize the distribution of emissions by world region, as per the <code>countrycode</code> package introduced last session.</p></li>
 <li><p>Visualize the distribution of emissions by world region and by year from 2000 to 2020.</p></li>
 </ol>
 

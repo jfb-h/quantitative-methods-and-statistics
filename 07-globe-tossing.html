@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jakob Hoffmann">
+
+<title>Quantitative Methods and Statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-statistical-models.html">Statistical modeling</a></li><li class="breadcrumb-item"><a href="./07-globe-tossing.html">Bayesian inference</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Quantitative Methods and Statistics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Basics of <code>R</code> programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to <code>R</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-data-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data wrangling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Describing data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-descriptive-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate descriptions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-descriptive-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multivariate descriptions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistical modeling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-statistical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-globe-tossing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Bayesian inference</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a map from Eurostat data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#probabilistic-models" id="toc-probabilistic-models" class="nav-link active" data-scroll-target="#probabilistic-models">Probabilistic models</a>
+  <ul class="collapse">
+  <li><a href="#how-to-learn-from-data" id="toc-how-to-learn-from-data" class="nav-link" data-scroll-target="#how-to-learn-from-data">How to learn from data</a></li>
+  <li><a href="#example-estimating-the-earths-water-cover-by-throwing-a-globe" id="toc-example-estimating-the-earths-water-cover-by-throwing-a-globe" class="nav-link" data-scroll-target="#example-estimating-the-earths-water-cover-by-throwing-a-globe">Example: Estimating the earth’s water cover by throwing a globe</a></li>
+  <li><a href="#bayesian-inference-in-theory" id="toc-bayesian-inference-in-theory" class="nav-link" data-scroll-target="#bayesian-inference-in-theory">Bayesian inference in theory</a>
+  <ul class="collapse">
+  <li><a href="#the-data-model-the-likelihood" id="toc-the-data-model-the-likelihood" class="nav-link" data-scroll-target="#the-data-model-the-likelihood">The data model (the likelihood)</a></li>
+  <li><a href="#modeling-our-intuitions-the-prior" id="toc-modeling-our-intuitions-the-prior" class="nav-link" data-scroll-target="#modeling-our-intuitions-the-prior">Modeling our intuitions (the prior)</a></li>
+  <li><a href="#what-the-data-teach-us-the-posterior" id="toc-what-the-data-teach-us-the-posterior" class="nav-link" data-scroll-target="#what-the-data-teach-us-the-posterior">What the data teach us (the posterior)</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-statistical-models.html">Statistical modeling</a></li><li class="breadcrumb-item"><a href="./07-globe-tossing.html">Bayesian inference</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Quantitative Methods and Statistics</h1>
+<p class="subtitle lead">An applied course using the <code>R</code> programming language</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jakob Hoffmann </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Economic Geography Group, LMU Munich
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="probabilistic-models" class="level1">
+<h1>Probabilistic models</h1>
+<section id="how-to-learn-from-data" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-learn-from-data">How to learn from data</h2>
+<p>There are different competing paradigms for inferring unobserved model quantities, such as parameters, from data. The approach we will discuss here is <em>Bayesian inference</em>, which directly uses the language and formalism of probability to describe uncertainty in unknown quantities of interest. (the alternative is <em>frequentist inference</em>, which has been dominant for almost 100 years). Both approaches have certain advantages and disadvantages, but in my experience, Bayesian inference is often more intuitive in its handling of uncertainty and allows to focus on model construction, which should be the focus of statistical modelling efforts.</p>
+</section>
+<section id="example-estimating-the-earths-water-cover-by-throwing-a-globe" class="level2">
+<h2 class="anchored" data-anchor-id="example-estimating-the-earths-water-cover-by-throwing-a-globe">Example: Estimating the earth’s water cover by throwing a globe</h2>
+<p>In his excellent book Statistical Rethinking, Richard McElreath (2020) describes the following experiment:</p>
+<blockquote class="blockquote">
+<p>We are interested in inferring the share of the earth’s surface that is covered by Water. All we have is a waterball representing a globe which we throw repeatedly, each time recording whether our left thumb (or any other finger of choice) is on land or on water when we catch the ball. Assuming the throws are random, the sequence of observations generated from repeatedly throwing the ball should carry information about the proportion of the ball’s surface that is covered by water.</p>
+</blockquote>
+<p>With this description, we can start building a simple model of the data generating process. Assuming the throws are independent and the probability of landing water or land only depends on the proportion of the surface covered by each, we can specify the result of throw <span class="math inline">\(i\)</span> as coming from a Bernoulli distribution:</p>
+<p><span class="math display">\[ Y_i \sim \textrm{Bernoulli}(\theta) \]</span></p>
+<p>Here, <span class="math inline">\(Y_i\)</span> is a random variable equal to 1 when the throw produces ‘water’, and 0 if it produces ‘land’. The parameter <span class="math inline">\(\theta\)</span> is the underlying probability of observing ‘water’, which we want to learn about by observing how often our throws produce each of the two possible outcomes.</p>
+<p>If we knew <span class="math inline">\(\theta\)</span>, we could simulate the process with the <code>rbinom</code> function (there’s no built-in bernoulli distribution, because it is just a special case of the binomial distribution with <code>size = 1</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>throws <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> theta)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(throws)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>throws
+ 0  1 
+29 71 </code></pre>
+</div>
+</div>
+<p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data.</p>
+</section>
+<section id="bayesian-inference-in-theory" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-inference-in-theory">Bayesian inference in theory</h2>
+<p>In Bayesian inference, our goal is to obtain the <em>posterior distribution</em> of the parameters, given the data. Our two main components in getting it are the <em>prior distribution</em> of parameters (before we have seen the data) and the <em>likelihood</em>, which captures the influence of the data.</p>
+<section id="the-data-model-the-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="the-data-model-the-likelihood">The data model (the likelihood)</h3>
+<p>The likelihood evaluates how likely the observed data would have been under certain parameter configurations: E.g., imagine observing 10 water out of 100 throws for <span class="math inline">\(\theta = 0.7\)</span>. For this model, the likelihood of <em>a single throw</em> the probability mass function of the Bernoulli distribution. The likelihood of multiple throws is the product of the individual likelihoods:</p>
+<p><span class="math display">\[ \textrm{likelihood}(\theta) = \prod_{i=1}^n \textrm{Bernoulli}(X=x_i | \theta) \]</span></p>
+<p>where <span class="math inline">\(\textrm{Bernoulli}(X=x | \theta) = \theta^x (1 - \theta)^{1-x}\)</span>.</p>
+<p>Analogously to how we can simulate data from the distribution with <code>rbinom()</code>, we can use <code>dbinom()</code> to evaluate the distribution function on a set of observations with a specific value for <span class="math inline">\(\theta\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> theta)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3 0.7 0.7 0.3 0.7</code></pre>
+</div>
+</div>
+<p>These are just the probabilities of observing the respective outcome in <code>obs</code> based on a Bernoulli distribution with <span class="math inline">\(\theta = 0.7\)</span>. Their combined likelihood (assuming that they are independent) is their product:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> theta))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03087</code></pre>
+</div>
+</div>
+<p>Based on this, we can see that the above data are more likely to be produced by, e.g., <span class="math inline">\(\theta = 0.6\)</span> than <span class="math inline">\(\theta = 0.2\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.6</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03456</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00512</code></pre>
+</div>
+</div>
+<p>With the likelihood understood as a function of the parameter, we could now, e.g., find the value of <span class="math inline">\(\theta\)</span> which maximizes it (aptly known as <em>maximum likelihood estimation</em>). Instead, we’re going to use it to get the <em>posterior distribution</em> of the parameter to additionally quantify our uncertainty about it. For this, we need an additional ingredient, the <em>prior</em>.</p>
+<section id="exercise" class="level4">
+<h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
+<ol type="1">
+<li>Plot the likelihood for a range of parameter values (remember the <code>seq()</code> function). What does it tell you?</li>
+</ol>
+<ol start="2" type="1">
+<li>Play around with different specifications for both the data and the parameters to get a feeling for how the likelihood behaves.</li>
+</ol>
+</section>
+</section>
+<section id="modeling-our-intuitions-the-prior" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-our-intuitions-the-prior">Modeling our intuitions (the prior)</h3>
+<p>The <em>prior</em> distribution is the distribution of the parameter <em>before</em> seeing the data. If we are ignorant about the problem we’re studying, we can start from a point where we treat each possible value for <span class="math inline">\(\theta\)</span> (i.e., each value in the (0, 1) range) as <em>a priori</em> equally likely. One distribution to encode this for the case discussed here is the <em>beta distribution</em>, which models a random variable taking values in the (0, 1) range. It has two parameters, and we get a flat distribution if we set both of them to 1:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> dbeta,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(<span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">labs</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Theta"</span>, <span class="at">y =</span> <span class="st">"Beta(theta | 1, 1)"</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-globe-tossing_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can confirm that all possible values are equally likely by directly using the <code>dbeta()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbeta</span>(<span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>), <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 1</code></pre>
+</div>
+</div>
+<p>We can also confirm that values <em>outside</em> the possible range get a value of 0:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbeta</span>(<span class="dv">2</span>, <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Specifying a <em>flat</em> prior, like we did above, means that we didn’t know anything about our problem before conducting the analysis. That is often not the case; Sometimes, we know something substantial about the problem at hand, and sometimes we just have a vague knowledge about what would be an implausible outcome. We can use this knowledge to specify better priors, and indeed specifying reasonable priors has a range of benefits. Luckily, we often can rely on software to help us with this, although it is always good to check one’s priors through something called <em>prior predictive checks</em> (more about this later).</p>
+<section id="exercise-1" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-1">Exercise</h4>
+<p>Think about what you know about the water cover of the earth and specify a prior which is more appropriate than the flat one used above. Play around with the parameters of the beta distribution until you find a specification that you agree with by visualizing the result.</p>
+</section>
+</section>
+<section id="what-the-data-teach-us-the-posterior" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-data-teach-us-the-posterior">What the data teach us (the posterior)</h3>
+<p>Having observed a sequence of throws of the globe, we can use the likelihood and the prior to compute the <em>posterior</em> distribution of the parmeters, i.e., the distribution of the parameter given the data. Based on <em>Bayes rule</em>, the posterior distribution of the data given the parameters is proportional to the prior times the likelihood:</p>
+<p><span class="math display">\[
+\textrm{posterior}(\theta) \propto \textrm{likelihood}(\theta) \times \textrm{prior}(\theta)
+\]</span></p>
+<p>In our specific case, we can write out the posterior distribution (up to a constant) based on the specifications above as:</p>
+<p><span class="math display">\[
+p(\theta | y) \propto \prod_{i = 1}^n \textrm{Bernoulli}(y_i | \theta) \times \textrm{Beta}(\theta | 1, 1)
+\]</span></p>
+<p>We can again compute this for specified values of <span class="math inline">\(\theta\)</span> using <code>R</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>lik <span class="ot">&lt;-</span> <span class="fu">prod</span>(<span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> theta))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pri <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>lik <span class="sc">*</span> pri</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03087</code></pre>
+</div>
+</div>
+<p>We can also compute this over a range of values and then visualize the posterior distribution (up to a constant):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">post =</span> <span class="fu">sapply</span>(theta, <span class="at">FUN =</span> <span class="cf">function</span>(x) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prod</span>(<span class="fu">dbinom</span>(obs, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> x)) <span class="sc">*</span> <span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: sapply() computes a function over a range of values;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, the function just computes the product of likelihood and prior.</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(post, <span class="fu">aes</span>(theta, post)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-globe-tossing_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While we have departed from our flat prior distribution, we also see that our handful of data points are not that informative - given these data, many values of the underlying parameter <span class="math inline">\(\theta\)</span> are plausible. On the other hand, even based on very limited data the posterior already tells us that extreme values of <span class="math inline">\(\theta\)</span> are unlikely to have generated the data.</p>
+<p>Note also that what we see above is not actually the full posterior distribution. To turn the above into an actual probability distribution, we would have to compute a normalizing constant, which can actually be very tricky (remember that the posterior is only <em>proportional to</em> the product of likelihood and prior).</p>
+<section id="summarizing-the-posterior-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="summarizing-the-posterior-distribution">Summarizing the posterior distribution</h4>
+<p>For the simple case we have here, it turns out the posterior is given by a <span class="math inline">\(\textrm{Beta}(1 + \#\textrm{Land}, 1 + \#\textrm{Water})\)</span> distribution (replace the 1s with whatever you picked for the prior if you want something else than a flat prior):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> dbeta,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape1 =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape2 =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">stat_function</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> dbeta,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape1 =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape2 =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">geom =</span> <span class="st">"area"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">labs</span>(</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Theta"</span>, <span class="at">y =</span> <span class="st">"Beta(theta | 1, 1)"</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-globe-tossing_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observe how the shape is exactly the same as above but the y scale is different. This is because now the distribution is properly normalized, i.e.&nbsp;the constant which we dismissed before is now accounted for.</p>
+<p>The shaded area represents the probability that <span class="math inline">\(\theta\)</span> is 0.5 or greater. We can compute this based on the <em>cumulative distribution function (CDF)</em>, i.e.&nbsp;the probability that <span class="math inline">\(\theta\)</span> is smaller or equal than a given value. We can compute this with the <code>pbeta()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.34375</code></pre>
+</div>
+</div>
+<p>This would give us the area under the curve <em>until</em> 0.5. But what we want is everything <em>from</em> 0.5 to 1, so we just take <span class="math inline">\(1 - P(\theta &gt; 0.5)\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.65625</code></pre>
+</div>
+</div>
+<p>Using the CDF this way, we can compute probabilities for arbitrary ranges.</p>
+<p>If we instead want to know the values of <span class="math inline">\(\theta\)</span> so that a certain amount of probability is below it, we can use the <em>quantile</em> function, which is implemented by <code>qbeta()</code>. E.g., to get a 95%-interval (i.e., the value range, such that only 2.5% of probability is below it and only 2.5% is above it), we can compute:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2227781 0.8818828</code></pre>
+</div>
+</div>
+<p>This says that based on the observed data there’s a 95% chance that the true proportion of water is between 0.22 and 0.88. If we collected more data, the width of this range would decrease as we gain more evidence.</p>
+<p>The kind of <em>analytical</em> solution for the posterior distribution (which can be derived algebraically) we have just seen is sadly not always available. However, there are many different ways to approximate the posterior distribution <em>numerically</em>, which is often even more convenient than having to manipulate distributions to obtain posterior quantities of interest, like we just did.</p>
+</section>
+<section id="exercise-2" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-2">Exercise</h4>
+<ol type="1">
+<li>Pick different values for the observed data and check how the posterior distribution of <span class="math inline">\(\theta\)</span> changes.</li>
+</ol>
+<ol start="2" type="1">
+<li>Pick a value for theta and simulate 1000 throws of the globe. Compute the posterior distribution and compare it to the real value (make a plot).</li>
+</ol>
+<ol start="2" type="1">
+<li>Compute a 90% interval for the posterior.</li>
+</ol>
+<!-- ## Bayesian inference in practice -->
+<!-- Above, we have seen how to compute the posterior distribution of unobserved model parameters for a simple statistical model as an instrument to learn about characteristics of the DGP. The posterior distribution tells us which parameter values are likely to have generated the data and summarizes the epistemic uncertainty of our inferences based on limited data. -->
+<!-- For the above example, we computed the posterior by hand (up to a constant), as the product of the prior and the likelihood. Luckily, in practice we don't have to go through all the hastle of specifiying the posterior distribution (with or without constant) manually. Instead, we typically use software with nice interfaces for model specification to do this for us. -->
+<!-- One of these software packages is the `R` package `rstanarm`, which is an interface to the `stan` probabilistic programming language. In `rstanarm`, a model similar to the one above could look like this: -->
+<!-- ```{r, warning = FALSE, message = FALSE, results = FALSE} -->
+<!-- library(rstanarm) -->
+<!-- data <- tibble(y = obs) -->
+<!-- fit <- stan_glm(y ~ 1, data = data, family = binomial()) -->
+<!-- ``` -->
+<!-- The `y ~ 1` bit makes use of `R`'s formula syntax for easy specification of models (this is not directly related to the use of the tilde in mathematical probability statements). Here, this says that the distribution of observed variable `y` (which is contained in the provided dataset) depends on a single constant parameter and nothing else. In the future, we can use this syntax to specify the dependence of an outcome variable on possibly many predictors and possibly complex patterns of dependence. -->
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/jfb-h\.github\.io\/quantitative-methods-and-statistics\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jakob Hoffmann">
 
-<title>About – Quantitative Methods and Statistics</title>
+<title>Quantitative Methods and Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -170,35 +171,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Statistical modeling</span></a>
+ <span class="menu-text">Case studies</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./06-statistical-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Model building</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./07-globe-tossing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bayesian inference</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Case studies</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
@@ -212,22 +190,44 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-fundamental-problem-of-causal-inference" id="toc-the-fundamental-problem-of-causal-inference" class="nav-link active" data-scroll-target="#the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</a></li>
+  <li><a href="#estimating-causal-effects-from-experiments" id="toc-estimating-causal-effects-from-experiments" class="nav-link" data-scroll-target="#estimating-causal-effects-from-experiments">Estimating causal effects from experiments</a></li>
+  <li><a href="#estimating-causal-effects-from-observational-studies" id="toc-estimating-causal-effects-from-observational-studies" class="nav-link" data-scroll-target="#estimating-causal-effects-from-observational-studies">Estimating causal effects from observational studies</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Quantitative Methods and Statistics</h1>
+<p class="subtitle lead">An applied course using the <code>R</code> programming language</p>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jakob Hoffmann </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Economic Geography Group, LMU Munich
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -237,9 +237,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>About this site</p>
+<section id="the-fundamental-problem-of-causal-inference" class="level2">
+<h2 class="anchored" data-anchor-id="the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</h2>
+</section>
+<section id="estimating-causal-effects-from-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-causal-effects-from-experiments">Estimating causal effects from experiments</h2>
+</section>
+<section id="estimating-causal-effects-from-observational-studies" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-causal-effects-from-observational-studies">Estimating causal effects from observational studies</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -315,7 +323,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/jfb-h\.github\.io\/quantitative-methods-and-statistics\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

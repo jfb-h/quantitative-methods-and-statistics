@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jakob Hoffmann">
 
-<title>About – Quantitative Methods and Statistics</title>
+<title>Quantitative Methods and Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -212,22 +213,45 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-build-statistical-models" id="toc-why-build-statistical-models" class="nav-link active" data-scroll-target="#why-build-statistical-models">Why build statistical models?</a></li>
+  <li><a href="#modeling-the-data-generating-process" id="toc-modeling-the-data-generating-process" class="nav-link" data-scroll-target="#modeling-the-data-generating-process">Modeling the data-generating process</a></li>
+  <li><a href="#modeling-randomness-and-uncertainty" id="toc-modeling-randomness-and-uncertainty" class="nav-link" data-scroll-target="#modeling-randomness-and-uncertainty">Modeling randomness and uncertainty</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Quantitative Methods and Statistics</h1>
+<p class="subtitle lead">An applied course using the <code>R</code> programming language</p>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jakob Hoffmann </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Economic Geography Group, LMU Munich
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -237,9 +261,68 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>About this site</p>
+<section id="why-build-statistical-models" class="level1">
+<h1>Why build statistical models?</h1>
+<p>Statistics is about <strong>learning from data</strong>, especially data that is incomplete or has other imperfections, such as measurement error (i.e., almost all scientific data). The data themselves are of course not the ultimate goal - they measure (more or less crudely) abstract constructs that play a role in our scientific models of the world, or rather some aspect of it. So while we can directly learn from descriptions of the data, often we use the data to provide evidence for or against our ideas and theories of how the world works, and, vice versa, use models to understand how the data came to be the way they are.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/real-and-theoretical-world.png" class="img-fluid figure-img"></p>
+<figcaption>The big picture of statistical inference (Kass 2011)</figcaption>
+</figure>
+</div>
+<p>Beyond the simple visual and numerical methods for describing data we have seen so far, statistical models can be helpful <strong>tools for description</strong> of complex multivariate data, e.g.&nbsp;by disentangling otherwise difficult to spot trends. However, the simple descriptives also treat only implicitly two important aspects of the scientific process which we ultimately want to make more explicit: causality and uncertainty.</p>
+<p>Implicit or explicit <strong>claims of causality</strong> are an inherent feature of scientific theories (TODO: Why, how?). If applied carefully (and if the stars align), statistical models can be used to test expectations from theory in both controlled (i.e., experimental) and uncontrolled (i.e., observational) settings.</p>
+<p>In the same vein, uncertainty is an inherent feature of all scientific production of knowledge from empirical observation. TODO: why, how? Statistical models will not rid us of these epistemic shades of grey, but they can be used to <strong>quantify and assess uncertainty</strong> so that decisions about how to weigh evidence can be made more explicitly.</p>
+<!-- ## Causality
+
+- causes of effects, effects of causes (Gelman)
+
+- explanation vs. theory
+
+### The fundamental problem of causal inference
+
+### Experimental and observational research designs
+
+## Uncertainty
+
+The scientific production of knowledge from empirical observation is inherently subject to uncertainty.
+
+### Aleatoric uncertainty
+
+### Epistemic uncertainty
+
+-   Describing and summarizing real-world phenomena
+
+-   Predicting real-world phenomena
+
+-   Identifying causal relationships
 
 
+- The scientific goals of using statistics -->
+</section>
+<section id="modeling-the-data-generating-process" class="level1">
+<h1>Modeling the data-generating process</h1>
+<p>Specifying a statistical model of the processes that procuded the observed data, called the <strong>data generating process</strong> (DGP), forces us to be explicit about our assumptions regarding statistical relationships and sources of uncertainty. As such, the process of statistical modeling can establish transparency in a way simple descriptive statistics cannot.</p>
+<p>Statistical models adapt two important characteristics which scientific models also exhibit: abstraction and assumptions.</p>
+<ul>
+<li><p>Abstraction</p></li>
+<li><p>Assumptions</p></li>
+<li><p>Randomness</p></li>
+<li><p>Generative models</p></li>
+<li><p>Theoretical and statistical models</p></li>
+<li><p>DGP comprises theorized process (the <em>signal</em>) <em>and</em> the measurement process</p></li>
+</ul>
+</section>
+<section id="modeling-randomness-and-uncertainty" class="level1">
+<h1>Modeling randomness and uncertainty</h1>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>Kass, R. E. (2011). Statistical Inference: The Big Picture. Statistical Science, 26(1). https://doi.org/10.1214/10-STS337</p>
+<p>Deffner, D., Fedorova, N., Andrews, J., &amp; McElreath, R. (2024). Bridging theory and data: A computational workflow for cultural evolution. Proceedings of the National Academy of Sciences, 121(48), e2322887121. https://doi.org/10.1073/pnas.2322887121</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
