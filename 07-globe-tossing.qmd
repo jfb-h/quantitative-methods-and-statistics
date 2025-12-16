@@ -25,7 +25,7 @@ With this description, we can start building a simple model of the data generati
 
 $$ Y_i \sim \textrm{Bernoulli}(\theta) $$
 
-Here, $Y_i$ is a random variable equal to 1 when the throw produces 'water', and 0 if it produces 'land'. The parameter $\theta$ is the underlying probability of observing 'water', which we want to learn about by observing how often our throws produce each of the two possible outcomes.
+Here, $Y_i$ is a random variable equal to 1 when the throw produces 'water', and 0 if it produces 'land'. The parameter $\theta$ is the underlying probability of observing 'water', which we want to learn about by observing how often our throws produce each of the two possible outcomes. Given our assumptions above, knowing $\theta$ would tell us the share of the Earth's surface covered by water.
 
 If we knew $\theta$, we could simulate the process with the `rbinom` function (there's no built-in bernoulli distribution, because it is just a special case of the binomial distribution with `size = 1`):
 
@@ -35,7 +35,7 @@ throws <- rbinom(n = 100, size = 1, prob = theta)
 table(throws)
 ```
 
-However, we usually don't know the model parameters beforehand and instead have to estimate them from data.
+However, we usually don't know the model parameters beforehand and instead have to estimate them from data. The next section will discuss how to do this.
 
 
 ## Bayesian inference in theory
