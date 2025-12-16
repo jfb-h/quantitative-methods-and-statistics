@@ -286,9 +286,9 @@ window.Quarto = {
   <li><a href="#example-estimating-the-earths-water-cover-by-throwing-a-globe" id="toc-example-estimating-the-earths-water-cover-by-throwing-a-globe" class="nav-link" data-scroll-target="#example-estimating-the-earths-water-cover-by-throwing-a-globe">Example: Estimating the earth’s water cover by throwing a globe</a></li>
   <li><a href="#bayesian-inference-in-theory" id="toc-bayesian-inference-in-theory" class="nav-link" data-scroll-target="#bayesian-inference-in-theory">Bayesian inference in theory</a>
   <ul class="collapse">
-  <li><a href="#the-data-model-the-likelihood" id="toc-the-data-model-the-likelihood" class="nav-link" data-scroll-target="#the-data-model-the-likelihood">The data model (the likelihood)</a></li>
-  <li><a href="#modeling-our-intuitions-the-prior" id="toc-modeling-our-intuitions-the-prior" class="nav-link" data-scroll-target="#modeling-our-intuitions-the-prior">Modeling our intuitions (the prior)</a></li>
-  <li><a href="#what-the-data-teach-us-the-posterior" id="toc-what-the-data-teach-us-the-posterior" class="nav-link" data-scroll-target="#what-the-data-teach-us-the-posterior">What the data teach us (the posterior)</a></li>
+  <li><a href="#what-the-data-teach-us-the-likelihood" id="toc-what-the-data-teach-us-the-likelihood" class="nav-link" data-scroll-target="#what-the-data-teach-us-the-likelihood">What the data teach us (the likelihood)</a></li>
+  <li><a href="#modeling-existing-knowledge-the-prior" id="toc-modeling-existing-knowledge-the-prior" class="nav-link" data-scroll-target="#modeling-existing-knowledge-the-prior">Modeling existing knowledge (the prior)</a></li>
+  <li><a href="#combining-intuition-and-data-the-posterior" id="toc-combining-intuition-and-data-the-posterior" class="nav-link" data-scroll-target="#combining-intuition-and-data-the-posterior">Combining intuition and data (the posterior)</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -351,7 +351,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>throws
  0  1 
-26 74 </code></pre>
+34 66 </code></pre>
 </div>
 </div>
 <p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data. The next section will discuss how to do this.</p>
@@ -359,8 +359,8 @@ window.Quarto = {
 <section id="bayesian-inference-in-theory" class="level2">
 <h2 class="anchored" data-anchor-id="bayesian-inference-in-theory">Bayesian inference in theory</h2>
 <p>In Bayesian inference, our goal is to obtain the <em>posterior distribution</em> of the parameters, given the data. Our two main components in getting it are the <em>prior distribution</em> of parameters (before we have seen the data) and the <em>likelihood</em>, which captures the influence of the data.</p>
-<section id="the-data-model-the-likelihood" class="level3">
-<h3 class="anchored" data-anchor-id="the-data-model-the-likelihood">The data model (the likelihood)</h3>
+<section id="what-the-data-teach-us-the-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-data-teach-us-the-likelihood">What the data teach us (the likelihood)</h3>
 <p>The likelihood evaluates how likely the observed data would have been under certain parameter configurations: E.g., imagine observing 10 water out of 100 throws for <span class="math inline">\(\theta = 0.7\)</span>. For this model, the likelihood of <em>a single throw</em> the probability mass function of the Bernoulli distribution. The likelihood of multiple throws is the product of the individual likelihoods:</p>
 <p><span class="math display">\[ \textrm{likelihood}(\theta) = \prod_{i=1}^n \textrm{Bernoulli}(X=x_i | \theta) \]</span></p>
 <p>where <span class="math inline">\(\textrm{Bernoulli}(X=x | \theta) = \theta^x (1 - \theta)^{1-x}\)</span>.</p>
@@ -402,8 +402,8 @@ window.Quarto = {
 </ol>
 </section>
 </section>
-<section id="modeling-our-intuitions-the-prior" class="level3">
-<h3 class="anchored" data-anchor-id="modeling-our-intuitions-the-prior">Modeling our intuitions (the prior)</h3>
+<section id="modeling-existing-knowledge-the-prior" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-existing-knowledge-the-prior">Modeling existing knowledge (the prior)</h3>
 <p>The <em>prior</em> distribution is the distribution of the parameter <em>before</em> seeing the data. If we are ignorant about the problem we’re studying, we can start from a point where we treat each possible value for <span class="math inline">\(\theta\)</span> (i.e., each value in the (0, 1) range) as <em>a priori</em> equally likely. One distribution to encode this for the case discussed here is the <em>beta distribution</em>, which models a random variable taking values in the (0, 1) range. It has two parameters, and we get a flat distribution if we set both of them to 1:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -443,8 +443,8 @@ window.Quarto = {
 <p>Think about what you know about the water cover of the earth and specify a prior which is more appropriate than the flat one used above. Play around with the parameters of the beta distribution until you find a specification that you agree with by visualizing the result.</p>
 </section>
 </section>
-<section id="what-the-data-teach-us-the-posterior" class="level3">
-<h3 class="anchored" data-anchor-id="what-the-data-teach-us-the-posterior">What the data teach us (the posterior)</h3>
+<section id="combining-intuition-and-data-the-posterior" class="level3">
+<h3 class="anchored" data-anchor-id="combining-intuition-and-data-the-posterior">Combining intuition and data (the posterior)</h3>
 <p>Having observed a sequence of throws of the globe, we can use the likelihood and the prior to compute the <em>posterior</em> distribution of the parmeters, i.e., the distribution of the parameter given the data. Based on <em>Bayes rule</em>, the posterior distribution of the data given the parameters is proportional to the prior times the likelihood:</p>
 <p><span class="math display">\[
 \textrm{posterior}(\theta) \propto \textrm{likelihood}(\theta) \times \textrm{prior}(\theta)
