@@ -339,9 +339,7 @@ window.Quarto = {
 <section id="example-estimating-the-earths-water-cover-by-throwing-a-globe" class="level2">
 <h2 class="anchored" data-anchor-id="example-estimating-the-earths-water-cover-by-throwing-a-globe">Example: Estimating the earth’s water cover by throwing a globe</h2>
 <p>In his excellent book Statistical Rethinking, Richard McElreath (2020) describes the following experiment:</p>
-<blockquote class="blockquote">
 <p>We are interested in inferring the share of the earth’s surface that is covered by Water. All we have is a waterball representing a globe which we throw repeatedly, each time recording whether our left thumb (or any other finger of choice) is on land or on water when we catch the ball. Assuming the throws are random, the sequence of observations generated from repeatedly throwing the ball should carry information about the proportion of the ball’s surface that is covered by water.</p>
-</blockquote>
 <p>With this description, we can start building a simple model of the data generating process. Assuming the throws are independent and the probability of landing water or land only depends on the proportion of the surface covered by each, we can specify the result of throw <span class="math inline">\(i\)</span> as coming from a Bernoulli distribution:</p>
 <p><span class="math display">\[ Y_i \sim \textrm{Bernoulli}(\theta) \]</span></p>
 <p>Here, <span class="math inline">\(Y_i\)</span> is a random variable equal to 1 when the throw produces ‘water’, and 0 if it produces ‘land’. The parameter <span class="math inline">\(\theta\)</span> is the underlying probability of observing ‘water’, which we want to learn about by observing how often our throws produce each of the two possible outcomes. Given our assumptions above, knowing <span class="math inline">\(\theta\)</span> would tell us the share of the Earth’s surface covered by water.</p>
@@ -353,7 +351,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>throws
  0  1 
-25 75 </code></pre>
+26 74 </code></pre>
 </div>
 </div>
 <p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data. The next section will discuss how to do this.</p>
@@ -518,14 +516,14 @@ p(\theta | y) \propto \prod_{i = 1}^n \textrm{Bernoulli}(y_i | \theta) \times \t
 </div>
 </div>
 <p>Observe how the shape is exactly the same as above but the y scale is different. This is because now the distribution is properly normalized, i.e.&nbsp;the constant which we dismissed before is now accounted for.</p>
-<p>The shaded area represents the probability that <span class="math inline">\(\theta\)</span> is 0.5 or greater. We can compute this based on the <em>cumulative distribution function (CDF)</em>, i.e.&nbsp;the probability that <span class="math inline">\(\theta\)</span> is smaller or equal than a given value. We can compute this with the <code>pbeta()</code> function:</p>
+<p>The shaded area represents the probability that <span class="math inline">\(\theta\)</span> is 0.5 or greater. We can compute this based on the <em>cumulative distribution function (CDF)</em>, i.e.&nbsp;the probability that <span class="math inline">\(\theta\)</span> is smaller or equal than a given value. For the Beta distribution at hand, his is achieved with the <code>pbeta()</code> function:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.34375</code></pre>
 </div>
 </div>
-<p>This would give us the area under the curve <em>until</em> 0.5. But what we want is everything <em>from</em> 0.5 to 1, so we just take <span class="math inline">\(1 - P(\theta &lt; 0.5)\)</span>:</p>
+<p>The code above gives us the area under the curve <em>until</em> 0.5. But what we want is everything <em>from</em> 0.5 to 1, so we just take <span class="math inline">\(1 - P(\theta &lt; 0.5)\)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -533,7 +531,7 @@ p(\theta | y) \propto \prod_{i = 1}^n \textrm{Bernoulli}(y_i | \theta) \times \t
 </div>
 </div>
 <p>Using the CDF this way, we can compute probabilities for arbitrary ranges.</p>
-<p>If we instead want to know the values of <span class="math inline">\(\theta\)</span> so that a certain amount of probability is below it, we can use the <em>quantile</em> function, which is implemented by <code>qbeta()</code>. E.g., to get a 95%-interval (i.e., the value range, such that only 2.5% of probability is below it and only 2.5% is above it), we can compute:</p>
+<p>If we instead want to know the values of <span class="math inline">\(\theta\)</span> so that a certain amount of probability is below or above it, we can use the <em>quantile</em> function, which is implemented by <code>qbeta()</code>. E.g., to get a 95%-interval (i.e., the value range, such that only 2.5% of probability is below it and only 2.5% is above it), we can compute:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
