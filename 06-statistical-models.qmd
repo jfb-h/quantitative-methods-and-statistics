@@ -68,17 +68,17 @@ The normal distribution is just one of many parametric families of probability d
 
 Here is an overview of some common distributions and their characteristics:
 
-| Distribution | Data type | Support | Parameters | Pdf / pmf |
-|---------------|---------------|---------------|---------------|---------------|
-| **Normal** | Continuous | $\mathbb{R}$ | $\mu$ (location), $\sigma$ (scale) | $\exp\!\left[-\frac{(x-\mu)^2}{2\sigma^2}\right] / (\sigma\sqrt{2\pi})$ |
-| **Student-t** | Continuous | $\mathbb{R}$ | $\nu$ (df), $\mu$ (location), $\sigma$ (scale) | $\dfrac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\Gamma\!\left(\frac{\nu}{2}\right)\sqrt{\nu\pi}\sigma}\left[1+\dfrac{(x-\mu)^2}{\nu\sigma^2}\right]^{-(\nu+1)/2}$ |
-| **Exponential** | Continuous | $[0,\infty)$ | $\lambda$ (rate) | $\lambda e^{-\lambda x}$ |
-| **Beta** | Continuous | $(0,1)$ | $\mu$ (mean), $\phi$ (precision) | $\dfrac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)}x^{\mu\phi-1}(1-x)^{(1-\mu)\phi-1}$ |
-| **Binomial** | Discrete | $\{0,\dots,n\}$ | $n$ (trials), $\theta$ (success prob) | $\binom{n}{x}\theta^x(1-\theta)^{n-x}$ |
-| **Poisson** | Discrete | $\mathbb{N}_0$ | $\lambda$ (mean) | $\lambda^x e^{-\lambda} / x!$ |
-| **Negative Binomial** | Discrete | $\mathbb{N}_0$ | $\mu$ (mean), $\phi$ (shape/dispersion) | $\dfrac{\Gamma(x+\phi)}{\Gamma(\phi)x!}\left(\dfrac{\phi}{\phi+\mu}\right)^\phi\left(\dfrac{\mu}{\phi+\mu}\right)^{x}$ |
-| **Bernoulli** | Discrete | $\{0,1\}$ | $\theta$ (success prob) | $\theta^x(1-\theta)^{1-x}$ |
-| **Categorical** | Categorical | $\{1,\dots,K\}$ | $\theta_1,\dots,\theta_K$ (category probs) | $\theta_k$ |
+| Distribution | Data type | Support | Parameters |
+|---------------|---------------|---------------|---------------|
+| **Normal** | Continuous | $\mathbb{R} \quad (-\infty, \infty)$ | $\mu$ (location) <br>  $\sigma$ (scale) 
+| **Student-t** | Continuous | $\mathbb{R} \quad (-\infty, \infty)$ | $\nu$ (df) <br> $\mu$ (location) <br> $\sigma$ (scale) 
+| **Exponential** | Continuous | $[0,\infty)$ | $\lambda$ (rate) 
+| **Beta** | Continuous | $(0,1)$ | $\mu$ (mean) <br> $\phi$ (precision) 
+| **Binomial** | Discrete | $\{0,\dots,n\}$ | $n$ (trials) <br> $\theta$ (success prob) 
+| **Poisson** | Discrete | $\mathbb{N}_0 \quad \{0, 1, 2, ...\}$ | $\lambda$ (mean) 
+| **Negative Binomial** | Discrete | $\mathbb{N}_0 \quad \{0, 1, 2, ...\}$ | $\mu$ (mean) <br> $\phi$ (scale) 
+| **Bernoulli** | Categorical | $\{0,1\}$ | $\theta$ (success prob) 
+| **Categorical** | Categorical | $\{1,\dots,K\}$ | $\theta_1,\dots,\theta_K$ (category probs) 
 
 Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probability theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what's going on, and we will pick out what we need as we go along.
 

@@ -202,7 +202,7 @@ The shaded area represents the probability that $\theta$ is 0.5 or greater. We c
 pbeta(0.5, 1 + sum(obs == 1), 1 + sum(obs == 0))
 ```
 
-This would give us the area under the curve _until_ 0.5. But what we want is everything _from_ 0.5 to 1, so we just take $1 - P(\theta > 0.5)$:
+This would give us the area under the curve _until_ 0.5. But what we want is everything _from_ 0.5 to 1, so we just take $1 - P(\theta < 0.5)$:
 
 ```{r}
 1 - pbeta(0.5, 1 + sum(obs == 1), 1 + sum(obs == 0))
