@@ -334,11 +334,11 @@ window.Quarto = {
 <section id="why-build-statistical-models" class="level1">
 <h1>Why build statistical models?</h1>
 <p>So far, we have contented ourselves with describing the data we have. Ultimately, we are however often more interested in the processes underlying the data we see, the so called <em>data generating process (DGP)</em>. The DGP is unobserved and possibly (probably) complex. It comprises the mechanisms we ultimately want to learn about, but also other, unexplained or unmodelled sources of variation, as well as artifacts of our data collection procedures, such as sampling variation and measurement error.</p>
-<p>To understand this process, we need to <em>model</em> the DGP, typically with heavily simplified models. The ulitmate goal here is to disentangle the different sources of variation that induce uncertainty into our data-based claims and inferences. Assessing (i.e., quantifying) this uncertainty is an important step because it tells us how confident we can be about our findings.</p>
+<p>To understand this process, we need to <em>model</em> the DGP, typically with heavily simplified models. The ultimate goal here is to disentangle the different sources of variation that induce uncertainty into our data-based claims and inferences. Assessing (i.e., quantifying) this uncertainty is an important step because it tells us how confident we can be about our findings.</p>
 </section>
 <section id="modeling-and-simulating-variability" class="level1">
 <h1>Modeling and simulating variability</h1>
-<p>Statistical models typically treat parts of the variation in an <em>outcome variable</em> as deterministic (e.g., explained by variation in <em>input/predictor variables</em>) and parts as random (i.e., ‘noise’ or unmodelled variation). To obtain a <em>generative</em> model of our data-generating processs (i.e., one which we can use to generate or simulate data), we need to be also simulate the random parts, for which we need to specify a <em>probability distribution</em> which can reasonably approximate the <em>pattern</em> of randomness in the unmodeled variation.</p>
+<p>Statistical models typically treat parts of the variation in an <em>outcome variable</em> as deterministic (e.g., explained by variation in <em>input/predictor variables</em>) and parts as random (i.e., ‘noise’ or unmodelled variation). To obtain a <em>generative</em> model of our data-generating process (i.e., one which we can use to generate or simulate data), we need to be also simulate the random parts, for which we need to specify a <em>probability distribution</em> which can reasonably approximate the <em>pattern</em> of randomness in the unmodelled variation.</p>
 <p>E.g., given the information that an average woman in Germany is 166cm tall, with a standard deviation of around 7cm, we might model the height measurement of a randomly picked woman as a draw from a <em>normal</em> distribution, one of the most commonly used probability distributions in statistical modeling. This is commonly written as:</p>
 <p><span class="math display">\[ \textrm{height} \sim \textrm{Normal}(\mu = 166, \sigma = 7) \]</span></p>
 <p>The tilde ~ indicates that height is treated as a random variable following the specified distribution. Keep in mind that this is just a model - it might be a good model or a bad model, but there’s no law saying that height need to be normally distributed (although there are technical reasons for the ubiquity of the normal distribution related to the central limit theorem).</p>
@@ -376,20 +376,19 @@ window.Quarto = {
 <p>In this case, we know the exact data generating process, because we made it up ourselves and simulated the data accordingly. While this will of course not be the case in real data analysis, simulating data from a model taken to represent the true, unobserved data generating process is still a good exercise for at least two reasons:</p>
 <ul>
 <li><p>It helps with reasoning about the model and checking its potential deficiencies by assessing the plausibility of simulations.</p></li>
-<li><p>It lets us check how easily and precisely we could recover certain characteristics (such as the mean) from data if we didn’t know the underlying DGP and its characteristscs. This will lead us to <em>statistical inference</em>, which is about learning these characteristics from data.</p></li>
+<li><p>It lets us check how easily and precisely we could recover certain characteristics (such as the mean) from data if we didn’t know the underlying DGP and its characteristics. This will lead us to <em>statistical inference</em>, which is about learning these characteristics from data.</p></li>
 </ul>
 <section id="probability-distributions" class="level2">
 <h2 class="anchored" data-anchor-id="probability-distributions">Probability distributions</h2>
-<p>A probability distribution exhaustively distributes a unitless quantity (‘probability’) that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. We could do this by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behaviour, such as the evenness or concentration of the generated values.</p>
+<p>A probability distribution exhaustively distributes a unitless quantity (‘probability’) that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. We could do this by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behavior, such as the evenness or concentration of the generated values.</p>
 <p>The normal distribution is just one of many parametric families of probability distributions that are used in statistical models. Distributions are usefully distinguished by whether they model a categorical, discrete, or continuous random variable, whether there are constraints on their <em>support</em> (the range of values with non-zero probability under the distribution), and their shape (e.g., whether they have ‘fat tails’, or are symmetric or multimodal).</p>
 <p>Here is an overview of some common distributions and their characteristics:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -397,76 +396,66 @@ window.Quarto = {
 <th>Data type</th>
 <th>Support</th>
 <th>Parameters</th>
-<th>Pdf / pmf</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>Normal</strong></td>
 <td>Continuous</td>
-<td><span class="math inline">\(\mathbb{R}\)</span></td>
-<td><span class="math inline">\(\mu\)</span> (location), <span class="math inline">\(\sigma\)</span> (scale)</td>
-<td><span class="math inline">\(\exp\!\left[-\frac{(x-\mu)^2}{2\sigma^2}\right] / (\sigma\sqrt{2\pi})\)</span></td>
+<td><span class="math inline">\(\mathbb{R} \quad (-\infty, \infty)\)</span></td>
+<td><span class="math inline">\(\mu\)</span> (location) <br> <span class="math inline">\(\sigma\)</span> (scale)</td>
 </tr>
 <tr class="even">
 <td><strong>Student-t</strong></td>
 <td>Continuous</td>
-<td><span class="math inline">\(\mathbb{R}\)</span></td>
-<td><span class="math inline">\(\nu\)</span> (df), <span class="math inline">\(\mu\)</span> (location), <span class="math inline">\(\sigma\)</span> (scale)</td>
-<td><span class="math inline">\(\dfrac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\Gamma\!\left(\frac{\nu}{2}\right)\sqrt{\nu\pi}\sigma}\left[1+\dfrac{(x-\mu)^2}{\nu\sigma^2}\right]^{-(\nu+1)/2}\)</span></td>
+<td><span class="math inline">\(\mathbb{R} \quad (-\infty, \infty)\)</span></td>
+<td><span class="math inline">\(\nu\)</span> (df) <br> <span class="math inline">\(\mu\)</span> (location) <br> <span class="math inline">\(\sigma\)</span> (scale)</td>
 </tr>
 <tr class="odd">
 <td><strong>Exponential</strong></td>
 <td>Continuous</td>
 <td><span class="math inline">\([0,\infty)\)</span></td>
 <td><span class="math inline">\(\lambda\)</span> (rate)</td>
-<td><span class="math inline">\(\lambda e^{-\lambda x}\)</span></td>
 </tr>
 <tr class="even">
 <td><strong>Beta</strong></td>
 <td>Continuous</td>
 <td><span class="math inline">\((0,1)\)</span></td>
-<td><span class="math inline">\(\mu\)</span> (mean), <span class="math inline">\(\phi\)</span> (precision)</td>
-<td><span class="math inline">\(\dfrac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)}x^{\mu\phi-1}(1-x)^{(1-\mu)\phi-1}\)</span></td>
+<td><span class="math inline">\(\mu\)</span> (mean) <br> <span class="math inline">\(\phi\)</span> (precision)</td>
 </tr>
 <tr class="odd">
 <td><strong>Binomial</strong></td>
 <td>Discrete</td>
 <td><span class="math inline">\(\{0,\dots,n\}\)</span></td>
-<td><span class="math inline">\(n\)</span> (trials), <span class="math inline">\(\theta\)</span> (success prob)</td>
-<td><span class="math inline">\(\binom{n}{x}\theta^x(1-\theta)^{n-x}\)</span></td>
+<td><span class="math inline">\(n\)</span> (trials) <br> <span class="math inline">\(\theta\)</span> (success prob)</td>
 </tr>
 <tr class="even">
 <td><strong>Poisson</strong></td>
 <td>Discrete</td>
-<td><span class="math inline">\(\mathbb{N}_0\)</span></td>
+<td><span class="math inline">\(\mathbb{N}_0 \quad \{0, 1, 2, ...\}\)</span></td>
 <td><span class="math inline">\(\lambda\)</span> (mean)</td>
-<td><span class="math inline">\(\lambda^x e^{-\lambda} / x!\)</span></td>
 </tr>
 <tr class="odd">
 <td><strong>Negative Binomial</strong></td>
 <td>Discrete</td>
-<td><span class="math inline">\(\mathbb{N}_0\)</span></td>
-<td><span class="math inline">\(\mu\)</span> (mean), <span class="math inline">\(\phi\)</span> (shape/dispersion)</td>
-<td><span class="math inline">\(\dfrac{\Gamma(x+\phi)}{\Gamma(\phi)x!}\left(\dfrac{\phi}{\phi+\mu}\right)^\phi\left(\dfrac{\mu}{\phi+\mu}\right)^{x}\)</span></td>
+<td><span class="math inline">\(\mathbb{N}_0 \quad \{0, 1, 2, ...\}\)</span></td>
+<td><span class="math inline">\(\mu\)</span> (mean) <br> <span class="math inline">\(\phi\)</span> (scale)</td>
 </tr>
 <tr class="even">
 <td><strong>Bernoulli</strong></td>
-<td>Discrete</td>
+<td>Categorical</td>
 <td><span class="math inline">\(\{0,1\}\)</span></td>
 <td><span class="math inline">\(\theta\)</span> (success prob)</td>
-<td><span class="math inline">\(\theta^x(1-\theta)^{1-x}\)</span></td>
 </tr>
 <tr class="odd">
 <td><strong>Categorical</strong></td>
 <td>Categorical</td>
 <td><span class="math inline">\(\{1,\dots,K\}\)</span></td>
 <td><span class="math inline">\(\theta_1,\dots,\theta_K\)</span> (category probs)</td>
-<td><span class="math inline">\(\theta_k\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probabilty theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what’s going on, and we will pick out what we need as we go along.</p>
+<p>Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probability theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what’s going on, and we will pick out what we need as we go along.</p>
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
@@ -488,11 +477,11 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 166.8796</code></pre>
+<pre><code>[1] 165.9938</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(simulations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.288607</code></pre>
+<pre><code>[1] 7.389953</code></pre>
 </div>
 </div>
 <p>We can see that while the observed mean and SD are close to the values of 166 and 7 specified when we simulated the data, the are not exactly the same due to the randomness inherent to the DGP.</p>
@@ -508,7 +497,7 @@ window.Quarto = {
 <pre><code>[1] 166.0068</code></pre>
 </div>
 </div>
-<p>The ‘true’ mean in this population is 166.0068. Now, draw 50 people randomly from that population (without replacement, i.e., we can only draw everybode once):</p>
+<p>The ‘true’ mean in this population is 166.0068. Now, draw 50 people randomly from that population (without replacement, i.e., we can only draw everybody once):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(pop, <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -578,7 +567,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="aleatoric-and-epistemic-uncertainty">Aleatoric and epistemic uncertainty</h2>
 <p>We have now seen two ways in which our inferences can be uncertain:</p>
 <ul>
-<li><p>There is variation not explained by our model but instead assumed to be random. In our example, this is represented by the variability in the normal distribution (measured by the <span class="math inline">\(\sigma\)</span> parameter, i.e., the distribution’s standard deviation). Our model is just not powerful enough to reason about why different women have different heights; For this, we would need a better model. This kind of systemic uncertainty in our predictions about any specific outcome is called <strong>aleatoric</strong> uncertainty (<em>alea</em> is latin for dice).</p></li>
+<li><p>There is variation not explained by our model but instead assumed to be random. In our example, this is represented by the variability in the normal distribution (measured by the <span class="math inline">\(\sigma\)</span> parameter, i.e., the distribution’s standard deviation). Our model is just not powerful enough to reason about why different women have different heights; For this, we would need a better model. This kind of systemic uncertainty in our predictions about any specific outcome is called <strong>aleatoric</strong> uncertainty (<em>alea</em> is Latin for dice).</p></li>
 <li><p>Next to the intrinsic uncertainty of our model, there is uncertainty coming from the limited availability / precision of the data. The sampling uncertainty in the unknown parameters discussed above falls into this category. We call this uncertainty <strong>epistemic</strong> uncertainty. As we have seen, and unlike aleatoric uncertainty, this can be reduced by gathering more data, as our estimates become more and more precise.</p></li>
 </ul>
 </section>

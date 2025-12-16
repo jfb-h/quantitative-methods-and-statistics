@@ -344,7 +344,7 @@ window.Quarto = {
 </blockquote>
 <p>With this description, we can start building a simple model of the data generating process. Assuming the throws are independent and the probability of landing water or land only depends on the proportion of the surface covered by each, we can specify the result of throw <span class="math inline">\(i\)</span> as coming from a Bernoulli distribution:</p>
 <p><span class="math display">\[ Y_i \sim \textrm{Bernoulli}(\theta) \]</span></p>
-<p>Here, <span class="math inline">\(Y_i\)</span> is a random variable equal to 1 when the throw produces ‘water’, and 0 if it produces ‘land’. The parameter <span class="math inline">\(\theta\)</span> is the underlying probability of observing ‘water’, which we want to learn about by observing how often our throws produce each of the two possible outcomes.</p>
+<p>Here, <span class="math inline">\(Y_i\)</span> is a random variable equal to 1 when the throw produces ‘water’, and 0 if it produces ‘land’. The parameter <span class="math inline">\(\theta\)</span> is the underlying probability of observing ‘water’, which we want to learn about by observing how often our throws produce each of the two possible outcomes. Given our assumptions above, knowing <span class="math inline">\(\theta\)</span> would tell us the share of the Earth’s surface covered by water.</p>
 <p>If we knew <span class="math inline">\(\theta\)</span>, we could simulate the process with the <code>rbinom</code> function (there’s no built-in bernoulli distribution, because it is just a special case of the binomial distribution with <code>size = 1</code>):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
@@ -353,10 +353,10 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>throws
  0  1 
-29 71 </code></pre>
+30 70 </code></pre>
 </div>
 </div>
-<p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data.</p>
+<p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data. The next section will discuss how to do this.</p>
 </section>
 <section id="bayesian-inference-in-theory" class="level2">
 <h2 class="anchored" data-anchor-id="bayesian-inference-in-theory">Bayesian inference in theory</h2>
