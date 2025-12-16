@@ -353,7 +353,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>throws
  0  1 
-30 70 </code></pre>
+28 72 </code></pre>
 </div>
 </div>
 <p>However, we usually don’t know the model parameters beforehand and instead have to estimate them from data. The next section will discuss how to do this.</p>
@@ -525,7 +525,7 @@ p(\theta | y) \propto \prod_{i = 1}^n \textrm{Bernoulli}(y_i | \theta) \times \t
 <pre><code>[1] 0.34375</code></pre>
 </div>
 </div>
-<p>This would give us the area under the curve <em>until</em> 0.5. But what we want is everything <em>from</em> 0.5 to 1, so we just take <span class="math inline">\(1 - P(\theta &gt; 0.5)\)</span>:</p>
+<p>This would give us the area under the curve <em>until</em> 0.5. But what we want is everything <em>from</em> 0.5 to 1, so we just take <span class="math inline">\(1 - P(\theta &lt; 0.5)\)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.5</span>, <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">1</span>), <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sum</span>(obs <span class="sc">==</span> <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
