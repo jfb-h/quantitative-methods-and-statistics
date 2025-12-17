@@ -13,13 +13,13 @@ format:
 
 ## How to learn from data
 
-There are different competing paradigms for inferring unobserved model quantities, such as parameters, from data. The approach we will discuss here is _Bayesian inference_, which directly uses the language and formalism of probability to describe uncertainty in unknown quantities of interest. (the alternative is _frequentist inference_, which has been dominant for almost 100 years). Both approaches have certain advantages and disadvantages, but in my experience, Bayesian inference is often more intuitive in its handling of uncertainty and allows to focus on model construction, which should be the focus of statistical modelling efforts.
+There are different competing paradigms for inferring unobserved model quantities, such as parameters, from data. The approach we will discuss here is _Bayesian inference_, which directly uses the language and formalism of probability to describe uncertainty in unknown quantities of interest. (the alternative is _frequentist inference_, which has been dominant for almost 100 years). Both approaches have certain advantages and disadvantages, but in my experience, Bayesian inference is often more intuitive and practical in its handling of uncertainty and allows researchers to focus on model construction instead of having to deal with robust estimators and the like.
 
 ## Example: Estimating the earth's water cover by throwing a globe
 
 In his excellent book Statistical Rethinking, Richard McElreath (2020) describes the following experiment:
 
-> We are interested in inferring the share of the earth's surface that is covered by Water. All we have is a waterball representing a globe which we throw repeatedly, each time recording whether our left thumb (or any other finger of choice) is on land or on water when we catch the ball. Assuming the throws are random, the sequence of observations generated from repeatedly throwing the ball should carry information about the proportion of the ball's surface that is covered by water.
+We are interested in inferring the share of the earth's surface that is covered by Water. All we have is a waterball representing a globe which we throw repeatedly, each time recording whether our left thumb (or any other finger of choice) is on land or on water when we catch the ball. Assuming the throws are random, the sequence of observations generated from repeatedly throwing the ball should carry information about the proportion of the ball's surface that is covered by water.
 
 With this description, we can start building a simple model of the data generating process. Assuming the throws are independent and the probability of landing water or land only depends on the proportion of the surface covered by each, we can specify the result of throw $i$ as coming from a Bernoulli distribution:
 
@@ -42,7 +42,7 @@ However, we usually don't know the model parameters beforehand and instead have 
 
 In Bayesian inference, our goal is to obtain the _posterior distribution_ of the parameters, given the data. Our two main components in getting it are the _prior distribution_ of parameters (before we have seen the data) and the _likelihood_, which captures the influence of the data. 
 
-### The data model (the likelihood)
+### What the data teach us (the likelihood)
 
 The likelihood evaluates how likely the observed data would have been under certain parameter configurations: E.g., imagine observing 10 water out of 100 throws for $\theta = 0.7$. For this model, the likelihood of _a single throw_ the probability mass function of the Bernoulli distribution. The likelihood of multiple throws is the product of the individual likelihoods:
 
@@ -88,7 +88,7 @@ With the likelihood understood as a function of the parameter, we could now, e.g
 ```
 
 
-### Modeling our intuitions (the prior)
+### Modeling existing knowledge (the prior)
 
 The _prior_ distribution is the distribution of the parameter _before_ seeing the data. If we are ignorant about the problem we're studying, we can start from a point where we treat each possible value for $\theta$ (i.e., each value in the (0, 1) range) as _a priori_ equally likely. One distribution to encode this for the case discussed here is the _beta distribution_, which models a random variable taking values in the (0, 1) range. It has two parameters, and we get a flat distribution if we set both of them to 1:
 
@@ -126,7 +126,7 @@ Think about what you know about the water cover of the earth and specify a prior
 
 ```
 
-### What the data teach us (the posterior)
+### Combining intuition and data (the posterior)
 
 Having observed a sequence of throws of the globe, we can use the likelihood and the prior to compute the _posterior_ distribution of the parmeters, i.e., the distribution of the parameter given the data. Based on _Bayes rule_, the posterior distribution of the data given the parameters is proportional to the prior times the likelihood:
 
@@ -196,13 +196,13 @@ ggplot() +
 
 Observe how the shape is exactly the same as above but the y scale is different. This is because now the distribution is properly normalized, i.e. the constant which we dismissed before is now accounted for.
 
-The shaded area represents the probability that $\theta$ is 0.5 or greater. We can compute this based on the _cumulative distribution function (CDF)_, i.e. the probability that $\theta$ is smaller or equal than a given value. We can compute this with the `pbeta()` function:
+The shaded area represents the probability that $\theta$ is 0.5 or greater. We can compute this based on the _cumulative distribution function (CDF)_, i.e. the probability that $\theta$ is smaller or equal than a given value. For the Beta distribution at hand, his is achieved with the `pbeta()` function:
 
 ```{r}
 pbeta(0.5, 1 + sum(obs == 1), 1 + sum(obs == 0))
 ```
 
-This would give us the area under the curve _until_ 0.5. But what we want is everything _from_ 0.5 to 1, so we just take $1 - P(\theta < 0.5)$:
+The code above gives us the area under the curve _until_ 0.5. But what we want is everything _from_ 0.5 to 1, so we just take $1 - P(\theta < 0.5)$:
 
 ```{r}
 1 - pbeta(0.5, 1 + sum(obs == 1), 1 + sum(obs == 0))
@@ -210,7 +210,7 @@ This would give us the area under the curve _until_ 0.5. But what we want is eve
 
 Using the CDF this way, we can compute probabilities for arbitrary ranges.
 
-If we instead want to know the values of $\theta$ so that a certain amount of probability is below it, we can use the _quantile_ function, which is implemented by `qbeta()`. E.g., to get a 95%-interval (i.e., the value range, such that only 2.5% of probability is below it and only 2.5% is above it), we can compute:
+If we instead want to know the values of $\theta$ so that a certain amount of probability is below or above it, we can use the _quantile_ function, which is implemented by `qbeta()`. E.g., to get a 95%-interval (i.e., the value range, such that only 2.5% of probability is below it and only 2.5% is above it), we can compute:
 
 ```{r}
 qbeta(c(0.025, 0.975), 1 + sum(obs == 1), 1 + sum(obs == 0))

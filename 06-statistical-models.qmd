@@ -17,21 +17,21 @@ To understand this process, we need to *model* the DGP, typically with heavily s
 
 # Modeling and simulating variability
 
-Statistical models typically treat parts of the variation in an *outcome variable* as deterministic (e.g., explained by variation in *input/predictor variables*) and parts as random (i.e., 'noise' or unmodelled variation). To obtain a *generative* model of our data-generating process (i.e., one which we can use to generate or simulate data), we need to be also simulate the random parts, for which we need to specify a *probability distribution* which can reasonably approximate the *pattern* of randomness in the unmodelled variation.
+Statistical models typically treat parts of the variation in an *outcome variable* as deterministic (e.g., explained by variation in *input/predictor variables*) and parts as random (i.e., 'noise' or unmodelled variation). To obtain a *generative* model of our data-generating process (i.e., one which we can use to generate or simulate data), we need to specify a *probability distribution* which can reasonably approximate the *pattern* of randomness in the unmodelled variation.
 
 E.g., given the information that an average woman in Germany is 166cm tall, with a standard deviation of around 7cm, we might model the height measurement of a randomly picked woman as a draw from a *normal* distribution, one of the most commonly used probability distributions in statistical modeling. This is commonly written as:
 
 $$ \textrm{height} \sim \textrm{Normal}(\mu = 166, \sigma = 7) $$
 
-The tilde \~ indicates that height is treated as a random variable following the specified distribution. Keep in mind that this is just a model - it might be a good model or a bad model, but there's no law saying that height need to be normally distributed (although there are technical reasons for the ubiquity of the normal distribution related to the central limit theorem).
+The tilde \~ indicates that height is treated as a random variable following the specified distribution. Keep in mind that this is just a model - it might be a good model or a bad model, but there's no law saying that heights need to be normally distributed (although there are mathematical reasons for the ubiquity of the normal distribution related to the central limit theorem).
 
-In a programming language like `R`, built-in *random number generators* allow us to simulate observations according to this model (i.e., to draw numbers from the corresponding normal distribution). We achieve this with the `rnorm()`, drawing 100 random values with the corresponding mean and standard deviation parameters:
+In a programming language like `R`, built-in *random number generators* allow us to simulate observations according to this model (i.e., to draw numbers from the corresponding normal distribution). We achieve this with the `rnorm()` function, drawing 100 random values with the corresponding mean and standard deviation parameters:
 
 ```{r}
 simulations <- rnorm(n = 100, mean = 166, sd = 7)
 ```
 
-We can plot the density histogram of the 100 simulated women together with the probability density function of underlying normal distribution:
+We can plot the density histogram of the 100 simulated women together with the probability density function of the underlying normal distribution:
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -58,13 +58,13 @@ In this case, we know the exact data generating process, because we made it up o
 
 -   It helps with reasoning about the model and checking its potential deficiencies by assessing the plausibility of simulations.
 
--   It lets us check how easily and precisely we could recover certain characteristics (such as the mean) from data if we didn't know the underlying DGP and its characteristics. This will lead us to *statistical inference*, which is about learning these characteristics from data.
+-   It lets us check how easily and precisely we could recover certain properties (such as the model parameters) from data if we didn't know the exact DGP. This will lead us to *statistical inference*, which is the process of learning underlying characteristics of the DGP from data.
 
 ## Probability distributions
 
-A probability distribution exhaustively distributes a unitless quantity ('probability') that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. We could do this by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behavior, such as the evenness or concentration of the generated values.
+A probability distribution exhaustively distributes a unitless quantity ('probability') that is normalized to an amount of 1 across a set of outcomes of a process which we regard as random. The quantity allocated to a specific outcome is taken to represent how likely that specific outcome is to occur. We could construct distributions by hand, but more typical is the use of a mathematical rule for distributing probability, such as encoded in the normal distribution used above. These rules typically have parameters which influence the distributional behavior, such as the symmetry or spread of the probability assigned to all possible events.
 
-The normal distribution is just one of many parametric families of probability distributions that are used in statistical models. Distributions are usefully distinguished by whether they model a categorical, discrete, or continuous random variable, whether there are constraints on their *support* (the range of values with non-zero probability under the distribution), and their shape (e.g., whether they have 'fat tails', or are symmetric or multimodal).
+The normal distribution is just one of many parametric families of probability distributions that are used in statistical models. Distributions are usefully distinguished by whether they model categorical, discrete, or continuous (or even vector-valued) random variables, whether there are constraints on their *support* (the range of values with non-zero probability under the distribution), or their shape (e.g., whether they have 'fat tails', or are symmetric or multimodal).
 
 Here is an overview of some common distributions and their characteristics:
 
@@ -79,6 +79,15 @@ Here is an overview of some common distributions and their characteristics:
 | **Negative Binomial** | Discrete | $\mathbb{N}_0 \quad \{0, 1, 2, ...\}$ | $\mu$ (mean) <br> $\phi$ (scale) 
 | **Bernoulli** | Categorical | $\{0,1\}$ | $\theta$ (success prob) 
 | **Categorical** | Categorical | $\{1,\dots,K\}$ | $\theta_1,\dots,\theta_K$ (category probs) 
+
+Equipped with a specific mathematical rule representing a distribution family (such as the normal distribution), we (or rather `R`) can do many useful things with it, for example:
+
+- Generate random values (i.e., _sampling_) from the distribution 
+
+- Compute the probability of specific events (e.g., the event that a randomly drawn woman is taller than 180cm)
+
+- Compute quantiles of the distribution (e.g., the height so that there's a 50% chance that a random person is taller)
+
 
 Probability theory is an incredibly rich but also notoriously tricky topic for study. Given the applied scope of this class, we will not delve too deep, as even only basic probability theory can easily fill a full semester. Nevertheless, much can already be achieved with only a rudimentary and more intuitive than technical understanding of what's going on, and we will pick out what we need as we go along.
 
