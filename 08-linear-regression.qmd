@@ -9,30 +9,115 @@ format:
     toc: true
 ---
 
-# Simple linear regression
+# Modeling statistical relationships
 
-## Conditional modeling
+In the last sessions, we have seen how to use probability to both describe randomness in the data generating process we ultimately care about _and_ for statistical inference about unknown quantities (i.e., parameters) in the model.
+These are the most basic bulding blocks of statistical modeling. However, so far the models we have looked at were not particularly interesting.
 
-## The model and its parameters
+Just as with descriptive statistics, statistical modeling starts to shine once we look at multiple variables and their relationships with each other.
+Typically, variables play different roles in a statistical model: Often there is a primary variable of interest, the variation of which we want to understand.
+This is called the **outcome** or dependent variable.
+The purpose of the models we build is then to describe how the outcome varies with respect to one or more **predictors** or independent variables.
+With this setup, we focus our attention on modelling the DGP of the outcome while the predictor variables are typically taken for granted and not modeled explicitly.
 
-## Inference
+
+# Linear regression
+
+The probably most widely used model of a statistical relationship is _linear regression_, which models an outcome $y$ as a function of a predictor $x$.
+As before, we don't presume to fully understand the variation in the outcome $y$ and thus model it as random. 
+The most common choice is the normal distribution (which we have seen before):
+
+$$
+y \sim \textrm{Normal}(\mu, \sigma)
+$$
+
+This time, however, we treat $\mu$ (the mean of the distribution) not just as a parameter to be set or estimated, but as a function of a predictor $x$.
+The simplest functional form of the relationship is just a line:
+
+$$
+\mu = \alpha + x \beta
+$$
+
+Instead of just two parameters, this model now has three:
+The line parameters $\alpha$ (the _intercept_) and $\beta$ (the _slope_), which together determine the mean of the outcome $y$, conditional on $x$x), and the standard deviation $\sigma$, which determines the amount of random variation around the mean.
+
+## Simulating linear regression
+
+As before, this is a _generative_ model of a _data generating process_ and so the best way to see it in action is to simulate data from it.
+To do so, we need to set values for the thee parameters and for the predictor $x$, which, remember, we assume to be given:
+
+```{r}
+# The model parameters
+alpha <- 2
+beta <- 1
+sigma <- 0.5
+
+# how many data points to simulate
+n <- 100
+
+# The predictors values for each of the n data points
+x <- seq(0, 4, length.out = n)
+```
+
+With these values, we can simulate a $y_i$ for each of the $n$ predictor values $x_i$:
+
+
+```{r}
+mu <- alpha + x * beta
+y = rnorm(n, mean = mu, sd = sigma)
+```
+
+Let's plot these simulated data alongside the line we just specified to get a better sense of what just happened:
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+
+ggplot(tibble(x, y), aes(x, y)) +
+  geom_point() +
+  geom_abline(
+    intercept = alpha,
+    slope = beta,
+    color = "tomato"
+  )
+```
+
+The red line represents the mean of $y$ for any given $x$, called the _regression line_ or curve.
+We see that with the chosen parameter values, x is quite informative about $y$, but not perfectly so:
+The data are scattered around the line, with the amount of scatter being determined by $\sigma$. 
+
+### Exercise
+
+1. Play around with different parameter values for $\alpha$, $\beta$, and $\sigma$ to get a feeling for how the model works.
+
+```{r}
+
+```
+
+2. Set $\beta$ and $\sigma$ to zero and think about what they imply, respectively.
+
+```{r}
+
+```
 
 ## Predictions
+
+## Inference
 
 ## Model fit
 
 ## Numerical and categorical predictors
 
 
-# Multiple linear regression
-
-## One binary and one numerical predictor
-
-## Two numerical predictors
-
-## More than two predictors
-
-## Interaction effects
+<!-- # Multiple linear regression -->
+<!---->
+<!-- ## One binary and one numerical predictor -->
+<!---->
+<!-- ## Two numerical predictors -->
+<!---->
+<!-- ## More than two predictors -->
+<!---->
+<!-- ## Interaction effects -->
 
 
 
