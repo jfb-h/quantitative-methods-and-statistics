@@ -43,17 +43,19 @@ The line parameters $\alpha$ (the _intercept_) and $\beta$ (the _slope_), which 
 
 ## Simulating linear regression
 
-As before, this is a _generative_ model of a _data generating process_ and so the best way to see it in action is to simulate data from it.
+As before, this is a _generative_ model of a _data generating process_ and a good way to see it in action is to simulate data from it.
 To do so, we need to set values for the thee parameters and for the predictor $x$, which, remember, we assume to be given:
 
 ```{r}
+set.seed(1234)
+
 # The model parameters
 alpha <- 2
 beta <- 1
-sigma <- 0.5
+sigma <- 0.8
 
 # how many data points to simulate
-n <- 100
+n <- 50
 
 # The predictors values for each of the n data points
 x <- seq(0, 4, length.out = n)
@@ -64,16 +66,18 @@ With these values, we can simulate a $y_i$ for each of the $n$ predictor values 
 
 ```{r}
 mu <- alpha + x * beta
-y = rnorm(n, mean = mu, sd = sigma)
+y <- rnorm(n, mean = mu, sd = sigma)
 ```
 
-Let's plot these simulated data alongside the line we just specified to get a better sense of what just happened:
+Let's plot these simulated data alongside the line we just specified to get a better sense of what this did:
 
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 
-ggplot(tibble(x, y), aes(x, y)) +
+dat <- tibble(x, y)
+
+ggplot(dat, aes(x, y)) +
   geom_point() +
   geom_abline(
     intercept = alpha,
@@ -83,12 +87,13 @@ ggplot(tibble(x, y), aes(x, y)) +
 ```
 
 The red line represents the mean of $y$ for any given $x$, called the _regression line_ or curve.
-We see that with the chosen parameter values, x is quite informative about $y$, but not perfectly so:
-The data are scattered around the line, with the amount of scatter being determined by $\sigma$. 
+It here corresponds to the parameter values of $\alpha = 2$ and $\beta = 1$ that we specified above.
+The data then randomly deviate around this line, with the typical amount of deviation determined by $\sigma$.
 
-### Exercise
 
-1. Play around with different parameter values for $\alpha$, $\beta$, and $\sigma$ to get a feeling for how the model works.
+### Exercises
+
+1. Play around with different parameter values for $\alpha$, $\beta$, and $\sigma$ and simulate corresponding data to get a feeling for how the model works.
 
 ```{r}
 
@@ -100,24 +105,120 @@ The data are scattered around the line, with the amount of scatter being determi
 
 ```
 
-## Predictions
+## Inferring parameters from data
 
-## Inference
+The linear regression model as stated above describes a specific kind of DGP.
+Simulation, as we just attempted ourselves, is to take this literally and generate data from the model, with parameters fixed to predetermined values.
+As discussed in the last session, in statistics we are typically interested in the _inverse problem_:
+We want to go backwards compared to simulation, inferring parameters that are treated as unknown from data that is treated as given.
 
-## Model fit
+Last session, we discussed Bayesian inference as one very general way to achieve this by computing the _posterior distribution_ which summarizes the uncertainty over parameters given the data.
+For the simple coinflip / globe throwing model discussed before, there is a simple analytical solution.
+As models get more complex, such analytical solutions will not generally be available, but today there is great software to obtain numerical approximations to the posterior distribution.
+One such piece of software is the probabilistic programming language `Stan`, which has multiple `R` interfaces, such as the `rstanarm` package.
+We can use this to fit the simple linear regression model to the data we simulated above to see whether we can recover the parameters we originally set:
 
-## Numerical and categorical predictors
+```{r, warning = FALSE, message = FALSE }
+library(rstanarm)
+
+fit <- stan_glm(y ~ x, data = dat, refresh = 0)
+```
+
+The `stan_glm()` function can already fit a broad range of different models, but by default it will use the normally distributed outcome model outlined above.
+It makes use of `R`s _formula_ notation using the tilde operator (the `y ~ x`), which means that variable `y` from the specified data frame is modeled as a function of variable `x`.
+
+If we just print out the result, we get a summary of the fit and the parameter estimates:
+
+```{r}
+fit
+```
+
+Here, the median and MAD columns tell us the namesake summaries of the posterior distribution of the three parameters:
+The intercept ($\alpha$), the coefficient $\beta$ for the `x` predictor, and the residual standard deviation $\sigma$.
+The posterior median and MAD can be interpreted as a best guess and a summary of the estimation uncertainty, respectively.
+If we want a visualization of the posterior distribution like we saw in the last session, we can use the `bayesplot` package:
+
+```{r, fig.height = 3}
+bayesplot::mcmc_dens(fit)
+```
+
+Typically, you will see more compact numerical or visual summaries, though. A good rule of thumb based on the estimates returned by the fitting procedure is to expect the true parameter value to be around the posterior median plus/minus twice the MAD.
+For the $\beta$ coefficient, e.g., this tells us that the true value is likely between 0.8 and 1.2, which in this case we know it is as we set it to 1.0 ourselves.
+More generally, we can see that based on the 50 observations we simulated, we get remarkably close to the true parameter values.
+
+To visualize how close we get, we can plot the estimated line alongside the real line:
+
+```{r}
+coefs <- coef(fit) # get coefficients from the fitted model
+
+ggplot(dat, aes(x, y)) +
+  geom_point() +
+  geom_abline(
+    color = "tomato",
+    intercept = coefs[1],
+    slope = coefs[2],
+    linetype = "dashed"
+  ) +
+  geom_abline(
+    color = "blue",
+    intercept = 2,
+    slope = 1
+  )
+```
+
+Pretty close, but with more data we could get even closer!
+
+The regression line plotted above is based on the 'buest guesses' at the $\alpha$ and $\beta$ parameters but given limited data, more than one regression line is plausible.
+This is represented in the uncertainty of the parameter estimates (which constitute the line) that is quantified by the posterior distribution.
+A nice way to visualize this is to literally draw multiple plausible lines, which we can achieve with the `tidybayes` package:
+
+```{r}
+library(tidybayes)
+
+pred <- dat |> add_epred_rvars(fit)
+
+pred |>
+  unnest_rvars() |>
+  filter(.draw <= 50) |>
+  ggplot(aes(x = x, y = y)) +
+  geom_line(aes(y = .epred, group = .draw), color = "tomato", alpha = 0.1) +
+  geom_point(data = dat) +
+  labs(x = "x", y = "y")
+```
+
+We will discuss the `add_epred_rvars()` function more closely in the future as it is of general interest for generating predictions from the model.
+
+### Exercises
+
+1. Fit a regression model of (log) emissions as a function of (log) GDP. What are the parameter values?
+
+2. Plot the data together with the estimated regression line.
 
 
-<!-- # Multiple linear regression -->
-<!---->
-<!-- ## One binary and one numerical predictor -->
-<!---->
-<!-- ## Two numerical predictors -->
-<!---->
-<!-- ## More than two predictors -->
-<!---->
-<!-- ## Interaction effects -->
+## Making predictions
+
+Having estimated the model, we can use it to make predictions for new observations (or retrodictions for existing ones).
+With the simple model at hand, our best guess for the `y` belonging to any given `x` is just the value on the line, i.e. $\alpha + x \beta$.
+Because our parameter estimates are uncertain, our predictions will also be.
+The `add_epred_rvars()` function takes a reference data frame containing predictor values for which to predict the outcome and carries estimation uncertainty forward:
+
+```{r}
+predictions <- tibble(x = c(0, 2, 4)) |> add_epred_rvars(fit)
+predictions
+```
+
+The result is a data frame containing a column named `.epred` containing the predictions in the form of an `rvar` (random variable) object.
+This tells us that our best guess for y when x is 2 is around 3.6, with an error of around 0.1. This is just what expect the line to be at that value of x.
+
+We can plot these using a range of functions from the `tidybayes` / `bayesplot` packages, such as `stat_pointinterval()`, by passing the `.epred` column to the `xdist` or `ydist` aesthetics:
+
+```{r}
+ggplot(predictions, aes(x, ydist = .epred)) + stat_pointinterval()
+```
 
 
+### Exercises
 
+1. For the emissions regression from before, make predictions for a poor and a rich country.
+
+2. Plot the predictions and compare them. How certain are you about the differences you see?

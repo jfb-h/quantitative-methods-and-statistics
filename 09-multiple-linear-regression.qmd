@@ -1,0 +1,12 @@
+
+
+
+<!-- # Multiple linear regression -->
+<!---->
+<!-- ## One binary and one numerical predictor -->
+<!---->
+<!-- ## Two numerical predictors -->
+<!---->
+<!-- ## More than two predictors -->
+<!---->
+<!-- ## Interaction effects -->

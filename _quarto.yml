@@ -31,8 +31,8 @@ website:
           href: "06-statistical-models.qmd"
         - text: "Bayesian inference"
           href: "07-globe-tossing.qmd"
-      #   - text: "Linear regression"
-      #     href: "08-linear-regression.qmd"
+        - text: "Linear regression"
+          href: "08-linear-regression.qmd"
       # - section: "Causal inference"
       #   contents:
       #   - text: "Experiments"
