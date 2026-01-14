@@ -171,12 +171,41 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Case studies</span></a>
+ <span class="menu-text">Statistical modeling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-statistical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-globe-tossing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian inference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-linear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
@@ -196,15 +225,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#the-fundamental-problem-of-causal-inference" id="toc-the-fundamental-problem-of-causal-inference" class="nav-link active" data-scroll-target="#the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</a></li>
-  <li><a href="#estimating-causal-effects-from-experiments" id="toc-estimating-causal-effects-from-experiments" class="nav-link" data-scroll-target="#estimating-causal-effects-from-experiments">Estimating causal effects from experiments</a>
-  <ul class="collapse">
-  <li><a href="#random-assignment-of-treatments" id="toc-random-assignment-of-treatments" class="nav-link" data-scroll-target="#random-assignment-of-treatments">Random assignment of treatments</a></li>
-  </ul></li>
-  <li><a href="#estimating-causal-effects-from-observational-studies" id="toc-estimating-causal-effects-from-observational-studies" class="nav-link" data-scroll-target="#estimating-causal-effects-from-observational-studies">Estimating causal effects from observational studies</a>
-  <ul class="collapse">
-  <li><a href="#confounding" id="toc-confounding" class="nav-link" data-scroll-target="#confounding">Confounding</a></li>
-  <li><a href="#graphical-causal-models" id="toc-graphical-causal-models" class="nav-link" data-scroll-target="#graphical-causal-models">Graphical causal models</a></li>
-  </ul></li>
+  <li><a href="#estimating-causal-effects-from-experiments" id="toc-estimating-causal-effects-from-experiments" class="nav-link" data-scroll-target="#estimating-causal-effects-from-experiments">Estimating causal effects from experiments</a></li>
+  <li><a href="#estimating-causal-effects-from-observational-studies" id="toc-estimating-causal-effects-from-observational-studies" class="nav-link" data-scroll-target="#estimating-causal-effects-from-observational-studies">Estimating causal effects from observational studies</a></li>
   </ul>
 </nav>
     </div>
@@ -244,25 +266,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="the-fundamental-problem-of-causal-inference" class="level1">
-<h1>The fundamental problem of causal inference</h1>
+<section id="the-fundamental-problem-of-causal-inference" class="level2">
+<h2 class="anchored" data-anchor-id="the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</h2>
 </section>
-<section id="estimating-causal-effects-from-experiments" class="level1">
-<h1>Estimating causal effects from experiments</h1>
-<section id="random-assignment-of-treatments" class="level2">
-<h2 class="anchored" data-anchor-id="random-assignment-of-treatments">Random assignment of treatments</h2>
+<section id="estimating-causal-effects-from-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-causal-effects-from-experiments">Estimating causal effects from experiments</h2>
 </section>
-</section>
-<section id="estimating-causal-effects-from-observational-studies" class="level1">
-<h1>Estimating causal effects from observational studies</h1>
-<section id="confounding" class="level2">
-<h2 class="anchored" data-anchor-id="confounding">Confounding</h2>
-</section>
-<section id="graphical-causal-models" class="level2">
-<h2 class="anchored" data-anchor-id="graphical-causal-models">Graphical causal models</h2>
+<section id="estimating-causal-effects-from-observational-studies" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-causal-effects-from-observational-studies">Estimating causal effects from observational studies</h2>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -339,7 +352,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/jfb-h\.github\.io\/quantitative-methods-and-statistics\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

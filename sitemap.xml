@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/07-globe-tossing.html</loc>
-    <lastmod>2025-12-16T17:06:32.827Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/06-statistical-models-old.html</loc>
-    <lastmod>2025-12-09T09:20:06.058Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/13-multilevel-models.html</loc>
-    <lastmod>2025-11-25T10:11:27.439Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/11-generalized-linear-models.html</loc>
-    <lastmod>2025-11-25T10:11:00.684Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/09-experiments.html</loc>
-    <lastmod>2025-11-25T09:56:31.017Z</lastmod>
-  </url>
-  <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/08-linear-regression.html</loc>
-    <lastmod>2025-11-25T09:48:39.111Z</lastmod>
+    <lastmod>2026-01-13T16:28:28.138Z</lastmod>
   </url>
   <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/02-data-wrangling.html</loc>
-    <lastmod>2025-11-20T10:01:12.746Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/04-descriptive-univariate.html</loc>
-    <lastmod>2025-11-19T07:48:49.899Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/about.html</loc>
-    <lastmod>2025-11-04T09:14:07.591Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/03-data-visualization.html</loc>
-    <lastmod>2025-11-04T13:15:50.419Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/index.html</loc>
-    <lastmod>2025-11-04T09:14:07.592Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/01-introduction.html</loc>
-    <lastmod>2025-11-20T10:13:48.811Z</lastmod>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/10-experiments.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/casestudy-eurostat.html</loc>
-    <lastmod>2025-11-11T18:36:21.467Z</lastmod>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/13-multilevel-models.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/11-generalized-linear-models.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/10-generalized-linear-models-and-additive-models.html</loc>
-    <lastmod>2025-11-25T09:52:36.406Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/10-observational-studies.html</loc>
-    <lastmod>2025-11-25T10:01:40.821Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/12-generalized-additive-models.html</loc>
-    <lastmod>2025-11-25T10:11:11.112Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/05-descriptive-multivariate.html</loc>
-    <lastmod>2025-11-25T15:13:13.194Z</lastmod>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
   </url>
   <url>
     <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/06-statistical-models.html</loc>
-    <lastmod>2025-12-16T16:42:17.585Z</lastmod>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/05-descriptive-multivariate.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/03-data-visualization.html</loc>
+    <lastmod>2026-01-06T13:01:29.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/01-introduction.html</loc>
+    <lastmod>2026-01-06T13:01:29.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/02-data-wrangling.html</loc>
+    <lastmod>2026-01-06T13:01:29.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/04-descriptive-univariate.html</loc>
+    <lastmod>2026-01-06T13:01:29.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/06-statistical-models-old.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/07-globe-tossing.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/10-observational-studies.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/12-generalized-additive-models.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/about.html</loc>
+    <lastmod>2026-01-06T13:01:29.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/index.html</loc>
+    <lastmod>2026-01-06T13:01:29.923Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jfb-h.github.io/quantitative-methods-and-statistics/09-multiple-linear-regression.html</loc>
+    <lastmod>2026-01-13T15:23:59.978Z</lastmod>
   </url>
 </urlset>
