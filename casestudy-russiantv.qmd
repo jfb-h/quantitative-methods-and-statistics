@@ -1,0 +1,212 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+    mermaid:
+      theme: neutral
+---
+
+# Causal inference
+
+While statistics readily gives us the tools to describe and infer statistical associations from data, we ultimately often want to answer _causal_ questions.
+You have probably heard the old adage that _correlation does not imply causation_.
+However, the reverse is not true: Causation definitely implies correlation, and thus all hope of identifying causal relationships is not lost.
+
+To do so, we need to understand what a causal effect really is and what problems can arise when we try to identify it.
+The causal effect of a variable $X$ (often called the _treatment_ variable) on an ouctome $Y$ is the change in $Y$ that would come about when we manipulated $X$.
+Note that this is superficially similar to how we talk about statistical relationships, e.g. in the context of a regression model.
+However, linear regression by itself says nothing about causality and is perfectly happy to predict based on non-causal associations or reverse causal relationships.
+
+Take, for example, the relationship between night light emissions and GDP studied in a separate case study.
+While night lights and GDP are certainly associated, the implied effect of night lights on GDP is not causal: Leaving on more lights during night would not magically increase GDP.
+The true relationship is (a) more complex, and (b) reversed: Increasing GDP increases night light emissions because it increases electrification of households and industrial production.
+Accordingly, theoretical considerations of the underlying causal mechanisms need to be taken into account when statistical models are used for causal inference.
+
+In the following, we will discuss causal inference based on observational (as opposed to experimental) data as presented in Llaudet & Imai (2024).
+
+## Confounding variables
+
+Statistical identification of causal relationships is tricky because oftentimes there are further variables which are themselves associated with the outcome and predictor variable of interest, called _confounders_.
+
+Imagine, for example, that you are interested in the causal effect of going to private school on education test scores and that you have collected data 'in the wild', i.e. you have collected the test scores of pupils attending regular schools and pupils attending private schools.
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 2
+digraph {
+  layout=neato
+  splines=true
+  overlap=false
+
+  "Private school"  [pos="0,0!", pin=true]
+  "Test scores"     [pos="4,0!", pin=true]
+
+  "Private school" -> "Test scores"
+}
+```
+
+In this situation, we cannot just measure the statistical association (i.e., the difference in test scores between kids at private and regular schools) and take that as a measure of the causal effect because the relationship is likely confounded.
+The problem is that the assignment of the 'treatment variable' (whether someone attends private school) is connected to other factors, such as family wealth, which themselves also affect the outcome (e.g. through allowing private tutoring):
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 3
+digraph {
+  layout=neato
+  splines=true
+  overlap=false
+
+  "Family wealth"   [pos="2,2!", pin=true]
+  "Private school"  [pos="0,0!", pin=true]
+  "Test scores"     [pos="4,0!", pin=true]
+
+  "Family wealth" -> "Private school"
+  "Family wealth" -> "Test scores"
+  "Private school" -> "Test scores"
+}
+```
+
+If we ignored family wealth, the observed differences in attentding private school would implicitly also reflect differences in family wealth and the resulting difference in test scores would also reflect differences due to family wealth (e.g., due to private tutoring) and not only the consequence of attending private school.
+In the setting discussed here, family wealth acts as a _confounder_ that threatens to bias the estimation of the causal effect of attending private school when ignored.
+Luckily, multiple regression gives us the tools to account for such confounders. The hard part is finding them!
+
+
+# Estimating causal effects from observational data
+
+In the following, we will attempt to estimate the causal effect of receiving Russian state TV on Ukranians' voting behaviour in the 2014 parliamentary elections (with the hypothesis being that individuals that received Russian state TV are more likely to vote for a pro-russian political party).
+
+Let's have a look at the data:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+
+dat <- read_csv("data/DSS/UA_survey.csv")
+dat
+```
+
+We find 358 observations of three variables: `russian_tv`, a dummy variable indicating whether the respondent received Russian state TV; `pro_russian_vote`, a dummy variable indicating whether the respondent voted for a pro-Russian party; and `within_25km`, a dummy variable indicating whether the respondent lived close to the border.
+
+## Difference in means
+
+In an ideal statistical world, the causal effect we're interested in would just be the difference in voting behaviour between those wo received Russian TV and those who didn't.
+
+One way to achive this would be to compute the mean of `pro_russian_vote` for the two groups. Because it is a dummy variable, the result can be interpreted as the share of 1's, i.e., the share of respondents who voted for a pro-russian party.
+
+```{r}
+mean(dat$pro_russian_vote[dat$russian_tv == 1])
+mean(dat$pro_russian_vote[dat$russian_tv == 0])
+```
+
+We see that the share of pro-Russian vote is about 12 percentage points higher for those with access to Russian TV (29% compared to 17%).
+A different way to compute this difference in means is via the linear model:
+
+$$
+\textrm{pro\_russian\_vote}_i = \alpha + \beta \times \textrm{russian\_tv}_i + \epsilon_i
+$$
+
+Because `russian_tv` is a dummy variable, $\alpha$ is just the mean of `pro_russian_vote` for those who didn't receive Russian TV.
+In the same vein, $\beta$ gives the difference in means, i.e. the difference in `pro_russian_vote` between those who received and those who didn't receive Russian TV.
+Let's fit the model in `R` with the familiar `lm()` function:
+
+```{r}
+lm(pro_russian_vote ~ russian_tv, data = dat)
+```
+
+The coefficient estimate for $\beta$ is indeed the difference between the outcome means for the two groups.
+
+We would like to interpret this difference as a causal effect, i.e., we would like to say that the observed difference in voting behaviour is a direct consequence of exposure to Russian state TV.
+But we musn't. The data are _observational_, meaning that the 'treatment' of Russian state TV was not assigned randomly and is thus not necessarily independent of the outcome.
+This means that the observed relationship might be _confounded_ and thus might not really indicate a causal effect but merely an induced statistical association.
+
+
+## Adjusting for confounders with multiple regression
+
+One obvious confounder is how close a respondent lives to the russian border: This affects both how likely they are to receive Russian State TV (the 'treatment') and how likely they are to vote for a pro-Russian party (the outcome).
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 3
+digraph {
+  layout=neato
+  splines=true
+  overlap=false
+
+  "Distance to border"   [pos="2,2!", pin=true]
+  "Russian state TV"  [pos="0,0!", pin=true]
+  "Pro-Russian vote"     [pos="4,0!", pin=true]
+
+  "Distance to border" -> "Russian state TV"
+  "Distance to border" -> "Pro-Russian vote"
+  "Russian state TV" -> "Pro-Russian vote"
+}
+```
+
+As we discussed before, ignoring this confounder risks biased inferences about the causal nature of the statistical association between Russian state TV exposure and pro-Russian vote.
+
+We can adjust for confounders by including them in a regression model.
+For this, we need to move to _multiple linear regression_, i.e. linear regression with more than one predictor. Here is the linear model with two predictors, $X$ and $Z$:
+
+$$
+Y_i = \alpha + \beta_1 X_i + \beta_2 Z_i + \epsilon_i
+$$
+
+With this specification, the $\beta$ coefficient for predictor $X$ gives the change in $Y$ for a one-unit increase in $X$ _given that all other predictors (in this case $Z$) are held constant_.
+This last bit is very important because it means that we 'control for' differences in potential confounders and are able to measure the 'isolated' or adjusted effect of a predictor of interest.
+
+For the case discussed above, the multiple regression model we want to estimate is:
+
+$$
+\textrm{pro\_russian\_vote}_i = \alpha + \beta_1 \times \textrm{russian\_tv}_i + \beta_2 \times \textrm{within\_25km}_i + \epsilon_i
+$$
+
+With this model, $\beta_1$ should give us the adjusted effect of exposure to Russian state TV.
+We can again easily fit the model with the `lm()` function:
+
+```{r}
+lm(pro_russian_vote ~ russian_tv + within_25km, data = dat)
+```
+
+The printed output now tells us about three parameter estimates: The intercept $\alpha$ and the two predictor coefficients $\beta_1$ and $\beta_2$.
+The intercept $\alpha$ is the expected share of pro-Russian vote for those who don't receive Russian TV and don't live within 25 km of the border (19.6 percentage points).
+The coefficient $\beta_1$ is the **marginal effect** of receiving Russian TV, i.e. the difference in voting behavior when proximity to the border is held constant (28.7 percentage points).
+The coefficient $\beta_2$ is the marginal effect of border proximity when Russian TV exposure is held constant (-20.1 percentage points).
+
+These estimates tell us that controlling for the confounder `within_25km` actually _increased_ our estimate of the causal effect of Russian TV exposure.
+Including the effect for border proximity actually also tells us that respondents closer to the border are _less likely_ to vote pro-Russian.
+
+We can use the `modelsummary` package to get a table summarizing the estimates and other model summaries for the two models side by side:
+
+```{r}
+library(modelsummary)
+
+fit1 <- lm(pro_russian_vote ~ russian_tv, data = dat)
+fit2 <- lm(pro_russian_vote ~ russian_tv + within_25km, data = dat)
+
+fits <- list(M1 = fit1, M2 = fit2)
+
+fits |> modelsummary(
+  fmt = 2,
+  estimate = "{estimate} ({std.error})",
+  statistic = NULL,
+  gof_map = c("nobs", "r.squared"),
+  #output = "regression-table.docx" # export the table
+)
+```
+
+The table contains standard errors alongside coefficient estimates.
+Because they are relatively small considering the effect sizes, we can conclude that our estimates reflect substantive relationships in the data and not just statistical noise from data collection.
+
+The validity of the above estimate as an estimate of the causal effect of exposure to Russian TV depends on the assumption that there are no other confounders.
+This assumption in turn would require a careful discussion of the case at hand and the characteristics of the data generating process.
+
+Note also that the need to account for confounders does not mean we should just add as many variables as possible to a regression to 'control for everything'.
+Just as adjusting for a confounder de-biases an otherwise biased estimate, we can actively bias an estimate by controlling for the wrong variables.
+An important category of variables that we _shouldn't_ control for are **post-treatment variables**.
+These reflect variables which are themselves causally affected by the treatment variable and including them masks the real causal effect of the treatment.
+Imagine, e.g., that we had also received data on respondents' attitudes towards Russia.
+These would likely be at least partly a consequence of exposure to Russian state TV and adjusting for them in a multiple regression model would accordingly bias the estimate of the total causal effect of receiving Russian TV.

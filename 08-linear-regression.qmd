@@ -28,14 +28,14 @@ As before, we don't presume to fully understand the variation in the outcome $y$
 The most common choice is the normal distribution (which we have seen before):
 
 $$
-y \sim \textrm{Normal}(\mu, \sigma)
+Y_i \sim \textrm{Normal}(\mu, \sigma)
 $$
 
 This time, however, we treat $\mu$ (the mean of the distribution) not just as a parameter to be set or estimated, but as a function of a predictor $x$.
 The simplest functional form of the relationship is just a line:
 
 $$
-\mu = \alpha + x \beta
+\mu = \alpha + \beta X_i
 $$
 
 Instead of just two parameters, this model now has three:
