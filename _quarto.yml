@@ -51,6 +51,10 @@ website:
         contents:
         - text: "Making a map from Eurostat data"
           href: "casestudy-eurostat.qmd"
+        - text: "Predicting GDP with night lights"
+          href: "casestudy-nightlight.qmd"
+        - text: "Inferring the effect of russian state TV on Ukranian elections"
+          href: "casestudy-russiantv.qmd"
 format:
   html:
     theme: cosmo

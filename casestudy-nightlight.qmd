@@ -1,0 +1,279 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "An applied course using the `R` programming language"
+author: 
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+---
+
+# Statistical modeling
+
+When fitting statistical models, we do not content ourselves with just describing the data.
+Instead, we want to know about the (e.g., socioeconomic) processes that the data are a result of, i.e., the _data generating process (DGP)_.
+The DGP is often too complex to reason about in its entirety, so instead we build heavily simplified models which nevertheless try to capture some of the DGPs main features.
+Statistical models are typically _stochastic_, i.e., they treat some of the variation in an observed outcome of interest as random.
+Statistical models are always informed by data, i.e. they have components (e.g., parameters) that are unknown to begin with but which can be learned from data.
+
+# Linear regression models
+
+### Introducing the data
+
+The most common and widely used class of statistical models are _linear models_ or _linear regression models_.
+The goal of linear regression is to predict an **outcome** variable of interest from one or more **predictor** variables.
+In the following, we will walk through the case study presented in Llaudet & Imai (2024) and attempt to predict the GDP of a country by the amount of light that it emenates at night, as visible from space.
+We will start with something simpler, though: predicting current GDP from previous GDP.
+As economic development is highly path dependent, the previous economic situation should be very informative for the subsequent economic situation.
+
+Before we start discussing the model, let's look at the data:
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+
+dat <- read_csv("data/DSS/countries.csv")
+dat
+```
+
+The data frame contains 5 columns: The country, GDP in the period 2005 to 2005 in trillions of local currency (`gdp`), GDP in the period 1992 to 1993 (`prior_gdp`), and the light emissions in those two periods (on a scale from 0 to 63).
+
+With this, we can make a scatter plot of previous against subsequent gdp:
+
+```{r}
+ggplot(dat, aes(prior_gdp, gdp)) + geom_point()
+```
+
+We see a clear linear relationship, but we also see that most observations are bunched at lower GDP values. We will address this at a later point.
+Our goal for now is to find a model which summarizes this relationship.
+
+One apprach is to fit a line to these data so that the observed data are scattered around this line as closely as possible.
+We can get such a line directly via `ggplot` using `geom_smooth()`:
+
+```{r}
+ggplot(dat, aes(prior_gdp, gdp)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE)
+```
+
+### Formulating and fitting the linear model
+
+The *linear model* responsible for this line relates an outcome variable $Y$ (here subsequent GDP) to a predictor variable $X$ (here previous GDP) through a line equation and an error term:
+
+$$
+Y_i = \alpha + X_i \beta + \epsilon_i
+$$
+
+Here, $i$ indexes observations (i.e., countries) and $\alpha$ and $\beta$ are parameters determining the intercept and the slope of the line, respectively.
+The term $\epsilon_i$ is the error term or _residual_ for observation $i$, i.e., the difference between the point on the line corresponding to $X_i$ and the observed outcome $Y_i$.
+The residual represents the fact that our model predictions are not perfect and captures unmodeled variation.
+
+The parameters $\alpha$ and $\beta$ are unknown and need to be estimated from data. In `R`, we can fit the model and thus estimate the parameters with the `lm()` function (which `ggplot` also does in the background):
+
+```{r}
+lm(gdp ~ prior_gdp, data = dat)
+```
+
+The model specification makes use of `R`'s formula syntax using the tilde (`~`) operator to say that we should model `gdp` (the outcome) as a function of `prior_gdp` (the predictor).
+The output tells us that based on the given data, our best guesses at $\alpha$ and $\beta$, called $\hat{\alpha}$ and $\hat{\beta}$, are 0.72 and 1.61, respectively.
+
+For $\alpha$, which represents the y intercept of the line, this is the expected GDP given a previous GDP of 0 (i.e., when $X_i = 0$).
+This reveals that the intercept doesn't always have a sensible interpretation -- a prior GDP of 0 is not plausible.
+However, we still need it because without it the regression line would not be defined.
+
+The coefficient $\beta$ measures the slope of the line, i.e. by how much the outcome $Y$ is expected to change when $X$ is increased by 1. 
+Based on this, a value of 1.61 tells us that we should expect GDP in the second period to be around 1.6 trillions higher when prior GDP is increased by 1 trillion.
+
+### Making predictions
+
+Our best guess at subsequent GDP based on a given prior GDP is just the value on the fitted line, i.e.:
+
+$$
+\begin{align}
+\hat{Y_i} &= \hat{\alpha} + X_i \hat{\beta} \\ &= 0.72 + 1.61 X_i
+\end{align}
+$$
+
+In `R`, we can predict the outcome for a set of input values using the `predict()` function.
+Let's predict subsequent GDP for a range of previous GDPs:
+
+```{r}
+# fit model and save to variable
+fit <- lm(gdp ~ prior_gdp, data = dat)
+
+# predictor values for which to predict
+pred <- data.frame(prior_gdp = c(0.1, 2, 10))
+
+predict(fit, pred)
+```
+
+So for a smaller country with a previous GDP of 0.1 trillion, we predict a subsequent GDP of 0.87, and for a large country (previous GDP of 10 trillion), we predict 17 trillion subsequent GDP.
+
+
+#### Exercise
+
+1. Predict the subsequent GDP for Germany and compare it to the actually observed subsequent GDP.
+
+
+### Variable transformations
+
+We saw in the plot above that most of the countries are bunched together at lower GDP values.
+This is a result of the uneven distribution of GDP, with only a handful of countries having very large GDPs.
+It often makes sense to counteract this uneven distribution with some kind of variable transformation, such as the natural logarithm.
+
+To apply such a transformation to our data, we just add two new variables to our data frame:
+
+```{r}
+dat <- dat |> mutate(
+  log_gdp = log(gdp),
+  log_prior_gdp = log(prior_gdp),
+)
+```
+
+Plotting the regular and the transformed variables next to each other shows the difference in distribution:
+
+```{r}
+library(patchwork)
+
+p1 <- ggplot(dat, aes(gdp)) + geom_histogram(bins = 20)
+p2 <- ggplot(dat, aes(log_gdp)) + geom_histogram(bins = 20)
+
+p1 | p2
+```
+
+We can also redo the scatter plot from before with the transformed data:
+
+```{r}
+ggplot(dat, aes(log_prior_gdp, log_gdp)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE)
+```
+
+The data are now much better visible and the linear relationship is still a very good approximation.
+We can also refit the model to the transformed data to again obtain the parameter estimates:
+
+```{r}
+lm(log_gdp ~ log_prior_gdp, data = dat)
+```
+
+The coefficients are different now, and through the transformation their interpretation has changed.
+Especially for the $\beta$ coefficient, there is a useful approximation:
+It tells us (approximately) the percentage change in the outcome associated with a 1% change in the predictor.
+That is, it describes relative instead of absolute change in the outcome with respect to relative change in the predictor.
+
+Given the estimate above, we see that a 1% change in previous GDP is associated with around a 1.01% change in subsequent GDP.
+
+## Predicting GDP from night light
+
+Equipped with the above knowledge, we can now easily turn to using night light emissions as a predictor.
+However, instead of predicting GDP directly, we want to predict the _change_ in GDP as a function of the _change_ in night lights (in percent).
+We get this by computing
+
+$$
+gdp\_change = \frac{gdp - prior\_gdp}{prior\_gdp} \times 100
+$$
+
+We can again create new variables in our data frame to compute this:
+
+```{r}
+dat <- dat |> mutate(
+  gdp_change = (gdp - prior_gdp) / prior_gdp * 100,
+  light_change = (light - prior_light) / prior_light * 100
+)
+```
+
+As before, a good first step is to visualize the data to get a feeling for the relationship:
+
+```{r}
+ggplot(dat, aes(light_change, gdp_change)) + geom_point()
+```
+
+There is definitely a relationship again, but it is much weaker than when we were predicting GDP from prior GDP before.
+
+Let's repeat the steps from before to estimate the model:
+
+$$
+\textrm{gdp\_change}_i = \alpha + \beta \times \textrm{light\_change}_i + \epsilon_i
+$$
+
+The `R` code is the same as before, just with different variables:
+
+```{r}
+lm(gdp_change ~ light_change, data = dat)
+```
+
+The printed output tells us that the fitted line is:
+
+$$
+\begin{align}
+\hat{\textrm{gdp\_change}} &= \hat{\alpha} + \hat{\beta} \times \textrm{light\_change} \\ &= 49.8 + 0.25 \times \textrm{light\_change}
+\end{align}
+$$
+
+In this case, the coefficient $\alpha$ has a substantive meaning:
+It tells us that a country which as not seen any change in night light emissions (`light_change` = 0) we should expect a GDP increase of around 50%.
+
+The coefficient $\beta$, in turn, tells us that for a country that has seen a 20% increase in night light emissions, we should expect GDP to have grown by 
+$49.8 + 0.25 \times 20 = 54.82$ percent.
+
+For good measure, here is the scatter plot with the fitted regression line added:
+
+```{r}
+ggplot(dat, aes(light_change, gdp_change)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE)
+```
+
+## Measuring model fit
+
+Comparing the two models we have fit so far visually makes it quite clear that one fits better than the other:
+The model of subsequent GDP against previous GDP reveals a very tight scatter of the data around the regression line, while predicting GDP change from night light change produced a much looser fit.
+
+We can capture this difference with a numerical summary called $R^2$, which takes on values between 0 and 1, where 1 would indicate a perfect fit (all data lie on the line).
+$R^2$ is defined as 1 minus the ratio of the sum of squared residuals (RSS) from the fitted regression line relative to the RSS of a model which just predicts the overall mean for each observation.
+If our regression can't do better than just predicting the mean, we get a value of 0.
+
+In `R`, we can get the $R^2$ with the `summary()` function:
+
+```{r}
+fit1 <- lm(log_gdp ~ log_prior_gdp, data = dat)
+fit2 <- lm(gdp_change ~ light_change, data = dat)
+
+summary(fit1)$r.squared
+summary(fit2)$r.squared
+```
+
+Based on this, we see that the first model achieves a near perfect fit with an $R^2$ of more than 0.99.
+The second model, predicting GDP change from night light emissions change, achieves a much more modest 0.21.
+This is of course not an apples to apples comparison, though, and we should generally not expect our models to achieve extremely high $R^2$ values (which might even be a hint at overfitting).
+
+
+## Dealing with statistical uncertainty
+
+So far, we have taken the parameter estimates at face value and have not questioned their ability to summarize the statistical relationship of interest.
+However, data collection is a fickle process:
+Often, we can only observe a small sample of the population we want to say something about. And often, we can only approximately measure the constructs that are of interest to us.
+Both **sampling** and **measurement error** mean that the inferences we draw from data are uncertain.
+This uncertainty manifests itself in the parameter estimates we get from fitting a model.
+If the data had been different, either because we picked a different (random) sample or because we received different measurements, our estimates would also have been different.
+The distribution of estimates obtained from (hypothetical) repetitions of the data collection process is called the **sampling distribution**.
+
+There are different ways to reason about and compute statistical uncertainty.
+All of them will however give us an estimate of the variability in the sampling distribution of estimated quantities of interest that we receive from fitting a model (such as parameters or predictions).
+A typical estimate of this variability is the **standard error (SE)** of an estimate, which is just the standard deviation of the sampling distribution.
+As a rule of thumb, the plausible range of values for a parameter (called a **confidence interval**) is given by $\textrm{estimate} \pm 2 \times \textrm{SE}$.
+In general, our estimates are more certain and thus more trustworthy if the error is small relative to the estimate.
+
+`R` will give us the standard error of the estimated coefficients (alongside a range of other information) via the `summary()` function:
+
+
+```{r}
+summary(fit2)
+```
+
+The coefficients table contains the estimates (which we have seen before) and their associated standard errors (alongside the t-statistic and a P-value).
+We see that for the $\beta$ coefficient estimate (which was 0.25), we get a standard error of 0.038, which is small relative to the estimate.
+Applying the rule of thumb from above, $0.25 \pm 2 \times 0.038$ gives us a range of plausible values from 0.17 to 0.33 (which roughly corresponds to a 95% confidence interval).
+
+The t-statistic and the P-value correspond to a test of the null hypothesis that $\beta = 0$ (i.e., the hypothesis that there is no relationship between night lights and GDP).
+The question they answer is how likely it would have been to observe an estimate as large or larger than the estimated value of 0.25 just through sampling variability.
+Here, this scenario is deemed very unlikely as signified by the extremely small P-value and we can thus safely reject the null hypothesis.
+We ontain the same test information from inspecting whether our confidence interval contains the value 0.
+
