@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jakob Hoffmann">
+
+<title>Quantitative Methods and Statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./casestudy-eurostat.html">Case studies</a></li><li class="breadcrumb-item"><a href="./casestudy-russiantv.html">Inferring the effect of russian state TV on Ukranian elections</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Quantitative Methods and Statistics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Basics of <code>R</code> programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to <code>R</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-data-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data wrangling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Describing data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-descriptive-univariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Univariate descriptions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-descriptive-multivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multivariate descriptions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistical modeling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-statistical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-globe-tossing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian inference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-linear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./casestudy-eurostat.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a map from Eurostat data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./casestudy-nightlight.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicting GDP with night lights</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./casestudy-russiantv.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Inferring the effect of russian state TV on Ukranian elections</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#causal-inference" id="toc-causal-inference" class="nav-link active" data-scroll-target="#causal-inference">Causal inference</a>
+  <ul class="collapse">
+  <li><a href="#confounding-variables" id="toc-confounding-variables" class="nav-link" data-scroll-target="#confounding-variables">Confounding variables</a></li>
+  </ul></li>
+  <li><a href="#estimating-causal-effects-from-observational-data" id="toc-estimating-causal-effects-from-observational-data" class="nav-link" data-scroll-target="#estimating-causal-effects-from-observational-data">Estimating causal effects from observational data</a>
+  <ul class="collapse">
+  <li><a href="#difference-in-means" id="toc-difference-in-means" class="nav-link" data-scroll-target="#difference-in-means">Difference in means</a></li>
+  <li><a href="#adjusting-for-confounders-with-multiple-regression" id="toc-adjusting-for-confounders-with-multiple-regression" class="nav-link" data-scroll-target="#adjusting-for-confounders-with-multiple-regression">Adjusting for confounders with multiple regression</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./casestudy-eurostat.html">Case studies</a></li><li class="breadcrumb-item"><a href="./casestudy-russiantv.html">Inferring the effect of russian state TV on Ukranian elections</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Quantitative Methods and Statistics</h1>
+<p class="subtitle lead">An applied course using the <code>R</code> programming language</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jakob Hoffmann </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Economic Geography Group, LMU Munich
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="causal-inference" class="level1">
+<h1>Causal inference</h1>
+<p>While statistics readily gives us the tools to describe and infer statistical associations from data, we ultimately often want to answer <em>causal</em> questions. You have probably heard the old adage that <em>correlation does not imply causation</em>. However, the reverse is not true: Causation definitely implies correlation, and thus all hope of identifying causal relationships is not lost.</p>
+<p>To do so, we need to understand what a causal effect really is and what problems can arise when we try to identify it. The causal effect of a variable <span class="math inline">\(X\)</span> (often called the <em>treatment</em> variable) on an ouctome <span class="math inline">\(Y\)</span> is the change in <span class="math inline">\(Y\)</span> that would come about when we manipulated <span class="math inline">\(X\)</span>. Note that this is superficially similar to how we talk about statistical relationships, e.g.&nbsp;in the context of a regression model. However, linear regression by itself says nothing about causality and is perfectly happy to predict based on non-causal associations or reverse causal relationships.</p>
+<p>Take, for example, the relationship between night light emissions and GDP studied in a separate case study. While night lights and GDP are certainly associated, the implied effect of night lights on GDP is not causal: Leaving on more lights during night would not magically increase GDP. The true relationship is (a) more complex, and (b) reversed: Increasing GDP increases night light emissions because it increases electrification of households and industrial production. Accordingly, theoretical considerations of the underlying causal mechanisms need to be taken into account when statistical models are used for causal inference.</p>
+<p>In the following, we will discuss causal inference based on observational (as opposed to experimental) data as presented in Llaudet &amp; Imai (2024).</p>
+<section id="confounding-variables" class="level2">
+<h2 class="anchored" data-anchor-id="confounding-variables">Confounding variables</h2>
+<p>Statistical identification of causal relationships is tricky because oftentimes there are further variables which are themselves associated with the outcome and predictor variable of interest, called <em>confounders</em>.</p>
+<p>Imagine, for example, that you are interested in the causal effect of going to private school on education test scores and that you have collected data ‘in the wild’, i.e.&nbsp;you have collected the test scores of pupils attending regular schools and pupils attending private schools.</p>
+<div class="cell" data-fig-width="6" data-fig-height="2" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="576" height="192" viewbox="0.00 0.00 416.23 44.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-40 412.23,-40 412.23,4 -4,4"></polygon>
+<!-- Private school -->
+<g id="node1" class="node">
+<title>Private school</title>
+<ellipse fill="none" stroke="black" cx="66.02" cy="-18" rx="66.03" ry="18"></ellipse>
+<text text-anchor="middle" x="66.02" y="-13.8" font-family="Times,serif" font-size="14.00">Private school</text>
+</g>
+<!-- Test scores -->
+<g id="node2" class="node">
+<title>Test scores</title>
+<ellipse fill="none" stroke="black" cx="354.02" cy="-18" rx="54.42" ry="18"></ellipse>
+<text text-anchor="middle" x="354.02" y="-13.8" font-family="Times,serif" font-size="14.00">Test scores</text>
+</g>
+<!-- Private school&#45;&gt;Test scores -->
+<g id="edge1" class="edge">
+<title>Private school-&gt;Test scores</title>
+<path fill="none" stroke="black" d="M132.09,-18C179.28,-18 242.44,-18 289.32,-18"></path>
+<polygon fill="black" stroke="black" points="289.36,-21.5 299.36,-18 289.36,-14.5 289.36,-21.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>In this situation, we cannot just measure the statistical association (i.e., the difference in test scores between kids at private and regular schools) and take that as a measure of the causal effect because the relationship is likely confounded. The problem is that the assignment of the ‘treatment variable’ (whether someone attends private school) is connected to other factors, such as family wealth, which themselves also affect the outcome (e.g.&nbsp;through allowing private tutoring):</p>
+<div class="cell" data-fig-width="6" data-fig-height="3" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="576" height="288" viewbox="0.00 0.00 416.23 188.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 412.23,-184 412.23,4 -4,4"></polygon>
+<!-- Family wealth -->
+<g id="node1" class="node">
+<title>Family wealth</title>
+<ellipse fill="none" stroke="black" cx="210.02" cy="-162" rx="66.61" ry="18"></ellipse>
+<text text-anchor="middle" x="210.02" y="-157.8" font-family="Times,serif" font-size="14.00">Family wealth</text>
+</g>
+<!-- Private school -->
+<g id="node2" class="node">
+<title>Private school</title>
+<ellipse fill="none" stroke="black" cx="66.02" cy="-18" rx="66.03" ry="18"></ellipse>
+<text text-anchor="middle" x="66.02" y="-13.8" font-family="Times,serif" font-size="14.00">Private school</text>
+</g>
+<!-- Family wealth&#45;&gt;Private school -->
+<g id="edge1" class="edge">
+<title>Family wealth-&gt;Private school</title>
+<path fill="none" stroke="black" d="M192.36,-144.34C166.99,-118.97 120.1,-72.08 91.13,-43.11"></path>
+<polygon fill="black" stroke="black" points="93.36,-40.4 83.82,-35.8 88.41,-45.35 93.36,-40.4"></polygon>
+</g>
+<!-- Test scores -->
+<g id="node3" class="node">
+<title>Test scores</title>
+<ellipse fill="none" stroke="black" cx="354.02" cy="-18" rx="54.42" ry="18"></ellipse>
+<text text-anchor="middle" x="354.02" y="-13.8" font-family="Times,serif" font-size="14.00">Test scores</text>
+</g>
+<!-- Family wealth&#45;&gt;Test scores -->
+<g id="edge2" class="edge">
+<title>Family wealth-&gt;Test scores</title>
+<path fill="none" stroke="black" d="M227.67,-144.34C253.18,-118.83 300.45,-71.57 329.38,-42.64"></path>
+<polygon fill="black" stroke="black" points="332.07,-44.9 336.67,-35.35 327.12,-39.95 332.07,-44.9"></polygon>
+</g>
+<!-- Private school&#45;&gt;Test scores -->
+<g id="edge3" class="edge">
+<title>Private school-&gt;Test scores</title>
+<path fill="none" stroke="black" d="M132.09,-18C179.28,-18 242.44,-18 289.32,-18"></path>
+<polygon fill="black" stroke="black" points="289.36,-21.5 299.36,-18 289.36,-14.5 289.36,-21.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>If we ignored family wealth, the observed differences in attentding private school would implicitly also reflect differences in family wealth and the resulting difference in test scores would also reflect differences due to family wealth (e.g., due to private tutoring) and not only the consequence of attending private school. In the setting discussed here, family wealth acts as a <em>confounder</em> that threatens to bias the estimation of the causal effect of attending private school when ignored. Luckily, multiple regression gives us the tools to account for such confounders. The hard part is finding them!</p>
+</section>
+</section>
+<section id="estimating-causal-effects-from-observational-data" class="level1">
+<h1>Estimating causal effects from observational data</h1>
+<p>In the following, we will attempt to estimate the causal effect of receiving Russian state TV on Ukranians’ voting behaviour in the 2014 parliamentary elections (with the hypothesis being that individuals that received Russian state TV are more likely to vote for a pro-russian political party).</p>
+<p>Let’s have a look at the data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/DSS/UA_survey.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>dat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 358 × 3
+   russian_tv pro_russian_vote within_25km
+        &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+ 1          1                0           1
+ 2          1                1           1
+ 3          0                0           0
+ 4          0                0           1
+ 5          0                0           1
+ 6          1                0           0
+ 7          0                0           1
+ 8          0                0           1
+ 9          1                0           1
+10          1                0           1
+# ℹ 348 more rows</code></pre>
+</div>
+</div>
+<p>We find 358 observations of three variables: <code>russian_tv</code>, a dummy variable indicating whether the respondent received Russian state TV; <code>pro_russian_vote</code>, a dummy variable indicating whether the respondent voted for a pro-Russian party; and <code>within_25km</code>, a dummy variable indicating whether the respondent lived close to the border.</p>
+<section id="difference-in-means" class="level2">
+<h2 class="anchored" data-anchor-id="difference-in-means">Difference in means</h2>
+<p>In an ideal statistical world, the causal effect we’re interested in would just be the difference in voting behaviour between those wo received Russian TV and those who didn’t.</p>
+<p>One way to achive this would be to compute the mean of <code>pro_russian_vote</code> for the two groups. Because it is a dummy variable, the result can be interpreted as the share of 1’s, i.e., the share of respondents who voted for a pro-russian party.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>pro_russian_vote[dat<span class="sc">$</span>russian_tv <span class="sc">==</span> <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.29</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>pro_russian_vote[dat<span class="sc">$</span>russian_tv <span class="sc">==</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1708861</code></pre>
+</div>
+</div>
+<p>We see that the share of pro-Russian vote is about 12 percentage points higher for those with access to Russian TV (29% compared to 17%). A different way to compute this difference in means is via the linear model:</p>
+<p><span class="math display">\[
+\textrm{pro\_russian\_vote}_i = \alpha + \beta \times \textrm{russian\_tv}_i + \epsilon_i
+\]</span></p>
+<p>Because <code>russian_tv</code> is a dummy variable, <span class="math inline">\(\alpha\)</span> is just the mean of <code>pro_russian_vote</code> for those who didn’t receive Russian TV. In the same vein, <span class="math inline">\(\beta\)</span> gives the difference in means, i.e.&nbsp;the difference in <code>pro_russian_vote</code> between those who received and those who didn’t receive Russian TV. Let’s fit the model in <code>R</code> with the familiar <code>lm()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(pro_russian_vote <span class="sc">~</span> russian_tv, <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = pro_russian_vote ~ russian_tv, data = dat)
+
+Coefficients:
+(Intercept)   russian_tv  
+     0.1709       0.1191  </code></pre>
+</div>
+</div>
+<p>The coefficient estimate for <span class="math inline">\(\beta\)</span> is indeed the difference between the outcome means for the two groups.</p>
+<p>We would like to interpret this difference as a causal effect, i.e., we would like to say that the observed difference in voting behaviour is a direct consequence of exposure to Russian state TV. But we musn’t. The data are <em>observational</em>, meaning that the ‘treatment’ of Russian state TV was not assigned randomly and is thus not necessarily independent of the outcome. This means that the observed relationship might be <em>confounded</em> and thus might not really indicate a causal effect but merely an induced statistical association.</p>
+</section>
+<section id="adjusting-for-confounders-with-multiple-regression" class="level2">
+<h2 class="anchored" data-anchor-id="adjusting-for-confounders-with-multiple-regression">Adjusting for confounders with multiple regression</h2>
+<p>One obvious confounder is how close a respondent lives to the russian border: This affects both how likely they are to receive Russian State TV (the ‘treatment’) and how likely they are to vote for a pro-Russian party (the outcome).</p>
+<div class="cell" data-fig-width="6" data-fig-height="3" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="576" height="288" viewbox="0.00 0.00 450.31 188.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 446.31,-184 446.31,4 -4,4"></polygon>
+<!-- Distance to border -->
+<g id="node1" class="node">
+<title>Distance to border</title>
+<ellipse fill="none" stroke="black" cx="221.02" cy="-162" rx="82.23" ry="18"></ellipse>
+<text text-anchor="middle" x="221.02" y="-157.8" font-family="Times,serif" font-size="14.00">Distance to border</text>
+</g>
+<!-- Russian state TV -->
+<g id="node2" class="node">
+<title>Russian state TV</title>
+<ellipse fill="none" stroke="black" cx="77.02" cy="-18" rx="77.04" ry="18"></ellipse>
+<text text-anchor="middle" x="77.02" y="-13.8" font-family="Times,serif" font-size="14.00">Russian state TV</text>
+</g>
+<!-- Distance to border&#45;&gt;Russian state TV -->
+<g id="edge1" class="edge">
+<title>Distance to border-&gt;Russian state TV</title>
+<path fill="none" stroke="black" d="M203.36,-144.34C177.99,-118.97 131.1,-72.08 102.13,-43.11"></path>
+<polygon fill="black" stroke="black" points="104.37,-40.4 94.82,-35.8 99.42,-45.35 104.37,-40.4"></polygon>
+</g>
+<!-- Pro&#45;Russian vote -->
+<g id="node3" class="node">
+<title>Pro-Russian vote</title>
+<ellipse fill="none" stroke="black" cx="365.02" cy="-18" rx="77.08" ry="18"></ellipse>
+<text text-anchor="middle" x="365.02" y="-13.8" font-family="Times,serif" font-size="14.00">Pro-Russian vote</text>
+</g>
+<!-- Distance to border&#45;&gt;Pro&#45;Russian vote -->
+<g id="edge2" class="edge">
+<title>Distance to border-&gt;Pro-Russian vote</title>
+<path fill="none" stroke="black" d="M238.67,-144.34C264.05,-118.97 310.94,-72.08 339.91,-43.11"></path>
+<polygon fill="black" stroke="black" points="342.62,-45.35 347.22,-35.8 337.67,-40.4 342.62,-45.35"></polygon>
+</g>
+<!-- Russian state TV&#45;&gt;Pro&#45;Russian vote -->
+<g id="edge3" class="edge">
+<title>Russian state TV-&gt;Pro-Russian vote</title>
+<path fill="none" stroke="black" d="M154.2,-18C192.21,-18 238.2,-18 277.52,-18"></path>
+<polygon fill="black" stroke="black" points="277.63,-21.5 287.63,-18 277.63,-14.5 277.63,-21.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>As we discussed before, ignoring this confounder risks biased inferences about the causal nature of the statistical association between Russian state TV exposure and pro-Russian vote.</p>
+<p>We can adjust for confounders by including them in a regression model. For this, we need to move to <em>multiple linear regression</em>, i.e.&nbsp;linear regression with more than one predictor. Here is the linear model with two predictors, <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span>:</p>
+<p><span class="math display">\[
+Y_i = \alpha + \beta_1 X_i + \beta_2 Z_i + \epsilon_i
+\]</span></p>
+<p>With this specification, the <span class="math inline">\(\beta\)</span> coefficient for predictor <span class="math inline">\(X\)</span> gives the change in <span class="math inline">\(Y\)</span> for a one-unit increase in <span class="math inline">\(X\)</span> <em>given that all other predictors (in this case <span class="math inline">\(Z\)</span>) are held constant</em>. This last bit is very important because it means that we ‘control for’ differences in potential confounders and are able to measure the ‘isolated’ or adjusted effect of a predictor of interest.</p>
+<p>For the case discussed above, the multiple regression model we want to estimate is:</p>
+<p><span class="math display">\[
+\textrm{pro\_russian\_vote}_i = \alpha + \beta_1 \times \textrm{russian\_tv}_i + \beta_2 \times \textrm{within\_25km}_i + \epsilon_i
+\]</span></p>
+<p>With this model, <span class="math inline">\(\beta_1\)</span> should give us the adjusted effect of exposure to Russian state TV. We can again easily fit the model with the <code>lm()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(pro_russian_vote <span class="sc">~</span> russian_tv <span class="sc">+</span> within_25km, <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = pro_russian_vote ~ russian_tv + within_25km, data = dat)
+
+Coefficients:
+(Intercept)   russian_tv  within_25km  
+     0.1959       0.2876      -0.2081  </code></pre>
+</div>
+</div>
+<p>The printed output now tells us about three parameter estimates: The intercept <span class="math inline">\(\alpha\)</span> and the two predictor coefficients <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>. The intercept <span class="math inline">\(\alpha\)</span> is the expected share of pro-Russian vote for those who don’t receive Russian TV and don’t live within 25 km of the border (19.6 percentage points). The coefficient <span class="math inline">\(\beta_1\)</span> is the <strong>marginal effect</strong> of receiving Russian TV, i.e.&nbsp;the difference in voting behavior when proximity to the border is held constant (28.7 percentage points). The coefficient <span class="math inline">\(\beta_2\)</span> is the marginal effect of border proximity when Russian TV exposure is held constant (-20.1 percentage points).</p>
+<p>These estimates tell us that controlling for the confounder <code>within_25km</code> actually <em>increased</em> our estimate of the causal effect of Russian TV exposure. Including the effect for border proximity actually also tells us that respondents closer to the border are <em>less likely</em> to vote pro-Russian.</p>
+<p>We can use the <code>modelsummary</code> package to get a table summarizing the estimates and other model summaries for the two models side by side:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(pro_russian_vote <span class="sc">~</span> russian_tv, <span class="at">data =</span> dat)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(pro_russian_vote <span class="sc">~</span> russian_tv <span class="sc">+</span> within_25km, <span class="at">data =</span> dat)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">M1 =</span> fit1, <span class="at">M2 =</span> fit2)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>fits <span class="sc">|&gt;</span> <span class="fu">modelsummary</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fmt =</span> <span class="dv">2</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"r.squared"</span>),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#output = "regression-table.docx" # export the table</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_vmvod2cq0yws4f2ppbec = TinyTable.createTableFunctions("tinytable_vmvod2cq0yws4f2ppbec");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '5', j: 2 }, { i: '5', j: 3 } ], css_id: 'tinytable_css_do39uytscd9idkjpmkgi',}, 
+          { positions: [ { i: '3', j: 2 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_3hjk3k4sm6moum5cuof2',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_6p0ilmlruv8fny35q7ty',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_rtmx2wu0lnw030o9zm9v',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_g3ltkkfstv05aji3iy8n',}, 
+          { positions: [ { i: '3', j: 1 } ], css_id: 'tinytable_css_zuiicty5rnyojk4mtvv6',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 } ], css_id: 'tinytable_css_c7qgissav3iqn4wo09hq',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_8hr1vu1sko8jlrpvsinb',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_vmvod2cq0yws4f2ppbec.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_do39uytscd9idkjpmkgi, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_do39uytscd9idkjpmkgi {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_3hjk3k4sm6moum5cuof2, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_3hjk3k4sm6moum5cuof2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_6p0ilmlruv8fny35q7ty, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_6p0ilmlruv8fny35q7ty { text-align: center }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_rtmx2wu0lnw030o9zm9v, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_rtmx2wu0lnw030o9zm9v {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_g3ltkkfstv05aji3iy8n, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_g3ltkkfstv05aji3iy8n {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_zuiicty5rnyojk4mtvv6, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_zuiicty5rnyojk4mtvv6 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_c7qgissav3iqn4wo09hq, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_c7qgissav3iqn4wo09hq { text-align: left }
+    #tinytable_vmvod2cq0yws4f2ppbec td.tinytable_css_8hr1vu1sko8jlrpvsinb, #tinytable_vmvod2cq0yws4f2ppbec th.tinytable_css_8hr1vu1sko8jlrpvsinb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_vmvod2cq0yws4f2ppbec" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">M1</th>
+                <th scope="col" data-row="0" data-col="3">M2</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">0.17 (0.03)</td>
+                  <td data-row="1" data-col="3">0.20 (0.03)</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">russian_tv</td>
+                  <td data-row="2" data-col="2">0.12 (0.04)</td>
+                  <td data-row="2" data-col="3">0.29 (0.08)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">within_25km</td>
+                  <td data-row="3" data-col="2"></td>
+                  <td data-row="3" data-col="3">-0.21 (0.08)</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Num.Obs.</td>
+                  <td data-row="4" data-col="2">358</td>
+                  <td data-row="4" data-col="3">358</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">R2</td>
+                  <td data-row="5" data-col="2">0.019</td>
+                  <td data-row="5" data-col="3">0.039</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<p>The table contains standard errors alongside coefficient estimates. Because they are relatively small considering the effect sizes, we can conclude that our estimates reflect substantive relationships in the data and not just statistical noise from data collection.</p>
+<p>The validity of the above estimate as an estimate of the causal effect of exposure to Russian TV depends on the assumption that there are no other confounders. This assumption in turn would require a careful discussion of the case at hand and the characteristics of the data generating process.</p>
+<p>Note also that the need to account for confounders does not mean we should just add as many variables as possible to a regression to ‘control for everything’. Just as adjusting for a confounder de-biases an otherwise biased estimate, we can actively bias an estimate by controlling for the wrong variables. An important category of variables that we <em>shouldn’t</em> control for are <strong>post-treatment variables</strong>. These reflect variables which are themselves causally affected by the treatment variable and including them masks the real causal effect of the treatment.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/jfb-h\.github\.io\/quantitative-methods-and-statistics\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
