@@ -362,11 +362,11 @@ window.Quarto = {
 <h1>Linear regression</h1>
 <p>The probably most widely used model of a statistical relationship is <em>linear regression</em>, which models an outcome <span class="math inline">\(y\)</span> as a function of a predictor <span class="math inline">\(x\)</span>. As before, we don’t presume to fully understand the variation in the outcome <span class="math inline">\(y\)</span> and thus model it as random. The most common choice is the normal distribution (which we have seen before):</p>
 <p><span class="math display">\[
-y \sim \textrm{Normal}(\mu, \sigma)
+Y_i \sim \textrm{Normal}(\mu, \sigma)
 \]</span></p>
 <p>This time, however, we treat <span class="math inline">\(\mu\)</span> (the mean of the distribution) not just as a parameter to be set or estimated, but as a function of a predictor <span class="math inline">\(x\)</span>. The simplest functional form of the relationship is just a line:</p>
 <p><span class="math display">\[
-\mu = \alpha + x \beta
+\mu = \alpha + \beta X_i
 \]</span></p>
 <p>Instead of just two parameters, this model now has three: The line parameters <span class="math inline">\(\alpha\)</span> (the <em>intercept</em>) and <span class="math inline">\(\beta\)</span> (the <em>slope</em>), which together determine the mean of the outcome <span class="math inline">\(y\)</span>, conditional on <span class="math inline">\(x\)</span>x), and the standard deviation <span class="math inline">\(\sigma\)</span>, which determines the amount of random variation around the mean.</p>
 <section id="simulating-linear-regression" class="level2">
