@@ -275,5 +275,5 @@ Applying the rule of thumb from above, $0.25 \pm 2 \times 0.038$ gives us a rang
 The t-statistic and the P-value correspond to a test of the null hypothesis that $\beta = 0$ (i.e., the hypothesis that there is no relationship between night lights and GDP).
 The question they answer is how likely it would have been to observe an estimate as large or larger than the estimated value of 0.25 just through sampling variability.
 Here, this scenario is deemed very unlikely as signified by the extremely small P-value and we can thus safely reject the null hypothesis.
-We ontain the same test information from inspecting whether our confidence interval contains the value 0.
+We obtain the same test information from inspecting whether our confidence interval contains the value 0.
 
