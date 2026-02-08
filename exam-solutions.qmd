@@ -31,21 +31,22 @@ HINT: Don't forget to load the packages you need before starting with the analys
 1) Load the file into a data frame called `trade_raw`. (0.5 points)
 
 ```{r}
-
+library(tidyverse)
+trade_raw <- read_csv("data/trade_raw.csv")
 ```
 
 
 2) Inspect the data set. How many rows and columns does it have? What variables does it contain? (0.5 points)
 
 ```{r}
-
+dim(trade_raw)
 ```
 
 
 3) Write a piece of code that keeps only the columns for country name, country code, year, and trade openness and renames them to `country`, `code`, `year`, and `trade_openness`. (1 points)
 
 ```{r}
-
+select(trade_raw, country = Entity, code = Code, year = Year, trade_openness = `Trade (% of GDP)` )
 ```
 
 
@@ -53,21 +54,28 @@ HINT: Don't forget to load the packages you need before starting with the analys
 Write a piece of code that keeps only actual countries by using the fact that ISO country codes have exactly three characters. (1 points)
 
 ```{r}
-
+filter(trade_raw, str_length(Code) == 3)
 ```
 
 
 5) Write a piece of code that keeps only observations for the year 2019. (1 points)
 
 ```{r}
-
+trade <- filter(trade_raw, Year == 2019)
 ```
 
 
 6) Write a pipeline that performs the three previous steps in sequence. (2 points)
 
 ```{r}
-
+trade <- trade_raw |>
+  select(
+    country = Entity,
+    code = Code,
+    year = Year,
+    trade_openness = `Trade (% of GDP)`
+  ) |>
+  filter(str_length(code) == 3, year == 2019)
 ```
 
 
@@ -76,14 +84,22 @@ Load it and apply the same steps from 3 to 5 in one pipeline (make sure to name 
 Save the result as a variable called `gdp`. (2 points)
 
 ```{r}
-
+gdp <- read_csv("data/gdp_raw.csv") |>
+  select(
+    country = Entity,
+    code = Code,
+    year = Year,
+    gdp = `GDP per capita`,
+    region = `World region according to OWID`
+  ) |>
+  filter(str_length(code) == 3, year == 2019)
 ```
 
 
 8) Combine the two datasets using an inner join. (2 Points)
 
 ```{r}
-
+inner_join(trade, gdp)
 ```
 
 
@@ -93,7 +109,7 @@ The file `trade_gdp.csv` contains a pre-cleaned dataset with trade openness, GDP
 Load this file and use it for the remaining problems.
 
 ```{r}
-
+df <- read_csv("data/trade_gdp.csv")
 ```
 
 
@@ -102,7 +118,7 @@ Create a new variable `log_gdp_pc` containing the natural logarithm of GDP per c
 Show the distribution of the resulting variable as a histogram. (2 points)
 
 ```{r}
-
+df <- mutate(df, log_gdp_pc = log(gdp_per_capita))
 ```
 
 
@@ -110,28 +126,33 @@ Show the distribution of the resulting variable as a histogram. (2 points)
 Color the points by world region and describe the result in one sentence. (2 points)
 
 ```{r}
-
+ggplot(df, aes(trade_openness, log_gdp_pc, color = region)) + geom_point()
 ```
 
 
 3) Compute the Pearsson correlation coefficient between trade openness and log GDP per capita. Interpret the result in one sentence. (2 points)
 
 ```{r}
-
+cor(df$trade_openness, df$log_gdp_pc)
 ```
 
 
 4) Compute the mean, median, and standard deviation for trade openness by world region. Give a brief summary of the result. (2 points)
 
 ```{r}
-
+group_by(df, region) |>
+  summarize(
+    mean = mean(trade_openness),
+    median = median(trade_openness),
+    sd = sd(trade_openness)
+  )
 ```
 
 
 5) Visualize the distribution of trade openness by world region (pick an adequate form of visualization). (2 points)
 
 ```{r}
-
+ggplot(df, aes(region, trade_openness)) + geom_boxplot()
 ```
 
 
@@ -141,7 +162,7 @@ Color the points by world region and describe the result in one sentence. (2 poi
 1) Fit a simple linear regression model (using the `lm()` function) predicting log GDP per capita from trade openness. Save the model as `m1`. (1 points)
 
 ```{r}
-
+m1 <- lm(log_gdp_pc ~ trade_openness, data = df)
 ```
 
 
@@ -149,7 +170,7 @@ Color the points by world region and describe the result in one sentence. (2 poi
 Use the visualization to get a (rough) prediction of log GDP per capita for a country with a trade openness of 200%. (1 points)
 
 ```{r}
-
+ggplot(df, aes(trade_openness, log_gdp_pc)) + geom_point() + geom_smooth(method = "lm")
 ```
 
 
@@ -164,7 +185,7 @@ HINT: Remember that changes in log-scaled variables can be approximately interpr
 4) Summarize the estimation uncertainty. Is the coefficient for trade openness greater than zero with high certainty?  (2 points)
 
 ```{r}
-
+summary(m1)
 ```
 
 
@@ -180,7 +201,7 @@ Give a short discussion about why this might (not) be a confounder for the causa
 Give a brief interpretation of the coefficient of trade openness in this model. (2 points)
 
 ```{r}
-
+m2 <- lm(log_gdp_pc ~ trade_openness + democracy, data = df)
 ```
 
 
@@ -188,6 +209,7 @@ Give a brief interpretation of the coefficient of trade openness in this model. 
 How did adjusting for the democracy index change the estimated effect of trade openness? (1 points)
 
 ```{r}
-
+m1
+m2
 ```
 
