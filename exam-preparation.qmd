@@ -1,0 +1,33 @@
+
+```{r}
+trade <- read_csv("https://ourworldindata.org/grapher/trade-as-share-of-gdp.csv")
+democ <- read_csv("https://ourworldindata.org/grapher/electoral-democracy-index.csv")
+gdppc <- read_csv("https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv")
+```
+
+```{r}
+df <- trade |>
+  inner_join(democ, by = c("Entity", "Year", "Code")) |>
+  inner_join(gdppc, by = c("Entity", "Year", "Code")) |>
+  select(
+    country = Entity,
+    code = Code,
+    year = Year,
+    trade = `Trade (% of GDP)`,
+    democracy = `Electoral Democracy Index`,
+    gdp = `GDP per capita`
+  )
+```
+
+```{r}
+dat <- df |>
+  filter(year == 2023) |>
+  left_join(
+    df |> filter(year == 2000) |> select(country, gdp_2000 = gdp, democracy_2000 = democracy),
+    by = "country"
+  ) |>
+  mutate(
+    gdp_change = (gdp - gdp_2000) / gdp_2000 * 100,
+    democracy_change = (democracy - democracy_2000) / democracy_2000 * 100
+  )
+```

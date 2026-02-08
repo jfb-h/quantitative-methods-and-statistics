@@ -10,35 +10,6 @@ format:
 ---
 
 
-# Experiments
-
-```{r}
-# Boston housing data
-
-df <- MASS::Boston |>
-  as_tibble() |>
-  select(
-    value = medv,
-    rooms = rm,
-    age = age,
-    status = lstat,
-    crime = crim
-  )
-
-# Munich rent data
-df <- gamlss.data::rent |>
-  as_tibble() |>
-  select(rent = R, size = Fl, year = A, location = loc) |>
-  mutate(location = factor(location))
-
-# Class size project STAR
-library(AER)
-data(STAR)
-df <- STAR |>
-  as_tibble() |>
-  select()
-```
-
 # Exam
 
 ## Problem 1: Load and wrangle data
@@ -80,43 +51,17 @@ In the resulting data frame every observation (row) in the data frame is a count
 6) Write a pipeline which does the previous steps in one go.
 
 ```{r}
-
-df1 <- trade |>
-  select(code = Code, year = Year, trade = `Trade (% of GDP)`) |>
-  filter(nchar(code) == 3)
-
 ```
 
 7) There is a second dataset called `democracy.csv`, which contains OWIDs Electoral Democracy Index (EDI).
 Apply the same steps that you applied to the trade data.
 
 ```{r}
-
-df2 <- democ |>
-  select(
-    code = Code,
-    year = Year,
-    edi = `Electoral Democracy Index`,
-    region = `World region according to OWID`
-  ) |>
-  filter(nchar(code) == 3)
-
-df3 <- gdppc |>
-  select(
-    code = Code,
-    year = Year,
-    gdp = `GDP per capita`,
-  ) |>
-  filter(nchar(code) == 3)
-
 ```
 
 8) Join the two datasets (using in inner join) on country and year so that you have the trade and democracy data in a single data frame.
 
 ```{r}
-
-df <- df1 |> left_join(df3) |> left_join(df2)
-
 ```
 
 9) Drop observations with missing country code or year.
@@ -134,120 +79,53 @@ Load it and continue with this version for the remainder of the tasks.
 of the democracy index by world region for the year 2020. Sort the result in decending order by the mean EDI.
 
 ```{r}
-
-df |>
-  filter(year == 2020) |>
-  group_by(region) |>
-  summarize(n = n(), mean = mean(edi), median = median(edi), sd = sd(edi), vc = sd / mean) |>
-  arrange(desc(mean))
-
 ```
 
-2a) Give a short interpretation of the findings for each of the three indicators.
+2) What do you learn from the analysis?
 
-2b) Explain the divergence of the mean and the median in Europe.
+a) Give a short interpretation of the findings for each of the three indicators.
+
+b) Explain the divergence of the mean and the median in Europe.
 
 
-3) Create a plot comparing the development of the EDI from 2000 to 2024 in Germany (DEU), the USA, and Hungary (HUN). 
+3) Create a plot comparing the development of the EDI from 2000 to 2024 in Germany (DEU), the USA, and Hungary (HUN).
 
 ```{r}
-
 ```
 
-4) Create a plot showing the histogram of the EDI in each world region in a separate panel.
+4) Create a plot showing the EDI histogram for each world region in a separate panel.
 
 ```{r}
-
 ```
 
-5) Scatterplot, correlation
+5) TODO Scatterplot, correlation
 
 ```{r}
-
 ```
 
 
 # Problem 3: Model the data
 
-```{r}
-
-dat <- inner_join(
-  df |>
-    filter(year == 1980) |>
-    select(code, region, edi1980 = edi, gdp1980 = gdp, trade1980 = trade),
-  df |>
-    filter(year == 2019) |>
-    select(code, region, edi2019 = edi, gdp2019 = gdp, trade2019 = trade)
-) |>
-  mutate(
-    edi_change = (edi2019 - edi1980) * 100,
-    trade_change = (trade2019 - trade1980),
-    gdp_change = (gdp2019 - gdp1980) / gdp2019 * 100
-  )
-
-dat <- inner_join(
-    df |> filter(year == 2000) |> select(code, region, edi2000 = edi, gdp2000 = gdp, trade2000 = trade),
-    df |> filter(year == 2019) |> select(code, region, edi2019 = edi, gdp2019 = gdp, trade2019 = trade)
-) |> mutate(
-  edi_change = (edi2019 - edi2000) * 100,
-  trade_change = (trade2019 - trade2000),
-  gdp_change = (gdp2019 - gdp2000) / gdp2019 * 100
-)
-
-ggplot(dat, aes(edi_change, trade_change )) +
-  geom_point() +
-  geom_smooth(method = "lm")
-
-```
-
-
-```{r}
-# OWID trade openness
-
-trade <- read_csv("https://ourworldindata.org/grapher/trade-as-share-of-gdp.csv")
-democ <- read_csv("https://ourworldindata.org/grapher/electoral-democracy-index.csv")
-gdppc <- read_csv("https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv")
-
-df <- trade |>
-  inner_join(democ, by = c("Entity", "Year", "Code")) |>
-  inner_join(gdppc, by = c("Entity", "Year", "Code")) |>
-  select(
-    country = Entity,
-    code = Code,
-    year = Year,
-    trade = `Trade (% of GDP)`,
-    democracy = `Electoral Democracy Index`,
-    gdp = `GDP per capita`
-  )
-
-dat <- df |>
-  filter(year == 2023) |>
-  left_join(
-    df |> filter(year == 2000) |> select(country, gdp_2000 = gdp, democracy_2000 = democracy),
-    by = "country"
-  ) |>
-  mutate(
-    gdp_change = (gdp - gdp_2000) / gdp_2000 * 100,
-    democracy_change = (democracy - democracy_2000) / democracy_2000 * 100
-  )
-
-```
+1) TODO: Visualize linear fit with ggplot
 
 ```{r}
 ```
 
-```{r}
-```
-
-## Problem 2: Describe data
-
-## Problem 3: Model data
-
-
-```{r}
-fit <- lm(log(value) ~ log(age) + log(status), data = df)
-summary(fit)
-```
+2) TODO: Fit linear regression model
 
 ```{r}
 ```
+
+3) TODO: Interpret the results
+
+a) Parameter values
+
+b) Estimation uncertainty
+
+
+4) TODO Predictions
+
+```{r}
+```
+
+5) Multiple regression adjustment for confounder
