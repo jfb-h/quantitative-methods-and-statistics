@@ -1,0 +1,167 @@
+---
+title: "Quantitative Methods and Statistics"
+subtitle: "Exam - Winter Term 2025/26"
+author:
+  - name: "Jakob Hoffmann"
+    affiliation: "Economic Geography Group, LMU Munich"
+format:
+  html:
+    toc: true
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+# Introduction
+
+A key measure of a country's integration into the global economy is **trade openness**, calculated as the sum of exports and imports divided by GDP (expressed as a percentage).
+A central question in understanding globalization is whether more open economies tend to be richer.
+The examination of this question is the primary subject of this exam.
+
+The exam has three parts with a sum of **30 points**:
+
+1.  Loading and wrangling data (10 points)
+
+2.  Describing and visualizing data (10 points)
+
+3.  Fitting a model to data (10 points)
+
+# Problem 1: Load and wrangle data (10 points)
+
+*HINT:* Don't forget to load the packages you need before starting with the analysis.
+
+The file `trade_raw.csv` in the folder `data/exam` contains data about trade openness (trade as % of GDP) obtained from Our World in Data.
+
+1)  Load the file into a data frame and save it to a variable called `trade_raw`. (*1 points*)
+
+```{r}
+
+```
+
+2)  Inspect the data frame. How many rows and columns does it have? What are the names of its variables? (*1 points*)
+
+```{r}
+
+```
+
+3)  Write a piece of code that keeps only the columns for country name, country code, year, and trade openness and renames them to `country`, `code`, `year`, and `trade_openness`. (*1 points*)
+
+```{r}
+
+```
+
+4)  The data set contains non-country entities (such as world aggregates and regions). Write a piece of code that keeps only actual countries by using the fact that ISO country codes have exactly three characters. (*1 points*)
+
+```{r}
+
+```
+
+5)  Write a piece of code that keeps only observations for the year 2019. (*1 points*)
+
+```{r}
+
+```
+
+6)  Write a pipeline that performs the three previous steps in sequence. (*2 points*)
+
+```{r}
+
+```
+
+7)  There is a second data set called `gdp_raw.csv` containing GDP per capita data. Load it, inspect it, and apply the same steps from 3 to 5 in one pipeline (make sure to name variables appropriately). Save the result as a variable called `gdp`. (*2 points*)
+
+```{r}
+
+```
+
+8)  Combine the two data frames using an inner join. (*1 points*)
+
+```{r}
+
+```
+
+# Problem 2: Describe and visualize the data (10 points)
+
+The file `trade_gdp.csv` contains a pre-cleaned data set with trade openness, GDP per capita, a variable with a democracy index, and world region for 153 countries in 2019.
+Load this file and use it for the remaining problems.
+
+```{r}
+
+```
+
+1)  GDP per capita is highly skewed. Create a new variable `log_gdp_pc` containing the natural logarithm of GDP per capita. Show the distribution of the resulting variable as a histogram. (*2 points*)
+
+```{r}
+
+```
+
+2)  Create a scatter plot showing the relationship between trade openness (x-axis) and log GDP per capita (y-axis). Color the points by world region and describe the result in one sentence. (*2 points*)
+
+```{r}
+
+```
+
+3)  Compute the Pearson correlation coefficient between trade openness and log GDP per capita. Interpret the result in one sentence. (*2 points*)
+
+```{r}
+
+```
+
+4)  Compute the mean, median, and standard deviation for trade openness by world region. Give a brief summary of the result. (*2 points*)
+
+```{r}
+
+```
+
+5)  Visualize the distribution of trade openness by world region (pick an adequate form of visualization). (*2 points*)
+
+```{r}
+
+```
+
+# Problem 3: Fit a model to the data (10 points)
+
+1)  Fit a simple linear regression model predicting log GDP per capita from trade openness. Save the model as `m1`. (*1 points*)
+
+```{r}
+
+```
+
+2)  Visualize the linear model estimated above against the scatterplot of the data. Use the visualization to get a (rough) prediction of log GDP per capita for a country with a trade openness of 200%. (*1 points*)
+
+```{r}
+
+```
+
+3)  Give an interpretation of the coefficient for trade openness.
+    (*1 points*)
+
+    *HINT*: If you're using `stan_glm()` and want to see more digits in the printed model result, you can call `print(model, digits = 5)`.
+
+```{r}
+
+```
+
+4)  Summarize the estimation uncertainty. Is the coefficient for trade openness greater than zero with high certainty? (*1 points*)
+
+```{r}
+
+```
+
+5)  The data set also contains a **democracy index** (ranging from 0 to 1, where higher values indicate more democratic institutions). Give a short discussion about why this might (not) be a confounder for the causal effect of trade openness on GDP per capita. (*2 points*)
+
+```{r}
+
+```
+
+6)  Estimate a multiple regression model controlling for the level of democratic institutions. Give a brief interpretation of the coefficient of trade openness in this model. (*2 points*)
+
+```{r}
+
+```
+
+7)  Compare this model to the first one and summarize the differences. How did adjusting for the democracy index change the estimated effect of trade openness? (*2 points*)
+
+```{r}
+
+```
